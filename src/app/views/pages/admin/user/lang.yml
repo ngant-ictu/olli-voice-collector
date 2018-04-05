@@ -1,0 +1,19 @@
+---
+
+en:
+  page:
+    index:
+      title: User
+    add:
+      title: Create user
+    changepassword:
+      title: Change user password
+
+vi:
+  page:
+    index:
+      title: Thành viên
+    add:
+      title: Thêm thành viên
+    changepassword:
+      title: Đổi mật khẩu

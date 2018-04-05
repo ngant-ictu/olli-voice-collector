@@ -1,0 +1,243 @@
+---
+
+# CORE MODULE
+0:
+  status: 500
+  message: internal-server-error
+
+2:
+  status: 500
+  message: handler-not-found
+
+8:
+  status: 500
+  message: internal-server-error
+
+42S22:
+  status: 500
+  message: mysql-connect-failed
+
+1001:
+  status: 404
+  message: not-found
+
+1002:
+  status: 500
+  message: server-error
+
+2001:
+  status: 500
+  message: data-duplicated
+
+2002:
+  status: 404
+  message: data-notfound
+
+2004:
+  status: 500
+  message: data-invalid
+
+2005:
+  status: 500
+  message: data-fail
+
+2010:
+  status: 500
+  message: data-find-fail
+
+2020:
+  status: 500
+  message: data-create-fail
+
+2030:
+  status: 500
+  message: data-update-fail
+
+2040:
+  status: 500
+  message: data-delete-fail
+
+2060:
+  status: 500
+  message: data-rejected
+
+2070:
+  status: 500
+  message: data-not-allowed
+
+2080:
+  status: 500
+  message: data-bulk-fail
+
+2300:
+  status: 500
+  message: pdo-duplicate-entry
+
+2400:
+  status: 500
+  message: queue-put-fail
+
+2500:
+  status: 500
+  message: file-upload-error-min-size
+
+2501:
+  status: 500
+  message: file-upload-error-max-size
+
+2502:
+  status: 500
+  message: file-upload-error-allowed-format
+
+2503:
+  status: 500
+  message: file-upload-error
+
+2504:
+  status: 500
+  message: file-delete-error
+
+# USER MODULE
+3001:
+  status: 500
+  message: message-auth-no-email
+
+3002:
+  status: 500
+  message: message-auth-invalid-type
+
+3003:
+  status: 500
+  message: message-auth-bad-login
+
+3004:
+  status: 500
+  message: message-auth-unauthorized
+
+3005:
+  status: 500
+  message: message-auth-no-password
+
+3006:
+  status: 500
+  message: message-auth-no-token
+
+3007:
+  status: 401
+  message: message-auth-forbidden
+
+3008:
+  status: 500
+  message: message-auth-expired
+
+3009:
+  status: 500
+  message: message-auth-password-changed
+
+3010:
+  status: 500
+  message: message-auth-account-already-existed
+
+3011:
+  status: 500
+  message: message-auth-account-did-not-verified
+
+3012:
+  status: 500
+  message: message-auth-account-new
+
+3013:
+  status: 500
+  message: message-auth-account-need-update-password
+
+3014:
+  status: 500
+  message: message-auth-google-no-data
+
+3015:
+  status: 500
+  message: message-auth-google-bad-login
+
+3016:
+  status: 500
+  message: message-user-not-active
+
+3017:
+  status: 500
+  message: message-user-not-found
+
+3018:
+  status: 500
+  message: message-user-register-fail
+
+3019:
+  status: 500
+  message: message-user-mod-fail
+
+3020:
+  status: 500
+  message: message-user-create-fail
+
+3021:
+  status: 500
+  message: message-user-register-no-fullname
+
+3022:
+  status: 500
+  message: message-user-register-no-email
+
+3023:
+  status: 500
+  message: message-user-register-no-password
+
+3024:
+  status: 500
+  message: message-user-register-un-unique-email
+
+3025:
+  status: 500
+  message: message-user-register-invalid-email
+
+3026:
+  status: 500
+  message: message-user-password-not-match
+
+3027:
+  status: 500
+  message: message-user-send-activate-mail-fail
+
+3028:
+  status: 500
+  message: message-user-register-no-captcha
+
+3029:
+  status: 500
+  message: message-user-register-captcha-fail
+
+3030:
+  status: 500
+  message: message-user-old-password-not-match
+
+3031:
+  status: 500
+  message: message-user-send-forgot-mail-fail
+
+3032:
+  status: 500
+  message: message-user-reg-no-phone-number
+
+3014:
+  status: 500
+  message: message-auth-no-phone-number
+
+3033:
+  status: 500
+  message: message-user-reg-no-region-code
+
+3034:
+  status: 500
+  message: message-user-reg-phone-number-invalid
+
+3035:
+  status: 500
+  message: message-user-verify-no-pin-code

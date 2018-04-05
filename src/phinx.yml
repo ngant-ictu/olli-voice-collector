@@ -1,0 +1,18 @@
+paths:
+  migrations: %%PHINX_CONFIG_DIR%%/db/migrations
+  seeds: %%PHINX_CONFIG_DIR%%/db/seeds
+
+environments:
+  default_migration_table: phinxlog
+  dev:
+    adapter: mysql
+    host: localhost
+    name: 'olli-voice-collector'
+    user: root
+    pass: 'root'
+    port: 3306
+    charset: utf8
+    collation: utf8_general_ci
+    table_prefix: fly_
+  prod:
+    table_prefix: fly_

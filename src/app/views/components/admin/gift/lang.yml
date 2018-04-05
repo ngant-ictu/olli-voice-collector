@@ -1,0 +1,12 @@
+---
+
+en:
+  label:
+    name: Name
+    unit: Unit
+    order: Order
+    attributes: Attributes
+    addAttribute: Add attribute
+  msg:
+    nameIsRequired: Name is required.
+    addSuccess: Gift type add successfully.

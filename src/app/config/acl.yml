@@ -1,0 +1,29 @@
+---
+
+publicEndpoint:
+  /v1/users/login/email
+  /v1/users/register/sms
+  /v1/users/verify/sms
+  /v1/users/securegroup
+
+groups:
+  default: guest
+  defaultOauth: member
+  guest:
+    User:
+      v1:index|logout
+  administrator:
+    User:
+      v1:index|*
+    Record:
+      v1:index|*
+      v1:script|*
+    Gift:
+      v1:index|*
+      v1:type|*
+  member:
+    User:
+      v1:index|profile
+    Record:
+      v1:index|scripts
+      v1:index|create

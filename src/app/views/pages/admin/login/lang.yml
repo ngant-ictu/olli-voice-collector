@@ -1,0 +1,23 @@
+---
+
+en:
+  title: Login
+  label:
+    email: Email
+    password: Password
+    login: Login
+  msg:
+    emailIsRequired: Email is required
+    emailInvalid: Email invalid
+    passwordIsRequired: Password is required
+
+vi:
+  title: Đăng nhập
+  label:
+    email: Email
+    password: Mật khẩu
+    login: Đăng nhập
+  msg:
+    emailIsRequired: Email không được để trống
+    emailInvalid: Email không có giá trị
+    passwordIsRequired: Mật khẩu không được để trống

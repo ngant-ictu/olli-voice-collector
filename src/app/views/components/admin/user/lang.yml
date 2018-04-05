@@ -1,0 +1,100 @@
+---
+en:
+  form:
+    search: Search
+    group: Group
+    status: Status
+    verifyType: Verify type
+  label:
+    email: Email
+    password: Password
+    name: Name
+    phone: Phone
+    group: Group
+    status: Status
+    activate: Activate
+    verifyType: Verify type
+    selectVerifyType: Select verify type
+    selectStatus: Select status
+    selectGroup: Select group
+    dateCreated: Date created
+    delete: Delete
+    enable: Enable
+    disable: Disable
+    oldPassword: Old password
+    newPassword: New password
+    repeatNewPassword: Repeat new password
+    changePassword: Change
+  msg:
+    nameIsRequired: Name is required.
+    emailIsRequired: Email is required.
+    emailInvalid: Email in-valid.
+    passwordIsRequired: Password is required.
+    groupIsRequired: Group is requied.
+    statusIsRequired: Status is required.
+    verifyTypeIsRequired: Verify type is required.
+    addSuccess: Add user successfully.
+    updateSuccess: Update user successfully.
+    deleteSuccess: deleted successfully.
+    changePasswordSuccess: Password changed successfully.
+    confirmBulk: Are you sure?
+  info:
+    add:
+      description: User information
+      extraDescription: Detail user information
+    edit:
+      description: Edit user information
+      extraDescription: Edit detail user information
+    changepassword:
+      description: User password
+      extraDescription: Change user password
+
+vi:
+  form:
+    search: Tìm kiếm
+    group: Nhóm
+    status: Trạng thái
+    verifyType: Kích hoạt bằng
+  label:
+    email: Email
+    password: Mật khẩu
+    name: Tên
+    phone: Số ĐT
+    group: Nhóm
+    status: Trạng thái
+    activate: Kích hoạt
+    verifyType: Kích hoạt bằng
+    selectVerifyType: Chọn phương thức kích hoạt
+    selectStatus: Chọn trạng thái
+    selectGroup: Chọn nhóm
+    dateCreated: Ngày tạo
+    delete: Xoá
+    enable: Hiện
+    disable: Khóa
+    oldPassword: Mật khẩu cũ
+    newPassword: Mật khẩu mới
+    repeatNewPassword: Nhập lại mật khẩu mới
+    changePassword: Đổi mật khẩu
+  msg:
+    nameIsRequired: Tên không được để trống
+    emailIsRequired: Email không được để trống.
+    emailInvalid: Email không có gía trị.
+    passwordIsRequired: Mật khẩu không được để trống.
+    groupIsRequired: Vui lòng chọn nhóm.
+    statusIsRequired: Vui lòng chọn trạng thái.
+    verifyTypeIsRequired: Vui lòng chọn phương thức kích hoạt.
+    addSuccess: Thêm thành viên thành công.
+    updateSuccess: Cập nhật thành viên thành công.
+    deleteSuccess: đã được xoá.
+    changePasswordSuccess: Thay đổi mật khẩu thành công.
+    confirmBulk: Bạn có muốn thực hiện hành động này?
+  info:
+    add:
+      description: Thông tin thành viên
+      extraDescription: Thông tin chi tiết thành viên
+    edit:
+      description: Cập nhật thông tin thành viên
+      extraDescription: Cập nhật chi tiết thông tin thành viên
+    changepassword:
+      description: Đổi mật khẩu thành viên
+      extraDescription:
