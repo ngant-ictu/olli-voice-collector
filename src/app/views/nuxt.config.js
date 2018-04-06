@@ -51,7 +51,7 @@ module.exports = {
   },
   loading: { color: '#3B8070' },
   build: {
-    analyze: true,
+    analyze: false,
     vendor: [
       'axios',
       'gsap',

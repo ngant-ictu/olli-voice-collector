@@ -124,7 +124,7 @@ export default class Navigation extends Vue {
   .el-submenu {
     .el-menu {
       top: 50px;
-    },
+    }
     .el-submenu__title {
       height: 45px;
       line-height: 45px;
