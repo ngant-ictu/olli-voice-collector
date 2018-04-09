@@ -21,13 +21,14 @@
         <el-button size="small" type="primary" @click="onShowDefineForm">
           Define
         </el-button>
-        <el-button size="small" type="success" >
+        <el-button size="small" type="success" @click="onShowAddForm">
           Create
         </el-button>
         <!-- <admin-script-items :scripts="scripts"></admin-script-items> -->
       </div>
     </el-col>
     <define-type-form :defineFormState="defineFormVisible" :onClose="onHideDefineForm"></define-type-form>
+    <add-form :addFormState="addFormVisible" :onClose="onHideAddForm"></add-form>
   </el-row>
 </template>
 
@@ -39,6 +40,7 @@ import Breadcrumb from '~/components/admin/breadcrumb.vue';
 // import AdminScriptItems from '~/components/admin/script/items.vue';
 // import FilterBar from '~/components/admin/script/filter-bar.vue';
 import DefineTypeForm from '~/components/admin/gift/define-type-form.vue';
+import AddForm from '~/components/admin/gift/add-form.vue';
 
 @Component({
   layout: 'admin',
@@ -47,7 +49,8 @@ import DefineTypeForm from '~/components/admin/gift/define-type-form.vue';
     Breadcrumb,
     // Pagination,
     // AdminScriptItems,
-    DefineTypeForm
+    DefineTypeForm,
+    AddForm
   }
 })
 export default class AdminScriptPage extends Vue {

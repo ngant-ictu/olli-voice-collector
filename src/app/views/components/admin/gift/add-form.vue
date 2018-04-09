@@ -10,43 +10,25 @@
     <el-row>
       <el-col :md="24" :xs="24">
         <el-col :md="24">
-          <el-form autoComplete="on" label-position="left" :model="form" :rules="rules" ref="defineForm">
+          <el-form autoComplete="on" label-position="left" :model="form" :rules="rules" ref="addForm">
             <el-form-item prop="name" :label="$t('label.name')">
               <el-input type="text" size="small" v-model="form.name" autofocus></el-input>
             </el-form-item>
-            <el-row>
-              <el-col :md="24">
-                <p>
-                  {{ $t('label.attributes') }}
-                </p>
-              </el-col>
-            </el-row>
-            <el-row v-for="(attr, index) in form.attrs" :key="index" :gutter="10">
+            <el-form-item prop="type" :label="$t('label.type')">
+              <el-select size="small" v-model="form.type" :placeholder="$t('label.selectType')" :loading="loading" @change="onChangeType">
+                <el-option v-for="item in formSource.typeList" :key="item.id" :label="item.name" :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-row v-for="(attr, index) in attrs" :key="index" :gutter="10" v-show="showAttrs">
               <el-col :md="12">
-                <el-form-item
-                  :prop="`attrs.${index}.name`"
-                  :rules="{ required: true, message: $t('msg.nameIsRequired'), trigger: 'blur' }">
-                  <el-input v-model="attr.name" size="small" :placeholder="$t('label.name')"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :md="4">
-                <el-form-item :prop="`attrs.${index}.unit`">
-                  <el-input v-model="attr.unit" size="small" :placeholder="$t('label.unit')"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :md="4">
-                <el-form-item :prop="`attrs.${index}.order`">
-                  <el-input v-model="attr.order" size="small" :placeholder="$t('label.order')"></el-input>
+                <el-form-item>
+                  <el-input size="small" :placeholder="attr.name" v-on:input="onInputName(attr['id'], $event)"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :md="4">
                 <el-form-item>
-                  <el-button
-                    @click="onRemoveAttribute(attr)"
-                    icon="el-icon-fa-trash"
-                    type="danger" size="mini"
-                    :plain="true">
-                  </el-button>
+                  <el-input size="small" :placeholder="attr.unit" v-on:input="onInputUnit(attr['id'], $event)"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -67,24 +49,29 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'nuxt-property-decorator';
-import { Action } from 'vuex-class';
+import { Action, State } from 'vuex-class';
 
 @Component
-export default class DefineTypeForm extends Vue {
+export default class AddForm extends Vue {
   @Action('gifttypes/add') addAction;
-  @Prop() addFormState: boolean;
+  @Action('gifttypes/get_attrs') getattrsAction;
+  @Action('gifts/get_form_source') formsourceAction;
+  @State(state => state.gifts.formSource) formSource;
+  @State(state => state.gifttypes.attrs) attrs;
+  // @Prop() addFormState: boolean;
+  addFormState = true; // for dev
   @Prop() onClose;
 
   loading: boolean = false;
+  showAttrs = false;
   form: any = {
     name: '',
-    attrs: [
-      { key: 1, name: '', unit: '', order: 1 }
-    ]
+    type: null,
+    attrs: null
   };
 
   $refs: {
-    defineForm: HTMLFormElement
+    addForm: HTMLFormElement
   }
 
   get rules() {
@@ -99,51 +86,85 @@ export default class DefineTypeForm extends Vue {
     };
   }
 
+  onInputName(attrId, value) {
+    this.form.attrs[attrId].name = value;
+  }
+
+  onInputUnit(attrId, value) {
+    this.form.attrs[attrId].unit = value;
+  }
+
   onAddAttribute() {
-    this.form.attrs.push({
-      key: this.form.attrs.length + 1,
-      name: '',
-      unit: '',
-      order: this.form.attrs.length + 1
-    });
+    // this.form.attrs.push({
+    //   key: this.form.attrs.length + 1,
+    //   name: '',
+    //   unit: '',
+    //   order: this.form.attrs.length + 1
+    // });
   }
 
   onRemoveAttribute(item) {
-    const index = this.form.attrs.indexOf(item);
-    if (index !== -1) {
-      this.form.attrs.splice(index, 1);
-    }
+    // const index = this.form.attrs.indexOf(item);
+    // if (index !== -1) {
+    //   this.form.attrs.splice(index, 1);
+    // }
   }
 
   onClosed() {
-    this.$refs.defineForm.resetFields();
+    this.$refs.addForm.resetFields();
   }
 
   onSubmit() {
-    this.$refs.defineForm.validate(async valid => {
-      if (valid) {
-        this.loading = true;
-        await this.addAction({ formData: this.form })
-          .then(res => {
-            this.loading = false;
-
-            this.$message({
-              showClose: true,
-              message: this.$t('msg.addSuccess').toString(),
-              type: 'success',
-              duration: 3 * 1000
-            })
-
-            // return this.onClose();
-
-          })
-          .catch(err => {
-            this.loading = false;
-          });
-      } else {
-        return false;
-      }
-    });
+    // this.$refs.defineForm.validate(async valid => {
+    //   if (valid) {
+    //     this.loading = true;
+    //     await this.addAction({ formData: this.form })
+    //       .then(res => {
+    //         this.loading = false;
+    //
+    //         this.$message({
+    //           showClose: true,
+    //           message: this.$t('msg.addSuccess').toString(),
+    //           type: 'success',
+    //           duration: 3 * 1000
+    //         })
+    //
+    //         // return this.onClose();
+    //
+    //       })
+    //       .catch(err => {
+    //         this.loading = false;
+    //       });
+    //   } else {
+    //     return false;
+    //   }
+    // });
   }
+
+  async onChangeType(typeId) {
+    this.loading = true;
+
+    await this.getattrsAction({ id: typeId })
+      .then(async res => {
+        this.loading = false;
+        this.showAttrs = true;
+        this.form.attrs = [];
+
+        this.attrs.map(attr => {
+          this.form.attrs[attr.id] = {
+            key: attr.id,
+            name: '',
+            unit: ''
+          };
+        });
+      })
+      .catch(err => {
+        this.loading = false;
+      })
+  }
+
+  created() { return this.initData(); }
+
+  async initData() { return await this.formsourceAction(); }
 }
 </script>
