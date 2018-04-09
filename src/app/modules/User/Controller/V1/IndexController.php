@@ -314,7 +314,7 @@ class IndexController extends AbstractController
         //     throw new UserException(UserErrorCode::AUTH_NO_PHONE_NUMBER);
         // };
 
-        if (count($password) == 0) {
+        if (strlen($password) == 0) {
             throw new UserException(UserErrorCode::AUTH_NOPASSWORD);
         };
 
