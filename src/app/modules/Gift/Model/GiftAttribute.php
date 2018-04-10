@@ -42,6 +42,16 @@ class GiftAttribute extends AbstractModel
     public $unit;
 
     /**
+    * @Column(type="integer", nullable=true, column="ga_type")
+    */
+    public $type;
+
+    /**
+    * @Column(type="integer", nullable=true, column="ga_type_value")
+    */
+    public $typevalue;
+
+    /**
     * @Column(type="integer", nullable=true, column="ga_date_created")
     */
     public $datecreated;
@@ -51,6 +61,11 @@ class GiftAttribute extends AbstractModel
     */
     public $datemodified;
 
+    const TYPE_INPUT = 1;
+    const TYPE_SELECT = 3;
+    const TYPE_TEXT_AREA = 5;
+    const TYPE_CHECK_BOX = 7;
+    const TYPE_RADIO_BOX = 9;
 
     // /**
     //  * Form field validation

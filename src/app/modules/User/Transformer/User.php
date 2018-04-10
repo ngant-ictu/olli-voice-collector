@@ -3,11 +3,15 @@ namespace User\Transformer;
 
 use League\Fractal\TransformerAbstract;
 use User\Model\User as UserModel;
+use User\Transformer\UserProfile as UserProfileTransformer;
 use Moment\Moment;
 
 class User extends TransformerAbstract
 {
     protected $availableIncludes = [];
+    protected $defaultIncludes = [
+        'profile'
+    ];
 
     public function transform(UserModel $user)
     {
@@ -38,5 +42,12 @@ class User extends TransformerAbstract
             'datecreated' => (string) $user->datecreated,
             'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i')
         ];
+    }
+
+    public function includeProfile(UserModel $user)
+    {
+        $profile = $user->getProfile();
+
+        return $this->item($profile, new UserProfileTransformer);
     }
 }

@@ -4,7 +4,6 @@ namespace User\Model;
 use Core\Model\AbstractModel;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
-use Phalcon\Validation\Validator\Uniqueness;
 
 /**
  * @Source('fly_user_profile');
@@ -65,6 +64,11 @@ class UserProfile extends AbstractModel
     public $voiceagerange;
 
     /**
+    * @Column(type="integer", nullable=true, column="up_point")
+    */
+    public $point;
+
+    /**
     * @Column(type="integer", nullable=true, column="up_date_created")
     */
     public $datecreated;
@@ -73,4 +77,15 @@ class UserProfile extends AbstractModel
     * @Column(type="integer", nullable=true, column="up_date_modified")
     */
     public $datemodified;
+
+    public function validation()
+    {
+        $validator = new Validation();
+
+        $validator->add('uid', new PresenceOf([
+            'message' => 'message-uid-notempty'
+        ]));
+
+        return $this->validate($validator);
+    }
 }

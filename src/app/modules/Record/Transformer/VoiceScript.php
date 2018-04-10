@@ -22,6 +22,7 @@ class VoiceScript extends TransformerAbstract
                 'value' => (string) $voicescript->status,
                 'style' => (string) $voicescript->getStatusStyle()
             ],
+            'point' => (string) $voicescript->point,
             'datecreated' => (string) $voicescript->datecreated,
             'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i')
         ];

@@ -5,6 +5,7 @@
     <el-form-item prop="keyword">
       <el-input size="small" :placeholder="$t('form.search')"
         v-model="form.keyword"
+        @keyup.enter.native="onFilter"
         clearable>
         <el-button slot="append" @click="onFilter"><i class="el-icon-fa-search"></i></el-button>
       </el-input>

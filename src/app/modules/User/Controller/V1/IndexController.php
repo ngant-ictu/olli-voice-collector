@@ -5,6 +5,7 @@ use Shirou\Constants\ErrorCode;
 use Shirou\UserException;
 use Core\Controller\AbstractController;
 use User\Model\User as UserModel;
+use User\Model\UserProfile as UserProfileModel;
 use User\Transformer\User as UserTransformer;
 use User\Constants\ErrorCode as UserErrorCode;
 use Core\Helper\Utils as Helper;
@@ -404,7 +405,8 @@ class IndexController extends AbstractController
             $myFireBase = $this->firebase->getDatabase();;
             $myFireBase->getReference('/users/' . $firebaseUid)
                 ->set([
-                    'record_times' => 500
+                    'record_times' => 500,
+                    'point' => 0
                 ]);
 
             $myUser = new UserModel();
@@ -421,6 +423,16 @@ class IndexController extends AbstractController
 
             if (!$myUser->create()) {
                 throw new UserException(UserErrorCode::USER_REGISTERFAIL);
+            }
+
+            $myUserProfile = new UserProfileModel();
+            $myUserProfile->assign([
+                'uid' => (int) $myUser->id,
+                'point' => 0
+            ]);
+
+            if (!$myUserProfile->create()) {
+                throw new UserException(UserErrorCode::DATA_CREATE_FAIL);
             }
         }
 

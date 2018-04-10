@@ -105,7 +105,8 @@ class TypeController extends AbstractController
                     'gtid' => (int) $myGiftType->id,
                     'name' => (string) $attr->name,
                     'unit' => (string) $attr->unit,
-                    'displayorder' => (int) $attr->order
+                    'displayorder' => (int) $attr->order,
+                    'type' => (int) GiftAttributeModel::TYPE_INPUT
                 ]);
 
                 if (!$myGiftAttribute->create()) {
@@ -119,5 +120,32 @@ class TypeController extends AbstractController
             new GiftTypeTransformer,
             'data'
         );
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/attrs", methods={"GET"})
+     */
+    public function getattrsAction(int $id = 0)
+    {
+        $myGiftType = GiftTypeModel::findFirst([
+            'id = :id:',
+            'bind' => [
+                'id' => (int) $id
+            ]
+        ]);
+
+        $myGiftAttributes = $myGiftType->getAttributes([
+            'order' => 'displayorder ASC'
+        ]);
+
+        if (count($myGiftAttributes) > 0) {
+            return $this->createCollection(
+                $myGiftAttributes,
+                new GiftAttributeTransformer,
+                'data'
+            );
+        } else {
+            return $this->respondWithArray([], 'data');
+        }
     }
 }

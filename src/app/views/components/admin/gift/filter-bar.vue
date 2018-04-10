@@ -10,24 +10,13 @@
         <el-button slot="append" @click="onFilter"><i class="el-icon-fa-search"></i></el-button>
       </el-input>
     </el-form-item>
-    <el-form-item prop="groupid" :label="$t('form.group')">
-      <el-select clearable size="small" v-model="form.groupid" :placeholder="$t('default.all')">
-        <el-option v-for="item, index in formSource.groupList" :key="item" :label="item" :value="item">
+    <el-form-item prop="status" :label="$t('form.isused')">
+      <el-select clearable size="small" v-model="form.isused" :placeholder="$t('default.all')">
+        <el-option v-for="item in formSource.isusedList" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item prop="status" :label="$t('form.status')">
-      <el-select clearable size="small" v-model="form.status" :placeholder="$t('default.all')">
-        <el-option v-for="item in formSource.statusList" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item prop="verifytype" :label="$t('form.verifyType')">
-      <el-select clearable size="small" v-model="form.verifytype" :placeholder="$t('default.all')">
-        <el-option v-for="item in formSource.verifyList" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
-    </el-form-item>
+
     <el-form-item>
       <el-button type="primary" size="small" @click="onFilter">{{ $t('default.filter') }}</el-button>
       <el-button size="small" @click="onReset">{{ $t('default.reset') }}</el-button>
@@ -42,9 +31,9 @@ const querystring = require('querystring');
 
 @Component
 export default class FilterBar extends Vue {
-  @Action('users/get_form_source') formsourceAction;
-  @State(state => state.users.query) query;
-  @State(state => state.users.formSource) formSource;
+  @Action('gifts/get_form_source') formsourceAction;
+  @State(state => state.gifts.query) query;
+  @State(state => state.gifts.formSource) formSource;
   @Watch('$route')
   onPageChange() { this.initData() }
 
@@ -58,16 +47,14 @@ export default class FilterBar extends Vue {
     return this.$router.push(pageUrl);
   }
 
-  onReset() { return this.$router.push('/admin/user'); }
+  onReset() { return this.$router.push('/admin/gift'); }
 
   created() { return this.initData(); }
 
   async initData() {
     this.form = {
       keyword: this.$route.query.keyword || '',
-      status: this.$route.query.status || '',
-      groupid: this.$route.query.groupid || '',
-      verifytype: this.$route.query.verifytype || ''
+      isused: this.$route.query.isused || ''
     };
 
     return await this.formsourceAction();

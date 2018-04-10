@@ -6,7 +6,7 @@
     :before-close="onClose"
     :close-on-click-modal="false"
     v-on:close="onClosed"
-    >
+    width="40%">
     <el-row>
       <el-col :md="24" :xs="24">
         <el-col :md="24">
@@ -72,6 +72,7 @@ import { Action } from 'vuex-class';
 @Component
 export default class DefineTypeForm extends Vue {
   @Action('gifttypes/add') addAction;
+  @Action('gifts/get_form_source') formsourceAction;
   @Prop() defineFormState: boolean;
   @Prop() onClose;
 
@@ -124,7 +125,7 @@ export default class DefineTypeForm extends Vue {
       if (valid) {
         this.loading = true;
         await this.addAction({ formData: this.form })
-          .then(res => {
+          .then(async res => {
             this.loading = false;
 
             this.$message({
@@ -134,7 +135,9 @@ export default class DefineTypeForm extends Vue {
               duration: 3 * 1000
             })
 
-            // return this.onClose();
+            await this.formsourceAction();
+
+            return this.onClose();
 
           })
           .catch(err => {
@@ -145,22 +148,5 @@ export default class DefineTypeForm extends Vue {
       }
     });
   }
-  //
-  // async onReset() {
-  //   this.$refs.editForm.resetFields();
-  //   await this.getAction({ id: this.itemId })
-  //     .then(res => {
-  //       this.form = {
-  //         fullname: res.data.fullname,
-  //         groupid: res.data.groupid,
-  //         status: res.data.status.value,
-  //         verifytype: res.data.verifytype.value
-  //       };
-  //     });
-  // }
-  //
-  // created() { return this.initData(); }
-  //
-  // async initData() { return await this.formsourceAction() }
 }
 </script>

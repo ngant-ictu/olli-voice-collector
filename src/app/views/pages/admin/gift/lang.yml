@@ -1,0 +1,10 @@
+---
+
+en:
+  label:
+    define: Define
+  page:
+    index:
+      title: Gift
+    add:
+      title: Create gift

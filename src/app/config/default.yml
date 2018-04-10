@@ -40,3 +40,15 @@ voices:
     audio/ogg
     audio/webm
     audio/wave
+gifts:
+  directory: /app/storage/files/gifts/
+  minsize: 100
+  maxsize: 10000000
+  isoverwrite: false
+  thumbsize: 300x200
+  mediumsize: 540x100
+  fullsize: 1200x1200
+  mimes:
+    image/jpeg
+    image/jpg
+    image/png

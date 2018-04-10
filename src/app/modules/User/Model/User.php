@@ -11,6 +11,7 @@ use Core\Helper\Utils as Helper;
 /**
  * @Source('fly_user');
  * @Behavior('\Shirou\Behavior\Model\Timestampable');
+ * @HasOne('id', '\User\Model\UserProfile', 'uid', {'alias': 'profile'})
  */
 class User extends AbstractModel
 {
@@ -55,11 +56,6 @@ class User extends AbstractModel
     * @Column(type="integer", nullable=true, column="u_status")
     */
     public $status;
-
-    /**
-    * @Column(type="integer", nullable=true, column="u_dob")
-    */
-    public $dob;
 
     /**
     * @Column(type="integer", nullable=true, column="u_oauth_uid")
@@ -128,9 +124,6 @@ class User extends AbstractModel
     const IS_VERIFIED = 1;
     const IS_NOT_VERIFIED = 3;
 
-    /**
-     * Initialize model
-     */
     public function initialize()
     {
         $config = $this->getDI()->get('config');
@@ -151,9 +144,6 @@ class User extends AbstractModel
         }
     }
 
-    /**
-     * Form field validation
-     */
     public function validation()
     {
         $validator = new Validation();

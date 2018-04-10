@@ -1,4 +1,4 @@
 ---
 
-label-status-enable: Enable
-label-status-disable: Disable
+label-is-used: Claimed
+label-is-not-used: In-Stock

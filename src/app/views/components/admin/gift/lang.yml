@@ -5,8 +5,18 @@ en:
     name: Name
     unit: Unit
     order: Order
+    type: Type
+    info: Information
+    requiredpoint: Required point
+    dateCreated: Date created
+    dateUsed: Date claimed
+    isused: Is used
     attributes: Attributes
     addAttribute: Add attribute
+    selectType: Select type
   msg:
     nameIsRequired: Name is required.
+    typeIsRequired: Type is required.
+    requiredpointIsRequired: Required point is required.
     addSuccess: Gift type add successfully.
+    addGiftSuccess: Gift add successfully.
