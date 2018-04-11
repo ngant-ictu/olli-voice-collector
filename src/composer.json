@@ -6,7 +6,6 @@
     "robmorgan/phinx": "^0.9.2",
     "fzaninotto/faker": "^1.7",
     "jenssegers/agent": "^2.6",
-    "ktamas77/firebase-php": "^2.2",
     "kreait/firebase-php": "^4.3"
   }
 }

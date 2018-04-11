@@ -304,22 +304,18 @@ class IndexController extends AbstractController
     public function loginAction($account)
     {
         $formData = (array) $this->request->getJsonRawBody();
-        $email = trim($formData['email']);
+        $username = trim($formData['username']);
         $password = $formData['password'];
 
-        if ($account == 'email' && isset($formData['email']) && strlen($formData['email']) == 0) {
-            throw new UserException(UserErrorCode::AUTH_NOEMAIL);
+        if (isset($formData['username']) && strlen($formData['username']) == 0) {
+            throw new UserException(UserErrorCode::AUTH_NO_USERNAME);
         };
-
-        // if ($account == 'phonenumber' && isset($formData['phonenumber']) && strlen($formData['phonenumber']) == 0) {
-        //     throw new UserException(UserErrorCode::AUTH_NO_PHONE_NUMBER);
-        // };
 
         if (strlen($password) == 0) {
             throw new UserException(UserErrorCode::AUTH_NOPASSWORD);
         };
 
-        $this->auth->login($account, $email, $password);
+        $this->auth->login($account, $username, $password);
 
         // Generate jwt authToken for valid user.
         $tokenResponse = $this->auth->getTokenResponse();
@@ -370,8 +366,9 @@ class IndexController extends AbstractController
         return $this->respondWithArray($tokenResponse, 'data');
     }
 
+
     /**
-     * Verify token
+     * Verify token (Firebase)
      *
      * @Route("/verify/{account:[a-z]{1,10}}", methods={"POST"})
      */
@@ -402,7 +399,7 @@ class IndexController extends AbstractController
 
         if (!$myUser) {
             $firebaseUser = $this->firebase->getAuth()->getUser($firebaseUid);
-            $myFireBase = $this->firebase->getDatabase();;
+            $myFireBase = $this->firebase->getDatabase();
             $myFireBase->getReference('/users/' . $firebaseUid)
                 ->set([
                     'record_times' => 500,
@@ -444,4 +441,12 @@ class IndexController extends AbstractController
 
         return $this->respondWithArray($tokenResponse, 'data');
     }
+
+    /**
+     * Update owner password
+     *
+     * @Route("/updatepassword", methods={"PUT"})
+     */
+    public function updatepasswordAction()
+    {}
 }

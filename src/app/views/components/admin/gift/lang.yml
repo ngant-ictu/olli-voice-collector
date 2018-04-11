@@ -8,7 +8,7 @@ en:
     type: Type
     info: Information
     requiredpoint: Required point
-    cloneFrom: Clone from item
+    cloneFrom: Clone to
     delete: Delete
     dateCreated: Date created
     dateUsed: Date claimed
@@ -20,5 +20,6 @@ en:
     nameIsRequired: Name is required.
     typeIsRequired: Type is required.
     requiredpointIsRequired: Required point is required.
-    addSuccess: Gift type add successfully.
-    addGiftSuccess: Gift add successfully.
+    addSuccess: Gift type added successfully.
+    addGiftSuccess: Gift added successfully.
+    cloneGiftSuccess: Gift cloned successfully.

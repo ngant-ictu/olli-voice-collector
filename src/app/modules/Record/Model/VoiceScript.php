@@ -35,6 +35,11 @@ class VoiceScript extends AbstractModel
     public $status;
 
     /**
+    * @Column(type="integer", nullable=true, column="vs_receive_point")
+    */
+    public $receivepoint;
+
+    /**
     * @Column(type="integer", nullable=true, column="vs_date_created")
     */
     public $datecreated;

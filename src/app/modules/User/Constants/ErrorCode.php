@@ -5,7 +5,7 @@ use Shirou\Constants\ErrorCode as ShErrorCode;
 class ErrorCode extends ShErrorCode
 {
     // Authentication
-    const AUTH_NOEMAIL = 3001,
+    const AUTH_NO_USERNAME = 3001,
         AUTH_INVALIDTYPE = 3002,
         AUTH_BADLOGIN = 3003,
         AUTH_UNAUTHORIZED = 3004,
@@ -17,8 +17,7 @@ class ErrorCode extends ShErrorCode
         AUTH_ACCOUNT_ALREADY_EXISTED = 3010,
         AUTH_ACCOUNT_DIDNOT_VERIFIED = 3011,
         AUTH_ACCOUNT_NEW = 3012,
-        AUTH_ACCOUNT_NEED_UPDATE_PASSWORD = 3013,
-        AUTH_NO_PHONE_NUMBER = 3014;
+        AUTH_ACCOUNT_NEED_UPDATE_PASSWORD = 3013;
 
     // Google
     const GOOGLE_NODATA = 3014,

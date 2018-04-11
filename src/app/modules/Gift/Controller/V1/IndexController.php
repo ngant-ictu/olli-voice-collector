@@ -191,6 +191,7 @@ class IndexController extends AbstractController
 
         $myGift->name = (string) $formData['name'];
         $myGift->isused = (int) $formData['isused'];
+        $myGift->requiredpoint = (int) $formData['requiredpoint'];
 
         if (!$myGift->update()) {
             throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
@@ -241,7 +242,7 @@ class IndexController extends AbstractController
             'name' => (string) $formData['name'],
             'gtid' => (int) $myGift->gtid,
             'isused' => (int) GiftModel::IS_NOT_USED,
-            'requiredpoint' => (int) $myGift->requiredpoint
+            'requiredpoint' => (string) $formData['requiredpoint']
         ]);
 
         if (!$myGiftClone->create()) {

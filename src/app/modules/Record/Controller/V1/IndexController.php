@@ -56,7 +56,7 @@ class IndexController extends AbstractController
         $myVoice = VoiceModel::findFirst([
             'sid = :sid: AND uid = :uid:',
             'bind' => [
-                'sid' => (int) $formData['sid'],
+                'vsid' => (int) $formData['sid'],
                 'uid' => (int) $uid
             ]
         ]);
@@ -67,7 +67,7 @@ class IndexController extends AbstractController
 
         $myVoice = new VoiceModel();
         $myVoice->assign([
-            'sid' => (int) $formData['sid'],
+            'vsid' => (int) $formData['sid'],
             'uid' => (int) $uid,
             'status' => (int) VoiceModel::STATUS_PENDING
         ]);

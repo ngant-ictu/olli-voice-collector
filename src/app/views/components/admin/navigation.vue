@@ -7,13 +7,14 @@ en:
   voice: Voice
   script: Script
   gift: Gift
-
+  type: Type & Attributes
 vi:
   dashboard: Tổng quan
   user: Thành viên
   voice: Thu âm
   script: Script
   gift: Quà tặng
+  type: Loại & thuộc tính
 </lang>
 
 <template>
@@ -48,6 +49,10 @@ vi:
       <el-menu-item index="/admin/gift">
         <i class="el-icon-fa-navicon"></i>
         {{ $t('default.list') }}
+      </el-menu-item>
+      <el-menu-item index="/admin/script/type">
+        <i class="el-icon-fa-navicon"></i>
+        {{ $t('type') }}
       </el-menu-item>
     </el-submenu>
     <el-dropdown class="avatar-container" v-if="currentUser">

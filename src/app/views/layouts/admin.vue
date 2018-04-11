@@ -197,10 +197,6 @@ body {
       }
     }
   }
-
-  .el-dialog__body {
-    padding: 0px 20px;
-  }
 }
 
 </style>

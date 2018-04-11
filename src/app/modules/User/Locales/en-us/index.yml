@@ -8,7 +8,7 @@ message-email-notempty: Email is required.
 message-groupid-notempty: Group is required.
 message-status-notempty: Status is required.
 message-email-unique: Email has already existed.
-message-auth-no-email: Email is required.
+message-auth-no-username: Email/Phone is required.
 message-auth-invalid-type: Auth invalid type.
 message-auth-bad-login: Account didn't verified or wrong password.
 message-auth-unauthorized: Request must be authorized.

@@ -94,7 +94,7 @@ export const actions = {
 
   async login_by_email({ commit }, formData) {
     return await this.$axios.$post('/v1/users/login/email', {
-      email: formData.email,
+      username: formData.email,
       password: formData.password
     }).then(res => setToken(res.data))
   },

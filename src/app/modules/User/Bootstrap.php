@@ -7,6 +7,7 @@ use Phalcon\{
 };
 use Shirou\Bootstrap as ShBootstrap;
 use User\Plugin\Account\Email as UserEmailAccount;
+use User\Plugin\Account\Phone as UserPhoneAccount;
 use User\Session\JWT;
 use User\Constants\AccountType;
 use User\Session\Firebase\JWT\JWT as FirebaseJWT;
@@ -28,11 +29,13 @@ class Bootstrap extends ShBootstrap
 
             // 1. Instantiate Account Type
             $authEmail = new UserEmailAccount(AccountType::EMAIL);
+            $authPhone = new UserPhoneAccount(AccountType::PHONE);
 
             $authManager->setGenSalt(getenv('AUTH_SALT'));
 
             return $authManager
                 ->addAccount(AccountType::EMAIL, $authEmail)
+                ->addAccount(AccountType::PHONE, $authPhone)
                 ->setExpireTime(getenv('AUTH_EXPIRE'));
         }, true);
 
@@ -40,7 +43,6 @@ class Bootstrap extends ShBootstrap
             $serviceAccount = FirebaseServiceAccount::fromJsonFile(ROOT_PATH . '/olli-event-app-firebase-adminsdk-g2i53-e7d5cf80da.json');
             $firebase = (new FirebaseFactory)
                 ->withServiceAccount($serviceAccount)
-                ->asUser('voice-collector-backend')
                 ->create();
 
             return $firebase;

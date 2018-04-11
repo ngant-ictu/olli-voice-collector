@@ -4,7 +4,6 @@
   <el-dialog
     :visible.sync="defineFormState"
     :before-close="onClose"
-    :close-on-click-modal="false"
     v-on:close="onClosed"
     width="40%">
     <el-row>

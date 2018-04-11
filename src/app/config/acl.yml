@@ -2,7 +2,7 @@
 
 publicEndpoint:
   /v1/users/login/email
-  /v1/users/register/sms
+  /v1/users/login/phone
   /v1/users/verify/sms
   /v1/users/securegroup
 
@@ -21,9 +21,14 @@ groups:
     Gift:
       v1:index|*
       v1:type|*
+      v1:store|*
   member:
     User:
       v1:index|profile
     Record:
       v1:index|scripts
       v1:index|create
+    Gift:
+      v1:store|list
+      v1:store|get
+      v1:store|claim

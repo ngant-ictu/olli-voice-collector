@@ -19,6 +19,9 @@
             <el-form-item prop="name" :label="$t('label.name')">
               <el-input type="text" size="small" v-model="form.name"></el-input>
             </el-form-item>
+            <el-form-item prop="requiredpoint" :label="$t('label.requiredpoint')">
+              <el-input type="number" size="small" v-model="form.requiredpoint"></el-input>
+            </el-form-item>
             <el-form-item :label="$t('label.info')">
               <el-row v-if="form.stocks.length > 0" v-for="(item, index) in form.stocks" :key="index">
                 <el-form-item>
@@ -84,6 +87,7 @@ export default class EditForm extends Vue {
       .then(res => {
         this.form = {
           name: res.data.name,
+          requiredpoint: res.data.requiredpoint,
           stocks: []
         };
 
@@ -120,7 +124,7 @@ export default class EditForm extends Vue {
               duration: 3 * 1000
             })
 
-            return this.onClose();
+            return this.onOpen();
           })
           .catch(err => {
             this.loading = false;

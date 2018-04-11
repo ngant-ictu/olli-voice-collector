@@ -5,5 +5,6 @@ class AccountType
 {
  const EMAIL = 'email',
     FACEBOOK = 'facebook',
-    GOOGLE = 'google';
+    GOOGLE = 'google',
+    PHONE = 'phone';
 }

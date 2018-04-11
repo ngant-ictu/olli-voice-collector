@@ -15,6 +15,9 @@
             <el-form-item prop="name" :label="$t('label.name')">
               <el-input type="text" size="small" v-model="form.name" clearable></el-input>
             </el-form-item>
+            <el-form-item prop="requiredpoint" :label="$t('label.requiredpoint')">
+              <el-input type="number" size="small" v-model="form.requiredpoint"></el-input>
+            </el-form-item>
             <el-form-item prop="isused" :label="$t('label.isused')">
               <el-select size="small" v-model="form.isused" :placeholder="$t('label.selectUsedStatus')" style="width: 100%" :loading="loading">
                 <el-option v-for="item in formSource.isusedList" :key="item.label" :label="item.label" :value="item.value">
@@ -89,6 +92,7 @@ export default class EditForm extends Vue {
       .then(res => {
         this.form = {
           name: res.data.name,
+          requiredpoint: res.data.requiredpoint,
           isused: res.data.isused.value,
           stocks: []
         };
@@ -143,6 +147,7 @@ export default class EditForm extends Vue {
       .then(res => {
         this.form = {
           name: res.data.name,
+          requiredpoint: res.data.requiredpoint,
           isused: res.data.isused.value,
           stocks: []
         };

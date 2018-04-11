@@ -100,7 +100,7 @@
 # USER MODULE
 3001:
   status: 500
-  message: message-auth-no-email
+  message: message-auth-no-username
 
 3002:
   status: 500

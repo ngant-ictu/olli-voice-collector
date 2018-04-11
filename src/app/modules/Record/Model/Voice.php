@@ -15,9 +15,9 @@ use Core\Helper\Utils as Helper;
 class Voice extends AbstractModel
 {
     /**
-    * @Column(type="integer", nullable=true, column="s_id")
+    * @Column(type="integer", nullable=true, column="vs_id")
     */
-    public $sid;
+    public $vsid;
 
     /**
     * @Column(type="integer", nullable=true, column="u_id")

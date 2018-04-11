@@ -27,6 +27,11 @@ class GiftType extends AbstractModel
     public $name;
 
     /**
+    * @Column(type="integer", nullable=true, column="gt_status")
+    */
+    public $status;
+
+    /**
     * @Column(type="integer", nullable=true, column="gt_date_created")
     */
     public $datecreated;
@@ -35,6 +40,9 @@ class GiftType extends AbstractModel
     * @Column(type="integer", nullable=true, column="gt_date_modified")
     */
     public $datemodified;
+
+    const STATUS_ENABLE = 1;
+    const STATUS_DISABLE = 3;
 
 
     // /**
