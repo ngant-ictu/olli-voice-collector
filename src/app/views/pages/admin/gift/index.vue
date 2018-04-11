@@ -54,7 +54,7 @@ import AddForm from '~/components/admin/gift/add-form.vue';
     AddForm
   }
 })
-export default class AdminScriptPage extends Vue {
+export default class AdminGiftPage extends Vue {
   @Action('gifts/get_all') listAction;
   @State(state => state.gifts.data) gifts;
   @State(state => state.gifts.totalItems) totalItems;

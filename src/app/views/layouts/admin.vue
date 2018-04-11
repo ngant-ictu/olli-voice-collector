@@ -132,6 +132,7 @@ body {
     border-left: 1px solid #eff2f7;
     min-height: 100vh;
     max-height: 100%;
+
     .no-content {
       display: block;
       position: fixed;
@@ -192,9 +193,13 @@ body {
   }
   .el-button-group {
     &.operation {
-      display: block;
+        display: block;
+      }
     }
   }
+
+  .el-dialog__body {
+    padding: 0px 20px;
   }
 }
 

@@ -12,7 +12,7 @@
         <el-col :md="24">
           <el-form autoComplete="on" label-position="left" :model="form" :rules="rules" ref="defineForm">
             <el-form-item prop="name" :label="$t('label.name')">
-              <el-input type="text" size="small" v-model="form.name" autofocus></el-input>
+              <el-input type="text" size="small" v-model="form.name" autofocus clearable></el-input>
             </el-form-item>
             <el-row>
               <el-col :md="24">
@@ -26,17 +26,17 @@
                 <el-form-item
                   :prop="`attrs.${index}.name`"
                   :rules="{ required: true, message: $t('msg.nameIsRequired'), trigger: 'blur' }">
-                  <el-input v-model="attr.name" size="small" :placeholder="$t('label.name')"></el-input>
+                  <el-input v-model="attr.name" size="small" :placeholder="$t('label.name')" clearable></el-input>
                 </el-form-item>
               </el-col>
               <el-col :md="4">
                 <el-form-item :prop="`attrs.${index}.unit`">
-                  <el-input v-model="attr.unit" size="small" :placeholder="$t('label.unit')"></el-input>
+                  <el-input v-model="attr.unit" size="small" :placeholder="$t('label.unit')" clearable></el-input>
                 </el-form-item>
               </el-col>
               <el-col :md="4">
                 <el-form-item :prop="`attrs.${index}.order`">
-                  <el-input v-model="attr.order" size="small" :placeholder="$t('label.order')"></el-input>
+                  <el-input v-model="attr.order" size="small" :placeholder="$t('label.order')" clearable></el-input>
                 </el-form-item>
               </el-col>
               <el-col :md="4">

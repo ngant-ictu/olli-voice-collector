@@ -71,6 +71,7 @@
     </div>
     <scroll-top :duration="1000" :timing="'ease'"></scroll-top>
     <edit-form :editFormState="visible" :itemId="itemId" :onClose="onHideEditForm"></edit-form>
+    <clone-form :cloneFormState="visibleClone" :itemId="itemId" :onClose="onHideCloneForm"></clone-form>
   </section>
 </template>
 
@@ -79,11 +80,13 @@ import { Vue, Component, Prop } from "nuxt-property-decorator";
 import { Action } from 'vuex-class';
 import DeleteButton from "~/components/admin/delete-button.vue";
 import EditForm from '~/components/admin/gift/edit-form.vue';
+import CloneForm from '~/components/admin/gift/clone-form.vue';
 
 @Component({
   components: {
     DeleteButton,
-    EditForm
+    EditForm,
+    CloneForm
   }
 })
 export default class AdminGiftItems extends Vue {
@@ -99,9 +102,7 @@ export default class AdminGiftItems extends Vue {
 
   get bulkList() {
     return [
-      { value: 'delete', label: this.$t('label.delete') },
-      { value: 'used', label: this.$t('label.used') },
-      { value: 'notused', label: this.$t('label.notused') }
+      { value: 'delete', label: this.$t('label.delete') }
     ];
   }
 

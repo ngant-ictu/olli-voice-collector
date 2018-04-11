@@ -8,6 +8,8 @@ en:
     type: Type
     info: Information
     requiredpoint: Required point
+    cloneFrom: Clone from item
+    delete: Delete
     dateCreated: Date created
     dateUsed: Date claimed
     isused: Is used

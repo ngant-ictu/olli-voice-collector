@@ -12,7 +12,7 @@
         <el-col :md="24">
           <el-form autoComplete="on" label-position="left" :model="form" :rules="rules" ref="addForm">
             <el-form-item prop="name" :label="$t('label.name')">
-              <el-input type="text" size="small" v-model="form.name" autofocus></el-input>
+              <el-input type="text" size="small" v-model="form.name" autofocus clearable></el-input>
             </el-form-item>
             <el-form-item prop="requiredpoint" :label="$t('label.requiredpoint')">
               <el-input type="number" size="small" v-model="form.requiredpoint"></el-input>
@@ -26,7 +26,7 @@
             <el-row v-for="(attr, index) in attrs" :key="index" :gutter="10" v-show="showAttrs">
               <el-col :md="12">
                 <el-form-item>
-                  <el-input size="small" :placeholder="attr.name" v-on:input="onInputName(index, $event)">
+                  <el-input size="small" :placeholder="attr.name" v-on:input="onInputName(index, $event)" clearable>
                       <template slot="append" v-if="attr.unit !== ''"><code>{{ attr.unit }}</code></template>
                   </el-input>
                 </el-form-item>

@@ -45,6 +45,10 @@ export const mutations = {
     const index = state.data.findIndex(item => item.id === removedItem.id);
     state.data.splice(index, 1)
     state.totalItems = state.totalItems - 1
+  },
+
+  UPDATE_ITEMS(state, clonedItem) {
+    state.data.push(clonedItem)
   }
 }
 
@@ -78,6 +82,11 @@ export const actions = {
   async update({ commit }, { id, formData }) {
     return await this.$axios.$put(`/v1/gifts/${id}`, formData)
       .then(res => commit('UPDATE_DATA', res.data));
+  },
+
+  async clone({ commit }, { id, formData }) {
+    return await this.$axios.$post(`/v1/gifts/${id}/clone`, formData)
+      .then(res => commit('UPDATE_ITEMS', res.data));
   },
 
   async delete({ commit }, { id }) {

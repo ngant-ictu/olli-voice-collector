@@ -6,6 +6,7 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Core\Helper\Utils as Helper;
 use Shirou\Behavior\Model\Fileable;
+use Gift\Model\GiftStock as GiftStockModel;
 
 /**
  * @Source('fly_gift');
@@ -176,5 +177,10 @@ class Gift extends AbstractModel
         } else {
             return '';
         }
+    }
+
+    public function afterDelete()
+    {
+        return $this->getStocks()->delete();
     }
 }

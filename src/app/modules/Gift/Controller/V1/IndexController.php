@@ -78,6 +78,40 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @Route("/bulk", methods={"POST"})
+     */
+    public function bulkAction()
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+
+        if (count($formData['itemSelected']) > 0 && $formData['actionSelected'] != '') {
+            switch ($formData['actionSelected']) {
+                case 'delete':
+                    $this->db->begin();
+                    foreach ($formData['itemSelected'] as $item) {
+                        $myGift = GiftModel::findFirst([
+                            'id = :id:',
+                            'bind' => ['id' => (int) $item->id]
+                        ])->delete();
+
+                        if ($myGift == false) {
+                            $this->db->rollback();
+                            return;
+                        }
+                    }
+
+                    if ($this->db->commit() == false) {
+                        throw new UserException(ErrorCode::DATA_BULK_FAILED);
+                    }
+
+                    break;
+            }
+        }
+
+        return $this->respondWithOK();
+    }
+
+    /**
      * @Route("/", methods={"POST"})
      */
     public function addAction()
@@ -88,7 +122,8 @@ class IndexController extends AbstractController
         $myGift->assign([
             'name' => (string) $formData['name'],
             'gtid' => (int) $formData['type'],
-            'isused' => (int) GiftModel::IS_NOT_USED
+            'isused' => (int) GiftModel::IS_NOT_USED,
+            'requiredpoint' => (int) $formData['requiredpoint']
         ]);
 
         if (!$myGift->create()) {
@@ -176,6 +211,83 @@ class IndexController extends AbstractController
                     throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
                 }
             }
+        }
+
+        return $this->createItem(
+            $myGift,
+            new GiftTransformer,
+            'data'
+        );
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}/clone", methods={"POST"})
+     */
+    public function cloneAction(int $id = 0)
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+
+        $myGift = GiftModel::findFirst([
+            'id = :id:',
+            'bind' => ['id' => (int) $id]
+        ]);
+
+        if (!$myGift) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $myGiftClone = new GiftModel();
+        $myGiftClone->assign([
+            'name' => (string) $formData['name'],
+            'gtid' => (int) $myGift->gtid,
+            'isused' => (int) GiftModel::IS_NOT_USED,
+            'requiredpoint' => (int) $myGift->requiredpoint
+        ]);
+
+        if (!$myGiftClone->create()) {
+            throw new UserException(ErrorCode::DATA_CREATE_FAIL);
+        }
+
+        if (count($formData['stocks']) > 0) {
+            foreach ($formData['stocks'] as $item) {
+                $myGiftCloneStock = new GiftStockModel();
+                $myGiftCloneStock->assign([
+                    'gid' => (int) $myGiftClone->id,
+                    'gaid' => (int) $item->key,
+                    'value' => (string) $item->value
+                ]);
+
+                if (!$myGiftCloneStock->create()) {
+                    throw new UserException(ErrorCode::DATA_CREATE_FAIL);
+                }
+            }
+        }
+
+        return $this->createItem(
+            $myGiftClone,
+            new GiftTransformer,
+            'data'
+        );
+    }
+
+    /**
+     * @Route("/{id:[0-9]+}", methods={"DELETE"})
+     */
+    public function deleteAction(int $id = 0)
+    {
+        $myGift = GiftModel::findFirst([
+            'id = :id:',
+            'bind' => [
+                'id' => (int) $id
+            ]
+        ]);
+
+        if (!$myGift) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        if (!$myGift->delete()) {
+            throw new UserException(ErrorCode::DATA_DELETE_FAIL);
         }
 
         return $this->createItem(

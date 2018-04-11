@@ -2,37 +2,35 @@
 
 <template>
   <el-dialog
-    :visible.sync="editFormState"
+    :visible.sync="cloneFormState"
     :before-close="onClose"
     :lock-scroll="true"
     v-on:open="onOpen"
     v-on:close="onClosed"
     width="40%">
+    <template slot="title">
+      {{ $t('label.cloneFrom') }}
+      <strong>{{ title }}</strong>
+    </template>
     <el-row>
       <el-col :md="24" :xs="24">
         <el-col :md="24">
-          <el-form autoComplete="on" label-position="left" :model="form" :rules="rules" ref="editForm">
+          <el-form autoComplete="on" label-position="left" :model="form" :rules="rules" ref="cloneForm">
             <el-form-item prop="name" :label="$t('label.name')">
-              <el-input type="text" size="small" v-model="form.name" clearable></el-input>
-            </el-form-item>
-            <el-form-item prop="isused" :label="$t('label.isused')">
-              <el-select size="small" v-model="form.isused" :placeholder="$t('label.selectUsedStatus')" style="width: 100%" :loading="loading">
-                <el-option v-for="item in formSource.isusedList" :key="item.label" :label="item.label" :value="item.value">
-                </el-option>
-              </el-select>
+              <el-input type="text" size="small" v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item :label="$t('label.info')">
               <el-row v-if="form.stocks.length > 0" v-for="(item, index) in form.stocks" :key="index">
-                <el-col :md="24">
-                  <el-input type="text" size="small" v-model="form.stocks[index].value" clearable>
+                <el-form-item>
+                  <el-input type="text" size="small" v-model="form.stocks[index].value">
                     <template slot="prepend">{{ item.label }}</template>
                     <template slot="append" v-if="item.unit !== ''"><code>{{ item.unit }}</code></template>
                   </el-input>
-                </el-col>
+                </el-form-item>
               </el-row>
             </el-form-item>
             <el-form-item style="margin-top: 30px">
-              <el-button type="primary" :loading="loading" @click.native.prevent="onSubmit"> {{ $t('default.update') }}
+              <el-button type="primary" :loading="loading" @click.native.prevent="onSubmit"> {{ $t('default.add') }}
               </el-button>
               <el-button @click="onReset">{{ $t('default.reset') }}</el-button>
             </el-form-item>
@@ -51,18 +49,18 @@ import { Action, State } from 'vuex-class';
 export default class EditForm extends Vue {
   @Action('gifts/get_form_source') formsourceAction;
   @Action('gifts/get') getAction;
-  @Action('gifts/update') updateAction;
+  @Action('gifts/clone') cloneAction;
   @State(state => state.gifts.formSource) formSource;
 
   @Prop() itemId: number;
-  @Prop() editFormState: boolean;
+  @Prop() cloneFormState: boolean;
   @Prop() onClose;
 
   loading: boolean = false;
   form: any = {};
 
   $refs: {
-    editForm: HTMLFormElement
+    cloneForm: HTMLFormElement
   }
 
   get rules() {
@@ -73,15 +71,12 @@ export default class EditForm extends Vue {
           message: this.$t('msg.nameIsRequired'),
           trigger: 'blur'
         }
-      ],
-      isused: [
-        {
-          required: true,
-          message: this.$t('msg.isusedIsRequired'),
-          trigger: 'change'
-        }
       ]
     };
+  }
+
+  get title() {
+    return this.form.name;
   }
 
   async onOpen() {
@@ -89,16 +84,15 @@ export default class EditForm extends Vue {
       .then(res => {
         this.form = {
           name: res.data.name,
-          isused: res.data.isused.value,
           stocks: []
         };
 
         if (res.data.stocks.data.length > 0) {
           res.data.stocks.data.map(item => {
             this.form.stocks.push({
-              key: item.id,
+              key: item.attribute.data.id,
               label: item.attribute.data.name,
-              value: item.value,
+              value: '',
               unit: item.attribute.data.unit
             });
           })
@@ -107,21 +101,21 @@ export default class EditForm extends Vue {
   }
 
   onClosed() {
-    this.$refs.editForm.clearValidate();
+    this.$refs.cloneForm.clearValidate();
   }
 
   onSubmit() {
-    this.$refs.editForm.validate(async valid => {
+    this.$refs.cloneForm.validate(async valid => {
       if (valid) {
         this.loading = true;
 
-        await this.updateAction({ id: this.itemId, formData: this.form })
+        await this.cloneAction({ id: this.itemId, formData: this.form })
           .then(res => {
             this.loading = false;
 
             this.$message({
               showClose: true,
-              message: this.$t('msg.updateGiftSuccess').toString(),
+              message: this.$t('msg.cloneGiftSuccess').toString(),
               type: 'success',
               duration: 3 * 1000
             })
@@ -138,26 +132,7 @@ export default class EditForm extends Vue {
   }
 
   async onReset() {
-    this.$refs.editForm.resetFields();
-    await this.getAction({ id: this.itemId })
-      .then(res => {
-        this.form = {
-          name: res.data.name,
-          isused: res.data.isused.value,
-          stocks: []
-        };
-
-        if (res.data.stocks.data.length > 0) {
-          res.data.stocks.data.map(item => {
-            this.form.stocks.push({
-              key: item.id,
-              label: item.attribute.data.name,
-              value: item.value,
-              unit: item.attribute.data.unit
-            });
-          })
-        }
-      });
+    this.$refs.cloneForm.resetFields();
   }
 
   created() { return this.initData(); }
@@ -165,9 +140,3 @@ export default class EditForm extends Vue {
   async initData() { return await this.formsourceAction() }
 }
 </script>
-
-<style>
-.el-input-group__prepend {
-  width: 100px;
-}
-</style>

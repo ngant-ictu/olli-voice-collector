@@ -59,4 +59,8 @@ class GiftType extends AbstractModel
     //     return $this->validate($validator);
     // }
 
+    public function afterDelete()
+    {
+        return $this->getAttributes()->delete();
+    }
 }
