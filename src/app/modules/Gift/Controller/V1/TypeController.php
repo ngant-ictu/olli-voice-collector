@@ -93,6 +93,7 @@ class TypeController extends AbstractController
 
         $myGiftType = new GiftTypeModel();
         $myGiftType->name = $formData['name'];
+        $myGiftType->status = (int) GiftTypeModel::STATUS_DISABLE;
 
         if (!$myGiftType->create()) {
             throw new UserException(ErrorCode::DATA_CREATE_FAIL);

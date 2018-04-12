@@ -108,7 +108,7 @@ class User extends AbstractModel
     public $regioncode;
 
     /**
-    * @Column(type="integer", nullable=true, column="u_profile_updated")
+    * @Column(type="integer", nullable=true, column="u_is_profile_updated")
     */
     public $isprofileupdated;
 
@@ -203,6 +203,21 @@ class User extends AbstractModel
         ];
     }
 
+    public function getStatusStyle(): string
+    {
+        $class = '';
+        switch ($this->status) {
+            case self::STATUS_ENABLE:
+                $class = 'primary';
+                break;
+            case self::STATUS_DISABLE:
+                $class = 'danger';
+                break;
+        }
+
+        return $class;
+    }
+
     public function getVerifyName(): string
     {
         $name = '';
@@ -250,21 +265,6 @@ class User extends AbstractModel
                 'value' => (string) self::VERIFY_TYPE_PHONE
             ],
         ];
-    }
-
-    public function getStatusStyle(): string
-    {
-        $class = '';
-        switch ($this->status) {
-            case self::STATUS_ENABLE:
-                $class = 'primary';
-                break;
-            case self::STATUS_DISABLE:
-                $class = 'danger';
-                break;
-        }
-
-        return $class;
     }
 
     public function getVerifyTypeName(): string

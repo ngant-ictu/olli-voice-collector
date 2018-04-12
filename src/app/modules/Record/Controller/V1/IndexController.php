@@ -46,6 +46,64 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @Route("/", methods={"GET"})
+     */
+    public function listAction()
+    {
+        $page = (int) $this->request->getQuery('page', null, 1);
+        $formData = [];
+        $hasMore = true;
+
+        // Search keyword in specified field model
+        $searchKeywordInData = [];
+        $page = (int) $this->request->getQuery('page', null, 1);
+        $orderBy = (string) $this->request->getQuery('orderby', null, 'datecreated');
+        $orderType = (string) $this->request->getQuery('ordertype', null, 'asc');
+        $keyword = (string) $this->request->getQuery('keyword', null, '');
+
+        // optional Filter
+        $status = (int) $this->request->getQuery('status', null, 0);
+
+        $formData['columns'] = ['uid', 'status', 'datecreated'];
+        $formData['conditions'] = [
+            'keyword' => $keyword,
+            'searchKeywordIn' => $searchKeywordInData,
+            'filterBy' => [
+                'status' => $status
+            ]
+        ];
+        $formData['orderBy'] = $orderBy;
+        $formData['orderType'] = $orderType;
+        $formData['groupBy'] = 'uid';
+
+        $myVoices = VoiceModel::paginate($formData, $this->recordPerPage, $page);
+
+        if ($myVoices->total_pages > 0) {
+            if ($page == $myVoices->total_pages) {
+                $hasMore = false;
+            }
+
+            return $this->createCollection(
+                $myVoices->items,
+                new VoiceTransformer,
+                'data',
+                [
+                    'meta' => [
+                        'recordPerPage' => $this->recordPerPage,
+                        'hasMore' => $hasMore,
+                        'totalItems' => $myVoices->total_items,
+                        'orderBy' => $orderBy,
+                        'orderType' => $orderType,
+                        'page' => $page
+                    ]
+                ]
+            );
+        } else {
+            return $this->respondWithArray([], 'data');
+        }
+    }
+
+    /**
      * @Route("/", methods={"POST"})
      */
     public function createAction()
@@ -76,12 +134,20 @@ class IndexController extends AbstractController
             throw new UserException(ErrorCode::DATA_CREATE_FAIL);
         }
 
-        // Update recording times in Firebase
-
         return $this->createItem(
             $myVoice,
             new VoiceTransformer,
             'data'
         );
+    }
+
+    /**
+     * @Route("/formsource", methods={"GET"})
+     */
+    public function formsourceAction()
+    {
+        return $this->respondWithArray([
+            'statusList' => VoiceModel::getStatusList()
+        ], 'data');
     }
 }

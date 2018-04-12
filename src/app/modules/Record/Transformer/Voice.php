@@ -4,27 +4,41 @@ namespace Record\Transformer;
 use League\Fractal\TransformerAbstract;
 use Moment\Moment;
 use Record\Model\Voice as VoiceModel;
+use Record\Transformer\VoiceItem as VoiceItemTransformer;
+use User\Model\User as UserModel;
+use User\Transformer\User as UserTransformer;
 
 class Voice extends TransformerAbstract
 {
     protected $availableIncludes = [];
+    protected $defaultIncludes = [
+        'items',
+        'user'
+    ];
 
-    public function transform(VoiceModel $voice)
+    public function transform($voice)
     {
-        $humandatecreated = new Moment($voice->datecreated);
-
         return [
-            'id' => (string) $voice->id,
-            'sid' => (string) $voice->sid,
-            'uid' => (string) $voice->uid,
-            'filepath' => (string) $voice->getFilePath(),
-            'status' =>  [
-                'label' => (string) $voice->getStatusName(),
-                'value' => (string) $voice->status,
-                'style' => (string) $voice->getStatusStyle()
-            ],
-            'datecreated' => (string) $voice->datecreated,
-            'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i')
+            'uid' => (string) $voice->uid
         ];
+    }
+
+    public function includeItems($voice)
+    {
+        $myVoices = VoiceModel::find([
+            'uid = :uid:',
+            'bind' => [
+                'uid' => (int) $voice->uid
+            ]
+        ]);
+
+        return $this->collection($myVoices, new VoiceItemTransformer);
+    }
+
+    public function includeUser($voice)
+    {
+        $myUser = UserModel::findFirstById($voice->uid);
+
+        return $this->item($myUser, new UserTransformer);
     }
 }

@@ -67,6 +67,54 @@ class GiftType extends AbstractModel
     //     return $this->validate($validator);
     // }
 
+    public function getStatusName(): string
+    {
+        $name = '';
+        $lang = self::getStaticDi()->get('lang');
+
+        switch ($this->status) {
+            case self::STATUS_ENABLE:
+                $name = $lang->_('label-status-enable');
+                break;
+            case self::STATUS_DISABLE:
+                $name = $lang->_('label-status-disable');
+                break;
+        }
+
+        return $name;
+    }
+
+    public static function getStatusList()
+    {
+        $lang = self::getStaticDi()->get('lang');
+
+        return $data = [
+            [
+                'label' => $lang->_('label-status-enable'),
+                'value' => (string) self::STATUS_ENABLE
+            ],
+            [
+                'label' => $lang->_('label-status-disable'),
+                'value' => (string) self::STATUS_DISABLE
+            ],
+        ];
+    }
+
+    public function getStatusStyle(): string
+    {
+        $class = '';
+        switch ($this->status) {
+            case self::STATUS_ENABLE:
+                $class = 'primary';
+                break;
+            case self::STATUS_DISABLE:
+                $class = 'danger';
+                break;
+        }
+
+        return $class;
+    }
+
     public function afterDelete()
     {
         return $this->getAttributes()->delete();

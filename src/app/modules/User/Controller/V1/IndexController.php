@@ -393,7 +393,6 @@ class IndexController extends AbstractController
             'oauthuid = :oauthuid: AND status = :status:',
             'bind' => [
                 'oauthuid' => (string) $firebaseUid,
-                'oauthaccesstoken' => (string) $formData['token'],
                 'status' => UserModel::STATUS_ENABLE
             ]
         ]);
@@ -417,6 +416,7 @@ class IndexController extends AbstractController
                 'status' => (int) UserModel::STATUS_ENABLE,
                 'oauthprovider' => 'firebase',
                 'oauthuid' => (string) $firebaseUid,
+                'oauthaccesstoken' => (string) $formData['token'],
                 'isprofileupdated' => (int) UserModel::IS_NOT_PROFILE_UPDATED
             ]);
 

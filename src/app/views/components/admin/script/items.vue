@@ -55,7 +55,7 @@ import EditForm from '~/components/admin/script/edit-form.vue';
     EditForm
   }
 })
-export default class AdminUserItems extends Vue {
+export default class AdminScriptItems extends Vue {
   @Prop() scripts: any[];
   @Action('scripts/bulk') bulkAction;
   @Action('scripts/get_all') listAction;

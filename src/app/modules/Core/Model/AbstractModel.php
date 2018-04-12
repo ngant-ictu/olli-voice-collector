@@ -110,11 +110,19 @@ abstract class AbstractModel extends PhModel
             $order = [$model . '.' . $formData['orderBy'] . ' ' . $formData['orderType']];
         }
 
+        // group by
+        if (isset($formData['groupBy']) && $formData['groupBy'] != '') {
+            $groupby = [$model . '.' . $formData['groupBy']];
+        } else {
+            $groupby = null;
+        }
+
         $params = [
             'models' => $model,
             'columns' => $formData['columns'],
             'conditions' => $formData['conditions'],
-            'order' => $order
+            'order' => $order,
+            'group' => $groupby
         ];
 
         $builder = new PhBuilder($params);

@@ -1,0 +1,53 @@
+---
+en:
+  form:
+    search: Search
+    status: Status
+  label:
+    command: Command
+    text: Text
+    status: Status
+    selectStatus: Select status
+    dateCreated: Date created
+  msg:
+    commandIsRequired: Command is required.
+    textIsRequired: Text is required.
+    statusIsRequired: Status is required.
+    importSuccess: items has been imported.
+    updateSuccess: Update script successfully.
+    deleteSuccess: deleted successfully.
+    confirmBulk: Are you sure?
+    fileTypeAllowed: Allowed .txt format
+  info:
+    edit:
+      description: Edit script information
+      extraDescription: Edit detail script information
+
+vi:
+  form:
+    search: Tìm kiếm
+    status: Trạng thái
+  label:
+    command: Command
+    text: Text
+    status: Trạng thái
+    selectStatus: Chọn trạng thái
+    selectFiles: Chọn tập tin
+    dateCreated: Ngày tạo
+    delete: Xoá
+    enable: Hiện
+    disable: Ẩn
+    import: Nhập
+  msg:
+    commandIsRequired: Command không được để trống
+    textIsRequired: Text không được để trống.
+    statusIsRequired: Vui lòng chọn trạng thái.
+    importSuccess: dòng đã được nhập liệu thành công.
+    updateSuccess: Cập nhật script thành công.
+    deleteSuccess: đã được xoá.
+    confirmBulk: Bạn có muốn thực hiện hành động này?
+    fileTypeAllowed: Chấp nhận dạng .txt
+  info:
+    edit:
+      description: Cập nhật thông tin script
+      extraDescription: Cập nhật chi tiết thông tin script
