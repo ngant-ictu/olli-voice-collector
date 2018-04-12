@@ -101,6 +101,8 @@ class StoreController extends AbstractController
             throw new \Exception('Not enough point!!!');
         }
 
+        // check if user update profile
+
         $myUserGift = new UserGiftModel();
         $myUserGift->assign([
             'uid' => (int) $myUser->id,
@@ -135,8 +137,5 @@ class StoreController extends AbstractController
         } else {
             throw new \Exception('Can not receive a gift.');
         }
-
-        die;
-
     }
 }

@@ -108,6 +108,11 @@ class User extends AbstractModel
     public $regioncode;
 
     /**
+    * @Column(type="integer", nullable=true, column="u_profile_updated")
+    */
+    public $isprofileupdated;
+
+    /**
     * @Column(type="integer", nullable=true, column="u_is_verified")
     */
     public $isverified;
@@ -123,6 +128,8 @@ class User extends AbstractModel
     const VERIFY_TYPE_PHONE = 3;
     const IS_VERIFIED = 1;
     const IS_NOT_VERIFIED = 3;
+    const IS_PROFILE_UPDATED = 1;
+    const IS_NOT_PROFILE_UPDATED = 3;
 
     public function initialize()
     {

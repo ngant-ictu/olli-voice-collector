@@ -393,6 +393,7 @@ class IndexController extends AbstractController
             'oauthuid = :oauthuid: AND status = :status:',
             'bind' => [
                 'oauthuid' => (string) $firebaseUid,
+                'oauthaccesstoken' => (string) $formData['token'],
                 'status' => UserModel::STATUS_ENABLE
             ]
         ]);
@@ -402,7 +403,7 @@ class IndexController extends AbstractController
             $myFireBase = $this->firebase->getDatabase();
             $myFireBase->getReference('/users/' . $firebaseUid)
                 ->set([
-                    'record_times' => 500,
+                    'record_times' => $this->config->default->voices->limit,
                     'point' => 0
                 ]);
 
@@ -415,7 +416,8 @@ class IndexController extends AbstractController
                 'groupid' => (string) 'member',
                 'status' => (int) UserModel::STATUS_ENABLE,
                 'oauthprovider' => 'firebase',
-                'oauthuid' => (string) $firebaseUid
+                'oauthuid' => (string) $firebaseUid,
+                'isprofileupdated' => (int) UserModel::IS_NOT_PROFILE_UPDATED
             ]);
 
             if (!$myUser->create()) {

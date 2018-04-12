@@ -40,6 +40,7 @@ voices:
     audio/ogg
     audio/webm
     audio/wave
+  limit: 500
 gifts:
   directory: /app/storage/files/gifts/
   minsize: 100
