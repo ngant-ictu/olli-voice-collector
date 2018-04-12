@@ -10,6 +10,8 @@ use Gift\Model\GiftType as GiftTypeModel;
 use Gift\Transformer\Gift as GiftTransformer;
 use Gift\Transformer\GiftType as GiftTypeTransformer;
 use Gift\Transformer\GiftStore as GiftStoreTransformer;
+use User\Model\UserGift as UserGiftModel;
+use Kreait\Firebase\Exception\ApiException;
 
 /**
  * @RoutePrefix("/v1/stores")
@@ -88,14 +90,51 @@ class StoreController extends AbstractController
         $myReceiveGift = $myGifts[0];
 
         // Compare current point of user with gift required point
-        $myUserPoint = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue();
-        $myUserRecordTimes = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->getValue();
-
+        try {
+            $myUserPoint = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue();
+            $myUserRecordTimes = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->getValue();
+        } catch (ApiException $e) {
+            $response = $e->getResponse();
+            throw new \Exception($response->getBody());
+        }
         if ($myUserPoint < $myReceiveGift->requiredpoint) {
             throw new \Exception('Not enough point!!!');
         }
 
+        $myUserGift = new UserGiftModel();
+        $myUserGift->assign([
+            'uid' => (int) $myUser->id,
+            'gid' => (int) $myReceiveGift->id
+        ]);
 
+        if ($myUserGift->create()) {
+            // Change gift status to used
+            $myReceiveGift->isused = GiftModel::IS_USED;
+            $myReceiveGift->dateused = time();
+            if (!$myReceiveGift->update()) {
+                throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+            }
+
+            //reduce point in firebase
+            $userFieldUpdate = [
+                'point' => $myUserPoint - $myReceiveGift->requiredpoint
+            ];
+            try {
+                $myFireBase->getReference('/users/' . $myUser->oauthuid)->update($userFieldUpdate);
+            } catch (ApiException $e) {
+                $response = $e->getResponse();
+                throw new \Exception($response->getBody());
+            }
+
+            // Return a gift information
+            return $this->createItem(
+                $myReceiveGift,
+                new GiftTransformer,
+                'data'
+            );
+        } else {
+            throw new \Exception('Can not receive a gift.');
+        }
 
         die;
 
