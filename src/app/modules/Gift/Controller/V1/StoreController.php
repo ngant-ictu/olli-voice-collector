@@ -92,7 +92,6 @@ class StoreController extends AbstractController
         // Compare current point of user with gift required point
         try {
             $myUserPoint = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue();
-            $myUserRecordTimes = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->getValue();
         } catch (ApiException $e) {
             $response = $e->getResponse();
             throw new \Exception($response->getBody());

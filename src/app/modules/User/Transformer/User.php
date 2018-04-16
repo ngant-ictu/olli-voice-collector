@@ -3,6 +3,7 @@ namespace User\Transformer;
 
 use League\Fractal\TransformerAbstract;
 use User\Model\User as UserModel;
+use User\Model\UserProfile as UserProfileModel;
 use User\Transformer\UserProfile as UserProfileTransformer;
 use Moment\Moment;
 
@@ -48,6 +49,10 @@ class User extends TransformerAbstract
     {
         $profile = $user->getProfile();
 
-        return $this->item($profile, new UserProfileTransformer);
+        if ($profile) {
+            return $this->item($profile, new UserProfileTransformer);
+        } else {
+            return $this->item(new UserProfileModel, new UserProfileTransformer);
+        }
     }
 }

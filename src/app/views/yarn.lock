@@ -2957,6 +2957,10 @@ hosted-git-info@^2.1.4:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.6.0.tgz#23235b29ab230c576aab0d4f13fc046b0b038222"
 
+howler@^2.0.5:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.0.9.tgz#74f08191f857e26dc8a5dc6cba195bd1cdd97e5d"
+
 html-comment-regex@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/html-comment-regex/-/html-comment-regex-1.1.1.tgz#668b93776eaae55ebde8f3ad464b307a4963625e"
@@ -3738,6 +3742,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
+math-clamp@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/math-clamp/-/math-clamp-1.0.0.tgz#3ca5facbf6ab9822154b707e641c6f1ff7c2af66"
+
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"
@@ -4272,6 +4280,10 @@ object-copy@^0.1.0:
 object-keys@^1.0.11, object-keys@^1.0.8:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.0.11.tgz#c54601778ad560f1142ce0e01bcca8b56d13426d"
+
+object-values@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/object-values/-/object-values-1.0.0.tgz#72af839630119e5b98c3b02bb8c27e3237158105"
 
 object-visit@^1.0.0:
   version "1.0.1"
@@ -6536,6 +6548,15 @@ vue-class-component@^6.1.2:
 vue-hot-reload-api@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
+
+vue-howler@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/vue-howler/-/vue-howler-0.7.0.tgz#4ca885a6b2b32173a29ad400a2519561d1e0c14f"
+  dependencies:
+    howler "^2.0.5"
+    math-clamp "^1.0.0"
+    object-assign "^4.1.1"
+    object-values "^1.0.0"
 
 vue-i18n@*, vue-i18n@^7.6.0:
   version "7.6.0"

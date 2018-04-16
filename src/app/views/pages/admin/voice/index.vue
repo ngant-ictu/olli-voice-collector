@@ -3,7 +3,7 @@
 <template>
   <el-row>
     <el-col :span="24">
-      <div class="filter-icon"><i class="el-icon-fa-text-width"></i></div>
+      <div class="filter-icon"><i class="el-icon-fa-microphone"></i></div>
       <breadcrumb :data="[
         { name: $t('page.index.title'), link: '/admin/script' },
         { name: $t('default.list'), link: '' }

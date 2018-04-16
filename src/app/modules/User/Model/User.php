@@ -58,7 +58,7 @@ class User extends AbstractModel
     public $status;
 
     /**
-    * @Column(type="integer", nullable=true, column="u_oauth_uid")
+    * @Column(type="string", nullable=true, column="u_oauth_uid")
     */
     public $oauthuid;
 

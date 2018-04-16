@@ -11,6 +11,7 @@ use Core\Helper\Utils as Helper;
 /**
  * @Source('fly_voice');
  * @Behavior('\Shirou\Behavior\Model\Timestampable');
+ * @HasOne('vsid', '\Record\Model\VoiceScript', 'id', {'alias': 'voicescript'})
  */
 class Voice extends AbstractModel
 {
@@ -32,7 +33,7 @@ class Voice extends AbstractModel
     public $id;
 
     /**
-    * @Column(type="integer", nullable=true, column="v_file_path")
+    * @Column(type="string", nullable=true, column="v_file_path")
     */
     public $filepath;
 

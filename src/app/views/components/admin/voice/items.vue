@@ -3,38 +3,86 @@
 <template>
   <section>
     <el-table :data="voices" style="width: 100%">
-      <el-table-column :label="$t('label.uid')">
+      <el-table-column label="User voice">
         <template slot-scope="scope">
-          Total: {{ scope.row.items.data.length }}
-          Pending: {{ totalPending(scope.row) }}
-          Approved: {{ totalApproved(scope.row) }}
-          Rejected: {{ totalRejected(scope.row) }}
+          <div class="avatar">
+            <img v-if="scope.row.user.data.avatar !== ''" :src="scope.row.user.data.avatar" width="30" height="30">
+            <img v-else src="/img/default_avatar.png" width="30" height="30">
+          </div>
+          <div class="fullname">
+            <code type="danger">{{ scope.row.user.data.mobilenumber }}</code>
+            <p>
+              <small>{{ scope.row.user.data.fullname !== '' ? scope.row.user.data.fullname : 'unknow'}}</small>
+            </p>
+          </div>
+          <div class="info">
+            <el-badge :value="scope.row.items.data.length" class="item">
+              <el-tag type="primary" size="small">Total</el-tag>
+            </el-badge>
+            <span class="item">
+              <el-badge :value="totalPending(scope.row)" class="item">
+                <el-tag type="warning" size="small">Pending</el-tag>
+              </el-badge>
+            </span>
+            <span class="item">
+              <el-badge :value="totalApproved(scope.row)" class="item">
+                <el-tag type="success" size="small">Approved</el-tag>
+              </el-badge>
+            </span>
+            <span class="item">
+              <el-badge :value="totalRejected(scope.row)" class="item">
+                <el-tag type="info" size="small">Rejected</el-tag>
+              </el-badge>
+            </span>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column class-name="td-operation" width="130">
+      <el-table-column class-name="td-operation" width="150" label="Validator">
         <template slot-scope="scope">
-          button
-          <!-- <el-button-group class="operation">
-            <el-button icon="el-icon-edit" size="mini" @click="onShowEditForm(scope.row.id)"></el-button>
-            <delete-button :id="scope.row.id" store="voices"></delete-button>
-          </el-button-group> -->
+          <div v-if="getValidateUser(scope.row).length > 0">
+            <div class="avatar" v-for="(voiceitem, index) in getValidateUser(scope.row)" :key="index">
+              <el-tooltip class="item" effect="dark" :content="voiceitem.validatedby.fullname">
+                <img v-if="voiceitem.validatedby.avatar !== ''" :src="voiceitem.validatedby.avatar" width="30" height="30">
+                <img v-else src="/img/default_avatar.png" width="30" height="30">
+              </el-tooltip>
+              <el-button size="mini" icon="el-icon-fa-flash"
+                v-if="authUser.sub.id === voiceitem.validatedby.id"
+                @click="onShowValidateForm(scope.row)"
+                style="position: absolute; margin-left: 5px;">
+              </el-button>
+            </div>
+          </div>
+          <div v-else>
+            <el-button size="small" icon="el-icon-fa-flash"
+              @click="onShowValidateForm(scope.row)">
+              Validate
+            </el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
     <scroll-top :duration="1000" :timing="'ease'"></scroll-top>
+    <validate-form :validateFormState="visible" :userId="userId" :onClose="onHideValidateForm"></validate-form>
   </section>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "nuxt-property-decorator";
-import { Action } from 'vuex-class';
+import { Action, State } from 'vuex-class';
+import ValidateForm from '~/components/admin/voice/validate-form.vue';
 
 @Component({
-  components: {}
+  components: {
+    ValidateForm
+  }
 })
 export default class AdminVoiceItems extends Vue {
   @Prop() voices: any[];
   @Action('voices/get_all') listAction;
+  @State(state => state.authUser) authUser;
+
+  visible: boolean = false;
+  userId: number = 0;
 
   totalPending(row) {
     return row.items.data.filter(voice => voice.status.value === '5').length
@@ -48,10 +96,56 @@ export default class AdminVoiceItems extends Vue {
     return row.items.data.filter(voice => voice.status.value === '3').length
   }
 
+  getValidateUser(row) {
+    let flags = {};
+    return row.items.data.filter(voice => {
+      if (flags[voice.validatedby])
+        return;
 
+      if (voice.validatedby === 0)
+        return false;
+
+      flags[voice.validatedby] = true;
+      return voice;
+    });
+  }
+
+  onShowValidateForm(row) {
+    this.visible = !this.visible;
+    this.userId = row.uid;
+  }
+
+  onHideValidateForm() { this.visible = false; }
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+.avatar {
+  float: left;
+  margin-right: 10px;
+  padding-top: 10px;
+  display: inline-block;
+  img {
+    border-radius: 30px !important;
+  }
+}
+.fullname {
+  float: left;
+  display: inline-block;
+  code {
+    color: #409eff;
+  }
+  p {
+    margin: 0 auto;
+  }
+}
+.info {
+  float: left;
+  margin-left: 100px;
+  margin-top: 10px;
+  .item {
+    display: inline-block;
+    margin-left: 30px;
+  }
+}
 </style>

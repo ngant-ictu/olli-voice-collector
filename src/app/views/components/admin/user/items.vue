@@ -155,7 +155,7 @@ export default class AdminUserItems extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .avatar {
   margin-right: 10px;
   float: left;
