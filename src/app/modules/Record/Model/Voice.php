@@ -153,7 +153,7 @@ class Voice extends AbstractModel
         $class = '';
         switch ($this->status) {
             case self::STATUS_APPROVED:
-                $class = 'primary';
+                $class = 'success';
                 break;
             case self::STATUS_REJECTED:
                 $class = 'danger';

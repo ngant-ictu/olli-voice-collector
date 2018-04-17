@@ -236,4 +236,56 @@ class IndexController extends AbstractController
             return $this->respondWithArray([], 'data');
         }
     }
+
+    /**
+     * @Route("/validate/{id:[0-9]+}", methods={"PUT"})
+     */
+    public function validateAction($id = 0)
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+
+        $myUser = UserModel::findFirst([
+            'id = :id: AND status = :status:',
+            'bind' => [
+                'id' => $this->getDI()->getAuth()->getUser()->id,
+                'status' => UserModel::STATUS_ENABLE
+            ]
+        ]);
+
+        if (!$myUser) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $myVoice = VoiceModel::findFirst([
+            'id = :id:',
+            'bind' => [
+                'id' => (int) $id
+            ]
+        ]);
+
+        if (!$myVoice) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        if (
+            ($myVoice->validatedby != 0 && $myVoice->validatedby != $myUser->id)
+            ||
+            ($myVoice->validatedby == 0 && $myUser->id == $myVoice->uid)
+        ) {
+            throw new \Exception('User validate rejected!!!');
+        }
+
+        $myVoice->status = (int) $formData['status'];
+        $myVoice->validatedby = (int) $myUser->id;
+
+        if (!$myVoice->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
+        return $this->createItem(
+            $myVoice,
+            new VoiceTransformer,
+            'data'
+        );
+    }
 }

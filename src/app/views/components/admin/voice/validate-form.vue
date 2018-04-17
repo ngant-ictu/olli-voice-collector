@@ -9,7 +9,12 @@
     >
     <el-row>
       <el-col :md="24" :xs="24" v-for="(voice, index) in uservoices" :key="index">
-        <howler-player :sources="[voice.filepath]" :voicescript="voice.voicescript.data"></howler-player>
+        <validate-item
+          :sources="[voice.filepath]"
+          :voice="voice"
+          :voicescript="voice.voicescript.data"
+          :uid="userId">
+        </validate-item>
       </el-col>
     </el-row>
   </el-dialog>
@@ -18,11 +23,11 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'nuxt-property-decorator';
 import { Action, State } from 'vuex-class';
-import HowlerPlayer from '~/components/admin/howler-player.vue';
+import ValidateItem from '~/components/admin/voice/validate-item.vue';
 
 @Component({
   components: {
-    HowlerPlayer
+    ValidateItem
   }
 })
 export default class ValidateForm extends Vue {

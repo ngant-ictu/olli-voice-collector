@@ -64,5 +64,9 @@ export const actions = {
   async update({ commit }, { id, formData }) {
     return await this.$axios.$put(`/v1/records/${id}`, formData)
       .then(res => commit('UPDATE_DATA', res.data));
+  },
+
+  async validate({ commit }, { id, formData }) {
+    return await this.$axios.$put(`/v1/records/validate/${id}`, formData);
   }
 }
