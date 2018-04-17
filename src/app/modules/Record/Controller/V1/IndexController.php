@@ -243,6 +243,7 @@ class IndexController extends AbstractController
     public function validateAction($id = 0)
     {
         $formData = (array) $this->request->getJsonRawBody();
+        $myFireBase = $this->firebase->getDatabase();
 
         $myUser = UserModel::findFirst([
             'id = :id: AND status = :status:',
@@ -273,6 +274,23 @@ class IndexController extends AbstractController
             ($myVoice->validatedby == 0 && $myUser->id == $myVoice->uid)
         ) {
             throw new \Exception('User validate rejected!!!');
+        }
+
+        // increse point in firebase
+        try {
+            $myUserPoint = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue();
+        } catch (ApiException $e) {
+            $response = $e->getResponse();
+            throw new \Exception($response->getBody());
+        }
+        $userFieldUpdate = [
+            'point' => $myUserPoint + 1
+        ];
+        try {
+            $myFireBase->getReference('/users/' . $myUser->oauthuid)->update($userFieldUpdate);
+        } catch (ApiException $e) {
+            $response = $e->getResponse();
+            throw new \Exception($response->getBody());
         }
 
         $myVoice->status = (int) $formData['status'];

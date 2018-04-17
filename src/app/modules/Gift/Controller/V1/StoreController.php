@@ -48,7 +48,7 @@ class StoreController extends AbstractController
      */
     public function getAction($typeid = 0)
     {
-        $sql = 'SELECT gt_id, g_name, g_required_point, COUNT(g_name) as quantity FROM fly_gift '
+        $sql = 'SELECT gt_id, g_name, g_required_point, COUNT(g_name) as quantity, g_cover FROM fly_gift '
             . 'WHERE gt_id = '. (int) $typeid
             . ' AND g_is_used = '. GiftModel::IS_NOT_USED
             . ' GROUP BY g_name, g_required_point';

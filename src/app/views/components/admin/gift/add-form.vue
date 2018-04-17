@@ -17,7 +17,7 @@
               <el-input type="number" size="small" v-model="form.requiredpoint"></el-input>
             </el-form-item>
             <el-form-item prop="type" :label="$t('label.type')">
-              <el-select size="small" v-model="form.type" :placeholder="$t('label.selectType')"  style="width: 100%;" :loading="loading" @change="onChangeType">
+              <el-select size="small" v-model="form.type" :placeholder="$t('label.selectType')" style="width: 100%;" :loading="loading" @change="onChangeType">
                 <el-option v-for="item in formSource.typeList" :key="item.id" :label="item.name" :value="item.id">
                 </el-option>
               </el-select>
@@ -31,6 +31,23 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-form-item>
+              <el-upload
+                class="cover-uploader"
+                ref="file"
+                action=""
+                accept="image/jpg,image/png,image/jpeg"
+                :multiple="false"
+                :auto-upload="false"
+                :with-credentials="true"
+                :limit="1"
+                :file-list="form.files"
+                :on-change="onChangeFile"
+                :on-remove="onRemoveFile">
+                <img v-if="form.files.length > 0" :src="coverPreview" />
+                <i v-else class="el-icon-plus cover-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
             <el-form-item style="margin-top: 30px">
               <el-button type="primary" :loading="loading" @click.native.prevent="onSubmit"> {{ $t('default.add') }}
               </el-button>
@@ -63,8 +80,10 @@ export default class AddForm extends Vue {
     name: '',
     type: null,
     requiredpoint: 1,
-    attrs: null
+    attrs: null,
+    files: []
   };
+  coverPreview: string = '';
 
   $refs: {
     addForm: HTMLFormElement
@@ -96,6 +115,15 @@ export default class AddForm extends Vue {
     };
   }
 
+  onChangeFile(file, filelist) {
+    this.form.files = filelist;
+    this.coverPreview = URL.createObjectURL(filelist[0].raw);
+  }
+
+  onRemoveFile(file, filelist) {
+    this.form.files = filelist;
+  }
+
   onInputName(index, value) {
     this.form.attrs[index].value = value;
   }
@@ -107,25 +135,27 @@ export default class AddForm extends Vue {
   }
 
   onSubmit() {
+    const that = this;
+
     this.$refs.addForm.validate(async valid => {
       if (valid) {
-        this.loading = true;
+        that.loading = true;
 
-        await this.addAction({ formData: this.form })
+        await that.addAction({ formData: that.form })
           .then(res => {
-            this.loading = false;
+            that.loading = false;
 
-            this.$message({
+            that.$message({
               showClose: true,
-              message: this.$t('msg.addGiftSuccess').toString(),
+              message: that.$t('msg.addGiftSuccess').toString(),
               type: 'success',
               duration: 3 * 1000
             })
 
-            return this.onClose();
+            return that.onClose();
           })
           .catch(err => {
-            this.loading = false;
+            that.loading = false;
           });
       } else {
         return false;
@@ -159,3 +189,30 @@ export default class AddForm extends Vue {
   async initData() { return await this.formsourceAction(); }
 }
 </script>
+
+<style lang="scss">
+.cover-uploader {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+
+  .el-upload {
+    width: 100% !important;
+    img {
+      display: block !important;
+    }
+  }
+  .cover-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    line-height: 178px;
+    text-align: center;
+  }
+  &:hover {
+    border-color: #409EFF;
+  }
+}
+</style>

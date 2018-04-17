@@ -9,8 +9,8 @@
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <div class="cover">
-            <img v-if="scope.row.cover !== ''" :src="scope.row.cover" width="70" height="70">
-            <img v-else src="/img/default_image.jpg" width="70" height="70">
+            <img v-if="scope.row.cover !== ''" :src="scope.row.cover" height="50">
+            <img v-else src="/img/default_image.jpg" width="50" height="50">
           </div>
           <span class="name">{{ scope.row.name }}</span>
           <br />

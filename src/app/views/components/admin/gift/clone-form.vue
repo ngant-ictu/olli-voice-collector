@@ -33,7 +33,7 @@
               </el-row>
             </el-form-item>
             <el-form-item style="margin-top: 30px">
-              <el-button type="primary" :loading="loading" @click.native.prevent="onSubmit"> {{ $t('default.add') }}
+              <el-button type="primary" :loading="loading" @click.native.prevent="onSubmit"> {{ $t('default.clone') }}
               </el-button>
               <el-button @click="onReset">{{ $t('default.reset') }}</el-button>
             </el-form-item>
@@ -96,7 +96,7 @@ export default class EditForm extends Vue {
             this.form.stocks.push({
               key: item.attribute.data.id,
               label: item.attribute.data.name,
-              value: '',
+              value: item.value,
               unit: item.attribute.data.unit
             });
           })

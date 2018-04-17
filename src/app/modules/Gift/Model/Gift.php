@@ -109,7 +109,9 @@ class Gift extends AbstractModel
             ];
 
             $this->addBehavior(new Fileable([
-                'beforeDelete' => $configBehavior
+                'beforeCreate' => $configBehavior,
+                'beforeDelete' => $configBehavior,
+                'beforeUpdate' => $configBehavior
             ]));
         }
     }

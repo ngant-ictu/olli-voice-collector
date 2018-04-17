@@ -116,7 +116,7 @@ class IndexController extends AbstractController
      */
     public function addAction()
     {
-        $formData = (array) $this->request->getJsonRawBody();
+        $formData = (array) $this->request->getPost();
 
         $myGift = new GiftModel();
         $myGift->assign([
@@ -130,13 +130,14 @@ class IndexController extends AbstractController
             throw new UserException(ErrorCode::DATA_CREATE_FAIL);
         }
 
-        if (count($formData['attrs']) > 0) {
-            foreach ($formData['attrs'] as $attr) {
+        $attrs = json_decode($formData['attrs'], JSON_UNESCAPED_UNICODE);
+        if (count($attrs) > 0) {
+            foreach ($attrs as $attr) {
                 $myGiftStock = new GiftStockModel();
                 $myGiftStock->assign([
                     'gid' => (int) $myGift->id,
-                    'gaid' => (int) $attr->key,
-                    'value' => (string) $attr->value
+                    'gaid' => (int) $attr['key'],
+                    'value' => (string) $attr['value']
                 ]);
 
                 if (!$myGiftStock->create()) {
@@ -244,6 +245,17 @@ class IndexController extends AbstractController
             'isused' => (int) GiftModel::IS_NOT_USED,
             'requiredpoint' => (string) $formData['requiredpoint']
         ]);
+
+        if ($myGift->cover != '') {
+            $giftCoverPath = $this->config->default->gifts->directory . $myGift->cover;
+            $fileExt = explode('/', $this->file->getMimetype($giftCoverPath))[1];
+
+            $giftCloneModelPath = Helper::getCurrentDateDirName() . time() . '.' . $fileExt;
+            $giftClonePath = $this->config->default->gifts->directory . $giftCloneModelPath;
+            if ($this->file->copy($giftCoverPath, $giftClonePath)) {
+                $myGiftClone->cover = $giftCloneModelPath;
+            }
+        }
 
         if (!$myGiftClone->create()) {
             throw new UserException(ErrorCode::DATA_CREATE_FAIL);
