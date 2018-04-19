@@ -3,7 +3,8 @@ export const state = () => ({
   query: {},
   formSource: {},
   totalItems: 0,
-  recordPerPage: 0
+  recordPerPage: 0,
+  page: 1
 })
 
 export const mutations = {
@@ -16,6 +17,10 @@ export const mutations = {
     state.recordPerPage =
       typeof response.meta !== 'undefined'
         ? response.meta.recordPerPage
+        : 0
+    state.page =
+      typeof response.meta !== 'undefined'
+        ? response.meta.page
         : 0
   },
 

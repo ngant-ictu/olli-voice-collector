@@ -37,9 +37,11 @@ voices:
   isoverwrite: false
   mimes:
     audio/wav
+    audio/vnd.wav
     audio/ogg
     audio/webm
     audio/wave
+    audio/vnd.wave
   limit: 500
 gifts:
   directory: /app/storage/files/gifts/

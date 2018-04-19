@@ -56,7 +56,7 @@
         <template slot-scope="scope">
           <el-button-group class="operation">
             <el-button icon="el-icon-fa-clone" size="mini" @click="onShowCloneForm(scope.row.id)"></el-button>
-            <el-button icon="el-icon-edit" size="mini" @click="onShowEditForm(scope.row.id)"></el-button>
+            <el-button icon="el-icon-fa-pencil" size="mini" @click="onShowEditForm(scope.row.id)"></el-button>
             <delete-button :id="scope.row.id" store="gifts"></delete-button>
           </el-button-group>
         </template>

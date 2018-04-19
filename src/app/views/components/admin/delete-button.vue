@@ -12,7 +12,7 @@
       </div>
     </el-popover>
     <el-tooltip class="item" effect="dark" :content="$t('default.delete')" placement="top" :enterable="false">
-      <el-button v-popover:myPopover icon="el-icon-delete" size="mini" type="danger"></el-button>
+      <el-button v-popover:myPopover icon="el-icon-fa-trash-o" size="mini" type="danger"></el-button>
     </el-tooltip>
   </div>
 </template>

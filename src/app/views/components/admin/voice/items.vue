@@ -45,10 +45,11 @@
                 <img v-if="voiceitem.validatedby.avatar !== ''" :src="voiceitem.validatedby.avatar" width="30" height="30">
                 <img v-else src="/img/default_avatar.png" width="30" height="30">
               </el-tooltip>
-              <el-button size="mini" icon="el-icon-fa-flash"
+              <el-button size="mini" type="text"
                 v-if="authUser.sub.id === voiceitem.validatedby.id"
                 @click="onShowValidateForm(scope.row)"
-                style="position: absolute; margin-left: 5px;">
+                style="position: absolute; margin-left: 10px;">
+                Continue
               </el-button>
             </div>
           </div>

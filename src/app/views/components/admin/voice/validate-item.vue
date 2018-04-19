@@ -12,11 +12,13 @@
       <span class="action">
         <el-button icon="el-icon-fa-check" class="circle" type="success"
           @click="onValidate(voice.id, 1)"
-          :loading="loading">
+          :loading="loading"
+          v-show="voice.status.value != 1">
         </el-button>
         <el-button icon="el-icon-fa-times" class="circle" type="danger"
           @click="onValidate(voice.id, 3)"
-          :loading="loading">
+          :loading="loading"
+          v-show="voice.status.value != 3">
         </el-button>
       </span>
       <small class="voice_text">

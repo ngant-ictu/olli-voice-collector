@@ -112,6 +112,11 @@ class IndexController extends AbstractController
      */
     public function createAction()
     {
+        // openlog('myapplication', LOG_NDELAY, LOG_USER);
+        // foreach ($this->request->getUploadedFiles() as $files) {
+        //     syslog(LOG_WARNING, json_encode($files));
+        // }
+
         $formData = (array) $this->request->getPost();
         $uid = (int) $this->getDI()->getAuth()->getUser()->id;
         $myFireBase = $this->firebase->getDatabase();
@@ -183,6 +188,7 @@ class IndexController extends AbstractController
      */
     public function getbyuseridAction()
     {
+        $recordPerPage = 30;
         $page = (int) $this->request->getQuery('page', null, 1);
         $formData = [];
         $hasMore = true;
@@ -195,7 +201,7 @@ class IndexController extends AbstractController
         $keyword = (string) $this->request->getQuery('keyword', null, '');
 
         // optional Filter
-        $status = (int) $this->request->getQuery('status', null, 0);
+        $status = $this->request->getQuery('status', null, []);
         $uid = (int) $this->request->getQuery('uid', null, 0);
 
         $formData['columns'] = '*';
@@ -203,14 +209,14 @@ class IndexController extends AbstractController
             'keyword' => $keyword,
             'searchKeywordIn' => $searchKeywordInData,
             'filterBy' => [
-                'status' => $status,
-                'uid' => $uid
+                'uid' => $uid,
+                'status' => $status
             ]
         ];
         $formData['orderBy'] = $orderBy;
         $formData['orderType'] = $orderType;
 
-        $myVoices = VoiceModel::paginate($formData, $this->recordPerPage, $page);
+        $myVoices = VoiceModel::paginate($formData, $recordPerPage, $page);
 
         if ($myVoices->total_pages > 0) {
             if ($page == $myVoices->total_pages) {
@@ -223,7 +229,7 @@ class IndexController extends AbstractController
                 'data',
                 [
                     'meta' => [
-                        'recordPerPage' => $this->recordPerPage,
+                        'recordPerPage' => $recordPerPage,
                         'hasMore' => $hasMore,
                         'totalItems' => $myVoices->total_items,
                         'orderBy' => $orderBy,

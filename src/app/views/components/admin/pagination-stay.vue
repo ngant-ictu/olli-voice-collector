@@ -18,31 +18,21 @@ import { Vue, Component, Prop } from 'nuxt-property-decorator';
 const querystring = require('querystring');
 
 @Component
-export default class Pagination extends Vue {
+export default class PaginationStay extends Vue {
   @Prop() totalItems: number
   @Prop() currentPage: number;
   @Prop() recordPerPage: number;
+  @Prop() handlePageChange: void;
 
   get previousPage() { return this.currentPage -1; }
-
   get nextPage() { return this.currentPage + 1; }
-
   get totalPage() { return Math.ceil(this.totalItems / this.recordPerPage);}
-
-  handlePageChange(page) {
-    let queryObject = Object.assign({}, this.$route.query)
-    queryObject.page = page
-    const pageUrl = `?${querystring.stringify(queryObject)}`
-
-    return this.$router.push(pageUrl)
-  }
 }
 </script>
 
 <style lang="scss" scoped>
 .pagination {
-  display: inline-block;
-  margin-left: 20px;
+  display: block;
   background-color: #fff;
   padding-left: 10px;
   padding-right: 10px;
