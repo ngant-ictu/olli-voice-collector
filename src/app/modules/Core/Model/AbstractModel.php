@@ -62,7 +62,7 @@ abstract class AbstractModel extends PhModel
                             $k = str_replace($firstChar, '', $k);
                         }
 
-                        if (!is_array($v) && count($v) == 0) {
+                        if (!is_array($v)) {
                             switch (gettype($v)) {
                                 case 'string':
                                     $bindTypeParams[$k] =  \PDO::PARAM_STR;
@@ -85,11 +85,14 @@ abstract class AbstractModel extends PhModel
 
                             default:
                                 if (is_array($v) && count($v) > 0) {
+                                    $whereString .= ' AND ' . '(';
+                                    $childWhereString = '';
                                     foreach ($v as $index => $samev) {
-                                        $whereString .= ($whereString != '' ? ' OR ' : '') . $k . ' '. $compareChar .' :' . $k . $index . ':';
+                                        $childWhereString .= ($childWhereString != '' ? ' OR ' : '') . $k . ' '. $compareChar .' :' . $k . $index . ':';
                                         $bindParams[$k . $index] = $samev;
                                         $bindTypeParams[$k . $index] = gettype($v) == 'string' ? \PDO::PARAM_STR : \PDO::PARAM_INT;
                                     }
+                                    $whereString .= $childWhereString . ')';
                                 } else {
                                     $whereString .= ($whereString != '' ? ' AND ' : '') . $k . ' '. $compareChar .' :' . $k . ':';
                                     $bindParams[$k] = $v;
@@ -135,6 +138,10 @@ abstract class AbstractModel extends PhModel
             'order' => $order,
             'group' => $groupby
         ];
+
+        // echo '<pre>';
+        // print_r($params);
+        // die;
 
         $builder = new PhBuilder($params);
         $paginatorKey = 'builder';

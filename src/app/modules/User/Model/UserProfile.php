@@ -59,9 +59,9 @@ class UserProfile extends AbstractModel
     public $voiceregion;
 
     /**
-    * @Column(type="integer", nullable=true, column="up_voice_age_range")
+    * @Column(type="integer", nullable=true, column="up_voice_age")
     */
-    public $voiceagerange;
+    public $voiceage;
 
     /**
     * @Column(type="integer", nullable=true, column="up_point")
@@ -77,6 +77,10 @@ class UserProfile extends AbstractModel
     * @Column(type="integer", nullable=true, column="up_date_modified")
     */
     public $datemodified;
+
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 3;
+
 
     public function validation()
     {

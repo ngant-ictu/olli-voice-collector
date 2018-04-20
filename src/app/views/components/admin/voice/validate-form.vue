@@ -89,7 +89,7 @@ export default class ValidateForm extends Vue {
     return await this.getAction({ query: {
       uid: this.userId,
       page: page,
-      status: [1,3]
+      status: this.filterby
     } });
   }
 }

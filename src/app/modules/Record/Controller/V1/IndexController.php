@@ -293,7 +293,7 @@ class IndexController extends AbstractController
             'point' => $myUserPoint + 1
         ];
         try {
-            $myFireBase->getReference('/users/' . $myUser->oauthuid)->update($userFieldUpdate);
+            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->update($userFieldUpdate);
         } catch (ApiException $e) {
             $response = $e->getResponse();
             throw new \Exception($response->getBody());

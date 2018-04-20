@@ -18,7 +18,7 @@ class UserProfile extends TransformerAbstract
             'country' => (string) $userprofile->country,
             'bio' => (string) $userprofile->bio,
             'voiceregion' => (string) $userprofile->voiceregion,
-            'voiceagerange' => (string) $userprofile->voiceagerange,
+            'voiceage' => (string) $userprofile->voiceage,
             'point' => (string) $userprofile->point
         ];
     }
