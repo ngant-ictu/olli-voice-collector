@@ -5,7 +5,8 @@
     :visible.sync="validateFormState"
     :before-close="onClose"
     :lock-scroll="true"
-    v-on:open="onOpen">
+    v-on:open="onOpen"
+    v-on:close="onClosed">
     <template slot="title">
       <el-select
         v-model="filterby"
@@ -79,6 +80,10 @@ export default class ValidateForm extends Vue {
 
   onOpen() {
     return this.loadData(1);
+  }
+
+  onClosed() {
+    return this.filterby = [];
   }
 
   created() { return this.initData(); }
