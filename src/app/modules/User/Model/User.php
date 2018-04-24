@@ -194,11 +194,11 @@ class User extends AbstractModel
         return $data = [
             [
                 'label' => $lang->_('label-status-enable'),
-                'value' => (string) self::STATUS_ENABLE
+                'value' => (int) self::STATUS_ENABLE
             ],
             [
                 'label' => $lang->_('label-status-disable'),
-                'value' => (string) self::STATUS_DISABLE
+                'value' => (int) self::STATUS_DISABLE
             ],
         ];
     }
@@ -258,11 +258,11 @@ class User extends AbstractModel
         return $data = [
             [
                 'label' => $lang->_('label-verify-type-email'),
-                'value' => (string) self::VERIFY_TYPE_EMAIL
+                'value' => (int) self::VERIFY_TYPE_EMAIL
             ],
             [
                 'label' => $lang->_('label-verify-type-phone'),
-                'value' => (string) self::VERIFY_TYPE_PHONE
+                'value' => (int) self::VERIFY_TYPE_PHONE
             ],
         ];
     }

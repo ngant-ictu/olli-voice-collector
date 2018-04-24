@@ -5,3 +5,5 @@ label-status-rejected: Rejected
 label-status-pending: Pending
 label-status-enable: Enable
 label-status-disable: Disable
+label-gender-male: Male
+label-gender-female: Female

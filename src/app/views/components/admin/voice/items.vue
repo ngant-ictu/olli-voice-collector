@@ -5,36 +5,46 @@
     <el-table :data="voices" style="width: 100%">
       <el-table-column label="User voice">
         <template slot-scope="scope">
-          <div class="avatar">
-            <img v-if="scope.row.user.data.avatar !== ''" :src="scope.row.user.data.avatar" width="30" height="30">
-            <img v-else src="/img/default_avatar.png" width="30" height="30">
-          </div>
-          <div class="fullname">
-            <code type="danger">{{ scope.row.user.data.mobilenumber }}</code>
-            <p>
-              <small>{{ scope.row.user.data.fullname !== '' ? scope.row.user.data.fullname : 'unknow'}}</small>
-            </p>
-          </div>
-          <div class="info">
-            <el-badge :value="scope.row.items.data.length" class="item">
-              <el-tag type="primary" size="small">Total</el-tag>
-            </el-badge>
-            <span class="item">
-              <el-badge :value="totalPending(scope.row)" class="item">
-                <el-tag type="warning" size="small">Pending</el-tag>
-              </el-badge>
-            </span>
-            <span class="item">
-              <el-badge :value="totalApproved(scope.row)" class="item">
-                <el-tag type="success" size="small">Approved</el-tag>
-              </el-badge>
-            </span>
-            <span class="item">
-              <el-badge :value="totalRejected(scope.row)" class="item">
-                <el-tag type="info" size="small">Rejected</el-tag>
-              </el-badge>
-            </span>
-          </div>
+          <el-row>
+            <el-col :md="6">
+              <div class="avatar">
+                <img v-if="scope.row.user.data.avatar !== ''" :src="scope.row.user.data.avatar" width="30" height="30">
+                <img v-else src="/img/default_avatar.png" width="30" height="30">
+              </div>
+              <div class="fullname">
+                <i v-if="scope.row.user.data.profile.data.gender.icon !== ''"
+                  :style="`float: right; margin-left: 20px; color: ${scope.row.user.data.profile.data.gender.style}`"
+                  :class="`el-icon-${scope.row.user.data.profile.data.gender.icon}`">
+                </i>
+                <code type="danger">{{ scope.row.user.data.mobilenumber }}</code>
+                <p>
+                  <small>{{ scope.row.user.data.fullname !== '' ? scope.row.user.data.fullname : '-/-'}}</small>
+                </p>
+              </div>
+            </el-col>
+            <el-col :md="18">
+              <div class="info">
+                <el-badge :value="scope.row.items.data.length" class="item">
+                  <el-tag type="primary" size="small">Total</el-tag>
+                </el-badge>
+                <span class="item">
+                  <el-badge :value="totalPending(scope.row)" class="item">
+                    <el-tag type="warning" size="small">Pending</el-tag>
+                  </el-badge>
+                </span>
+                <span class="item">
+                  <el-badge :value="totalApproved(scope.row)" class="item">
+                    <el-tag type="success" size="small">Approved</el-tag>
+                  </el-badge>
+                </span>
+                <span class="item">
+                  <el-badge :value="totalRejected(scope.row)" class="item">
+                    <el-tag type="info" size="small">Rejected</el-tag>
+                  </el-badge>
+                </span>
+              </div>
+            </el-col>
+          </el-row>
         </template>
       </el-table-column>
       <el-table-column class-name="td-operation" width="150" label="Validator">

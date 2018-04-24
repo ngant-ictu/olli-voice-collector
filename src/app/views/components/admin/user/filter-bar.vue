@@ -65,9 +65,9 @@ export default class FilterBar extends Vue {
   async initData() {
     this.form = {
       keyword: this.$route.query.keyword || '',
-      status: this.$route.query.status || '',
+      status: parseInt(this.$route.query.status) || null,
       groupid: this.$route.query.groupid || '',
-      verifytype: this.$route.query.verifytype || ''
+      verifytype: parseInt(this.$route.query.verifytype) || null
     };
 
     return await this.formsourceAction();

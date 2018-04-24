@@ -282,6 +282,7 @@ class IndexController extends AbstractController
             'groupList' => UserModel::getGroupList(),
             'statusList' => UserModel::getStatusList(),
             'verifyList' => UserModel::getVerifyList(),
+            'genderList' => UserProfileModel::getGenderList()
         ], 'data');
     }
 
@@ -447,8 +448,70 @@ class IndexController extends AbstractController
     /**
      * Update owner password
      *
-     * @Route("/updatepassword", methods={"PUT"})
+     * @Route("/password", methods={"PUT"})
      */
     public function updatepasswordAction()
-    {}
+    {
+
+    }
+
+    /**
+     * Update owner profile
+     *
+     * @Route("/profile", methods={"PUT"})
+     */
+    public function updateprofileAction()
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+        $uid = (int) $this->getDI()->getAuth()->getUser()->id;
+
+        $myUser = UserModel::findFirst([
+            'id = :id: AND status = :status: AND isverified = :isverified:',
+            'bind' => [
+                'id' => (int) $uid,
+                'status' => (int) UserModel::STATUS_ENABLE,
+                'isverified' => (int) UserModel::IS_VERIFIED
+            ]
+        ]);
+
+        if (!$myUser) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $myUserProfile = UserProfileModel::findFirstByUid($uid);
+
+        if (!$myUserProfile) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $dob = \DateTime::createFromFormat('d/m/Y', $formData['dob']);
+
+        $myUserProfile->assign([
+            'fullname' => (string) $formData['fullname'],
+            'email' => (string) $formData['email'],
+            'gender' => (int) $formData['gender'],
+            'dob' => (int) $dob->getTimestamp(),
+            'voiceregion' => (int) $formData['voiceregion']
+        ]);
+
+        if (!$myUserProfile->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
+        return $this->createItem(
+            $myUser,
+            new UserTransformer,
+            'data'
+        );
+    }
+
+    /**
+     * Get owner profile
+     *
+     * @Route("/profile", methods={"GET"})
+     */
+    public function profileAction()
+    {
+
+    }
 }

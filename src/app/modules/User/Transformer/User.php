@@ -19,28 +19,28 @@ class User extends TransformerAbstract
         $humandatecreated = new Moment($user->datecreated);
 
         return [
-            'id' => (string) $user->id,
+            'id' => (int) $user->id,
             'fullname' => (string) $user->fullname,
             'screenname' => (string) $user->screenname,
             'email' => (string) $user->email,
             'groupid' => (string) $user->groupid,
             'status' =>  [
                 'label' => (string) $user->getStatusName(),
-                'value' => (string) $user->status,
+                'value' => (int) $user->status,
                 'style' => (string) $user->getStatusStyle()
             ],
             'verify' => [
                 'label' => (string) $user->getVerifyName(),
-                'value' => (string) $user->isverified,
+                'value' => (int) $user->isverified,
                 'style' => (string) $user->getVerifyStyle()
             ],
             'verifytype' => [
                 'label' => (string) $user->getVerifyTypeName(),
-                'value' => (string) $user->verifytype
+                'value' => (int) $user->verifytype
             ],
             'avatar' => (string) $user->getAvatarJson(),
             'mobilenumber' => (string) $user->mobilenumber,
-            'datecreated' => (string) $user->datecreated,
+            'datecreated' => (int) $user->datecreated,
             'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i')
         ];
     }

@@ -16,3 +16,5 @@ label-is-verified: Đã xác thực
 label-is-not-verified: Chưa xác thực
 label-verify-type-email: Email
 label-verify-type-phone: Số ĐT
+label-gender-male: Nam
+label-gender-female: Nữ

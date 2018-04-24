@@ -51,3 +51,5 @@ label-is-verified: Verified
 label-is-not-verified: Un-Verified
 label-verify-type-email: Email
 label-verify-type-phone: Phone
+label-gender-male: Male
+label-gender-female: Female

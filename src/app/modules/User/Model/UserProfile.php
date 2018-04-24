@@ -59,11 +59,6 @@ class UserProfile extends AbstractModel
     public $voiceregion;
 
     /**
-    * @Column(type="integer", nullable=true, column="up_voice_age")
-    */
-    public $voiceage;
-
-    /**
     * @Column(type="integer", nullable=true, column="up_point")
     */
     public $point;
@@ -91,5 +86,68 @@ class UserProfile extends AbstractModel
         ]));
 
         return $this->validate($validator);
+    }
+
+    public function getGenderName(): string
+    {
+        $name = '';
+        $lang = self::getStaticDi()->get('lang');
+
+        switch ($this->gender) {
+            case self::GENDER_MALE:
+                $name = $lang->_('label-gender-male');
+                break;
+            case self::GENDER_FEMALE:
+                $name = $lang->_('label-gender-female');
+                break;
+        }
+
+        return $name;
+    }
+
+    public static function getGenderList()
+    {
+        $lang = self::getStaticDi()->get('lang');
+
+        return $data = [
+            [
+                'label' => $lang->_('label-gender-male'),
+                'value' => (int) self::GENDER_MALE
+            ],
+            [
+                'label' => $lang->_('label-gender-female'),
+                'value' => (int) self::GENDER_FEMALE
+            ],
+        ];
+    }
+
+    public function getGenderStyle(): string
+    {
+        $class = '';
+        switch ($this->gender) {
+            case self::GENDER_MALE:
+                $class = '#67C23A';
+                break;
+            case self::GENDER_FEMALE:
+                $class = '#E6A23C';
+                break;
+        }
+
+        return $class;
+    }
+
+    public function getGenderIcon(): string
+    {
+        $icon = '';
+        switch ($this->gender) {
+            case self::GENDER_MALE:
+                $icon = 'fa-mars';
+                break;
+            case self::GENDER_FEMALE:
+                $icon = 'fa-venus';
+                break;
+        }
+
+        return $icon;
     }
 }
