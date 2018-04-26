@@ -25,6 +25,7 @@ en:
     newPassword: New password
     repeatNewPassword: Repeat new password
     changePassword: Change
+    pointAndRecordTimes: Point & Record times
   msg:
     nameIsRequired: Name is required.
     emailIsRequired: Email is required.
@@ -75,6 +76,7 @@ vi:
     newPassword: Mật khẩu mới
     repeatNewPassword: Nhập lại mật khẩu mới
     changePassword: Đổi mật khẩu
+    pointAndRecordTimes: Điểm & Số lần ghi âm
   msg:
     nameIsRequired: Tên không được để trống
     emailIsRequired: Email không được để trống.

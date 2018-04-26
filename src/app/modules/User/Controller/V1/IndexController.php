@@ -358,7 +358,6 @@ class IndexController extends AbstractController
             throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
         }
 
-        $this->auth->setIssuer('email');
         $this->auth->setUser($myUser);
 
         // Generate jwt authToken for activate user.
@@ -436,7 +435,6 @@ class IndexController extends AbstractController
             }
         }
 
-        $this->auth->setIssuer('sms');
         $this->auth->setUser($myUser);
 
         // Generate jwt authToken for activate user.
@@ -448,11 +446,41 @@ class IndexController extends AbstractController
     /**
      * Update owner password
      *
-     * @Route("/password", methods={"PUT"})
+     * @Route("/updatepassword", methods={"PUT"})
      */
     public function updatepasswordAction()
     {
+        $formData = (array) $this->request->getJsonRawBody();
 
+        $myUser = UserModel::findFirst([
+            'id = :id: AND status = :status: AND isverified = :isverified:',
+            'bind' => [
+                'id' => (int) $this->auth->getUser()->id,
+                'status' => UserModel::STATUS_ENABLE,
+                'isverified' => UserModel::IS_VERIFIED
+            ]
+        ]);
+
+        if (!$myUser) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        if ($formData['newpassword'] != $formData['repeatnewpassword']) {
+            throw new UserException(UserErrorCode::USER_PASSWORD_NOT_MATCH);
+        }
+
+        $myUser->password = $this->security->hash($formData['newpassword']);
+        $myUser->datelastchangepassword = time();
+        if (!$myUser->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
+        $this->auth->setUser($myUser);
+
+        // Generate jwt authToken for activate user.
+        $tokenResponse = $this->auth->getTokenResponse();
+
+        return $this->respondWithArray($tokenResponse, 'data');
     }
 
     /**
@@ -512,6 +540,59 @@ class IndexController extends AbstractController
      */
     public function profileAction()
     {
+        $uid = (int) $this->getDI()->getAuth()->getUser()->id;
 
+        $myUser = UserModel::findFirst([
+            'id = :id: AND status = :status: AND isverified = :isverified:',
+            'bind' => [
+                'id' => (int) $uid,
+                'status' => (int) UserModel::STATUS_ENABLE,
+                'isverified' => (int) UserModel::IS_VERIFIED
+            ]
+        ]);
+
+        if (!$myUser) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $myUserProfile = UserProfileModel::findFirstByUid($uid);
+
+        if (!$myUserProfile) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        return $this->createItem(
+            $myUser,
+            new UserTransformer,
+            'data'
+        );
+    }
+
+    /**
+     * Get owner profile
+     *
+     * @Route("/{id:[0-9]+}/pointandrecordtimes", methods={"GET"})
+     */
+    public function pointandrecordtimesAction($id = 0)
+    {
+        $myFireBase = $this->firebase->getDatabase();
+
+        // get owner of this voice
+        $myUser = UserModel::findFirst([
+            'id = :id: AND status = :status:',
+            'bind' => [
+                'id' => (int) $id,
+                'status' => (int) UserModel::STATUS_ENABLE
+            ]
+        ]);
+
+        if (!$myUser) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        return $this->respondWithArray([
+            'point' => $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue(),
+            'recordtimes' => $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->getValue()
+        ], 'data');
     }
 }

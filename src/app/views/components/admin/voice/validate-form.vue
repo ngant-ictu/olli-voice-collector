@@ -6,7 +6,8 @@
     :before-close="onClose"
     :lock-scroll="true"
     v-on:open="onOpen"
-    v-on:close="onClosed">
+    v-on:close="onClosed"
+    top="0">
     <template slot="title">
       <el-select
         v-model="filterby"

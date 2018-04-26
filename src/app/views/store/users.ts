@@ -98,4 +98,8 @@ export const actions = {
       password: formData.password
     }).then(res => setToken(res.data))
   },
+
+  async get_point({ commit }, { id }) {
+    return await this.$axios.$get(`/v1/users/${id}/pointandrecordtimes`);
+  }
 }

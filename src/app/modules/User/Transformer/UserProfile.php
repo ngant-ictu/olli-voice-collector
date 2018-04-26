@@ -32,8 +32,7 @@ class UserProfile extends TransformerAbstract
             'city' => (string) $userprofile->city,
             'country' => (string) $userprofile->country,
             'bio' => (string) $userprofile->bio,
-            'voiceregion' => (int) $userprofile->voiceregion,
-            'point' => (int) $userprofile->point
+            'voiceregion' => (int) $userprofile->voiceregion
         ];
     }
 }

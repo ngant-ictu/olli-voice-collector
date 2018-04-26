@@ -5,7 +5,7 @@
     <el-table :data="users" style="width: 100%" row-key="id"
       @selection-change="onSelectionChange">
       <el-table-column type="selection"></el-table-column>
-      <el-table-column :label="$t('label.name')" width="150"
+      <el-table-column :label="$t('label.name')" width="250"
         :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <div class="avatar">
@@ -13,12 +13,19 @@
             <img v-else src="/img/default_avatar.png" width="30" height="30">
           </div>
           <span class="fullname">{{ scope.row.fullname }}</span>
+          <small class="email">{{ scope.row.email }}</small>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('label.email')" prop="email"
-        :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column :label="$t('label.phone')" prop="mobilenumber" width="100"
-        :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column :label="$t('label.phone')" width="150">
+        <template slot-scope="scope">
+          <code>{{ scope.row.mobilenumber }}</code>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('label.pointAndRecordTimes')">
+        <template slot-scope="scope">
+          <point-record-item :uid="scope.row.id"></point-record-item>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('label.group')">
         <template slot-scope="scope">
           <el-tag type="success" size="small">{{ scope.row.groupid }}</el-tag>
@@ -73,11 +80,13 @@ import { Vue, Component, Prop } from "nuxt-property-decorator";
 import { Action } from 'vuex-class';
 import DeleteButton from "~/components/admin/delete-button.vue";
 import EditForm from '~/components/admin/user/edit-form.vue';
+import PointRecordItem from '~/components/admin/user/point-record-item.vue';
 
 @Component({
   components: {
     DeleteButton,
-    EditForm
+    EditForm,
+    PointRecordItem
   }
 })
 export default class AdminUserItems extends Vue {
@@ -164,7 +173,11 @@ export default class AdminUserItems extends Vue {
     border-radius: 30px !important;
   }
 }
-.fullname {
-  line-height: 30px;
+.fullname,
+.email,
+.point,
+.record-times {
+  display: block;
+  width: 100%;
 }
 </style>

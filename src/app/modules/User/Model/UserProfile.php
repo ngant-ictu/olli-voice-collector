@@ -59,11 +59,6 @@ class UserProfile extends AbstractModel
     public $voiceregion;
 
     /**
-    * @Column(type="integer", nullable=true, column="up_point")
-    */
-    public $point;
-
-    /**
     * @Column(type="integer", nullable=true, column="up_date_created")
     */
     public $datecreated;

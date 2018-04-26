@@ -3,10 +3,10 @@
 <template>
   <section>
     <el-table :data="voices" style="width: 100%">
-      <el-table-column label="User voice">
+      <el-table-column>
         <template slot-scope="scope">
           <el-row>
-            <el-col :md="6">
+            <el-col :md="4">
               <div class="avatar">
                 <img v-if="scope.row.user.data.avatar !== ''" :src="scope.row.user.data.avatar" width="30" height="30">
                 <img v-else src="/img/default_avatar.png" width="30" height="30">
@@ -22,32 +22,36 @@
                 </p>
               </div>
             </el-col>
-            <el-col :md="18">
+            <el-col :md="20">
               <div class="info">
-                <el-badge :value="scope.row.items.data.length" class="item">
-                  <el-tag type="primary" size="small">Total</el-tag>
-                </el-badge>
-                <span class="item">
-                  <el-badge :value="totalPending(scope.row)" class="item">
-                    <el-tag type="warning" size="small">Pending</el-tag>
+                <div class="item">
+                  <strong>{{ scope.row.items.data.length }}</strong>
+                  <span style="color: #409EFF"> Total</span>
+                </div>
+
+                <div class="item">
+                  <el-badge :value="totalPending(scope.row) > 0 ? totalPending(scope.row) : null" class="item">
+                    <el-tag type="warning">
+                      Pending
+                    </el-tag>
                   </el-badge>
-                </span>
-                <span class="item">
-                  <el-badge :value="totalApproved(scope.row)" class="item">
-                    <el-tag type="success" size="small">Approved</el-tag>
-                  </el-badge>
-                </span>
-                <span class="item">
-                  <el-badge :value="totalRejected(scope.row)" class="item">
-                    <el-tag type="info" size="small">Rejected</el-tag>
-                  </el-badge>
-                </span>
+                </div>
+
+                <div class="item">
+                  <strong>{{ totalApproved(scope.row) > 0 ? totalApproved(scope.row) : 0 }}</strong>
+                  <span style="color: #67C23A"> Approved</span>
+                </div>
+
+                <div class="item">
+                  <strong>{{ totalRejected(scope.row) > 0 ? totalRejected(scope.row) : 0 }}</strong>
+                  <span style="color: #909399"> Rejected</span>
+                </div>
               </div>
             </el-col>
           </el-row>
         </template>
       </el-table-column>
-      <el-table-column class-name="td-operation" width="150" label="Validator">
+      <el-table-column class-name="td-operation" width="150">
         <template slot-scope="scope">
           <div v-if="getValidateUser(scope.row).length > 0">
             <div class="avatar" v-for="(voiceitem, index) in getValidateUser(scope.row)" :key="index">
@@ -156,7 +160,7 @@ export default class AdminVoiceItems extends Vue {
   margin-top: 10px;
   .item {
     display: inline-block;
-    margin-left: 30px;
+    margin-left: 50px;
   }
 }
 </style>

@@ -156,11 +156,9 @@ class IndexController extends AbstractController
             $response = $e->getResponse();
             throw new \Exception($response->getBody());
         }
-        $userFieldUpdate = [
-            'record_times' => $myUserRecordTimes - 1
-        ];
+
         try {
-            $myFireBase->getReference('/users/' . $myUser->oauthuid)->update($userFieldUpdate);
+            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->set($myUserRecordTimes - 1);
         } catch (ApiException $e) {
             $response = $e->getResponse();
             throw new \Exception($response->getBody());
@@ -251,18 +249,6 @@ class IndexController extends AbstractController
         $formData = (array) $this->request->getJsonRawBody();
         $myFireBase = $this->firebase->getDatabase();
 
-        $myUser = UserModel::findFirst([
-            'id = :id: AND status = :status:',
-            'bind' => [
-                'id' => $this->getDI()->getAuth()->getUser()->id,
-                'status' => UserModel::STATUS_ENABLE
-            ]
-        ]);
-
-        if (!$myUser) {
-            throw new UserException(ErrorCode::DATA_NOTFOUND);
-        }
-
         $myVoice = VoiceModel::findFirst([
             'id = :id:',
             'bind' => [
@@ -274,10 +260,25 @@ class IndexController extends AbstractController
             throw new UserException(ErrorCode::DATA_NOTFOUND);
         }
 
+        // get owner of this voice
+        $myUser = UserModel::findFirst([
+            'id = :id: AND status = :status:',
+            'bind' => [
+                'id' => $myVoice->uid,
+                'status' => UserModel::STATUS_ENABLE
+            ]
+        ]);
+
+        if (!$myUser) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $validatorUserId = (int) $this->auth->getUser()->id;
+
         if (
-            ($myVoice->validatedby != 0 && $myVoice->validatedby != $myUser->id)
+            ($myVoice->validatedby != 0 && $myVoice->validatedby != $validatorUserId)
             ||
-            ($myVoice->validatedby == 0 && $myUser->id == $myVoice->uid)
+            ($myVoice->validatedby == 0 && $validatorUserId == $myVoice->uid)
         ) {
             throw new \Exception('User validate rejected!!!');
         }
@@ -289,18 +290,16 @@ class IndexController extends AbstractController
             $response = $e->getResponse();
             throw new \Exception($response->getBody());
         }
-        $userFieldUpdate = [
-            'point' => $myUserPoint + 1
-        ];
+
         try {
-            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->update($userFieldUpdate);
+            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->set($myUserPoint + 1);
         } catch (ApiException $e) {
             $response = $e->getResponse();
             throw new \Exception($response->getBody());
         }
 
         $myVoice->status = (int) $formData['status'];
-        $myVoice->validatedby = (int) $myUser->id;
+        $myVoice->validatedby = (int) $validatorUserId;
 
         if (!$myVoice->update()) {
             throw new UserException(ErrorCode::DATA_UPDATE_FAIL);

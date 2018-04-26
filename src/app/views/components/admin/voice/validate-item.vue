@@ -12,6 +12,11 @@
           :loading="loading"
           v-show="voice.status.value != 1">
         </el-button>
+        <el-button icon="el-icon-fa-times" class="circle" type="danger"
+          @click="onValidate(voice.id, 3)"
+          :loading="loading"
+          v-show="voice.status.value == 5">
+        </el-button>
       </span>
       <small class="voice_text">
         {{ voicescript.text }}
@@ -21,7 +26,7 @@
       :show-text="false"
       :percentage="Math.floor((progress * 100))"
       class="progress"
-      :stroke-width="5"></el-progress>
+      :stroke-width="3"></el-progress>
   </div>
 </template>
 
