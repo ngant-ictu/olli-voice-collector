@@ -27,6 +27,7 @@ groups:
       v1:index|updatepassword
       v1:index|updateprofile
       v1:index|profile
+      v1:index|gift
       v1:index|formsource
     Record:
       v1:index|scripts

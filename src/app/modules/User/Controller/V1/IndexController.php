@@ -10,6 +10,7 @@ use User\Transformer\User as UserTransformer;
 use User\Constants\ErrorCode as UserErrorCode;
 use Core\Helper\Utils as Helper;
 use Kreait\Firebase\Database\RuleSet;
+use Gift\Model\Gift as GiftModel;
 
 /**
  * @RoutePrefix("/v1/users")
@@ -569,7 +570,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * Get owner profile
+     * Get user point and record times in firebase
      *
      * @Route("/{id:[0-9]+}/pointandrecordtimes", methods={"GET"})
      */
@@ -594,5 +595,16 @@ class IndexController extends AbstractController
             'point' => $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue(),
             'recordtimes' => $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->getValue()
         ], 'data');
+    }
+
+    /**
+     * Get gift history of owner
+     *
+     * @Route("/gift", methods={"GET"})
+     */
+    public function giftAction($id = 0)
+    {
+        $uid = (int) $this->auth->getUser()->id;
+
     }
 }
