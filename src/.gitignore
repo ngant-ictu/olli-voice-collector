@@ -9,7 +9,7 @@ app/views/node_modules/
 app/views/.nuxt/
 app/views/dist/
 olli-event-app*
-**/*/*.env
+
 
 !app/storage/files/.gitkeep
 !app/storage/cache/data/.gitkeep

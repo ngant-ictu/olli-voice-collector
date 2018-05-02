@@ -1,4 +1,4 @@
-# PHP Framework starter.
+# Voice Collector.
 
 ### INSTALLATION
     + yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
@@ -18,3 +18,4 @@
 ** Disable ONLY_FULL_GROUP_BY
     + change in my.cnf:
         <code>sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</code>
+    + SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
