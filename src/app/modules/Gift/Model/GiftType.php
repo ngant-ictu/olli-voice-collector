@@ -11,6 +11,7 @@ use Core\Helper\Utils as Helper;
  * @Source('fly_gift_type');
  * @Behavior('\Shirou\Behavior\Model\Timestampable');
  * @HasMany('id', '\Gift\Model\GiftAttribute', 'gtid', {'alias': 'attributes'})
+ * @HasMany('id', '\Gift\Model\Gift', 'gtid', {'alias': 'gifts'})
  */
 class GiftType extends AbstractModel
 {
@@ -117,6 +118,7 @@ class GiftType extends AbstractModel
 
     public function afterDelete()
     {
-        return $this->getAttributes()->delete();
+        $this->getAttributes()->delete();
+        $this->getGifts()->delete();
     }
 }

@@ -5,6 +5,8 @@ publicEndpoint:
   /v1/users/login/phone
   /v1/users/verify/sms
   /v1/users/securegroup
+  /v1/gifts/test
+  /v1/gifts/stream
 
 groups:
   default: guest

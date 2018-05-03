@@ -40,7 +40,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'PHP Framework with Nuxt' },
+      { hid: 'description', name: 'description', content: 'OLLI Voice Collector' },
       { name: 'msapplication-config' }
     ],
     link: [
@@ -49,9 +49,9 @@ module.exports = {
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' }
     ]
   },
-  loading: { color: '#3B8070' },
+  loading: { name: 'cube-grid', color: '#3B8070', background: '#333' },
   build: {
-    analyze: false,
+    analyze: true,
     vendor: [
       'axios',
       'gsap',
