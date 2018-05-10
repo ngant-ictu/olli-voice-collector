@@ -428,7 +428,8 @@ class IndexController extends AbstractController
             $myUserProfile = new UserProfileModel();
             $myUserProfile->assign([
                 'uid' => (int) $myUser->id,
-                'point' => 0
+                'point' => 0,
+                'recordtimes' => (int) $this->config->default->voices->limit,
             ]);
 
             if (!$myUserProfile->create()) {

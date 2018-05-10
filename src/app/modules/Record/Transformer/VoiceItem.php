@@ -19,7 +19,9 @@ class VoiceItem extends TransformerAbstract
         $humandatecreated = new Moment($voiceitem->datecreated);
 
         if ($voiceitem->validatedby > 0) {
-            $myUserValidated = UserModel::findFirstById($voiceitem->validatedby)->toArray();
+            $myUserValidated = UserModel::findFirstById($voiceitem->validatedby);
+            $myUserValidated->avatar = $myUserValidated->getAvatarJson();
+            $myUserValidated = $myUserValidated->toArray();
         } else {
             $myUserValidated = 0;
         }

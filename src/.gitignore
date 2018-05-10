@@ -16,3 +16,4 @@ olli-event-app*
 !app/storage/cache/annotations/.gitkeep
 !app/storage/cache/metadata/.gitkeep
 !app/storage/logs/.gitkeep
+*DS_Store

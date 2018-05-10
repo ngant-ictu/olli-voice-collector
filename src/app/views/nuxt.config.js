@@ -88,7 +88,6 @@ module.exports = {
     { src: '~plugins/elementui.ts' },
     { src: '~plugins/fetch.ts' },
     { src: '~plugins/i18n.ts' },
-    { src: '~plugins/firebase.ts' },
     { src: '~plugins/scrolltop.ts' }
   ],
   // Options for axios fetch service

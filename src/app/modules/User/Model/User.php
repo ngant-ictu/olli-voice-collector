@@ -12,6 +12,8 @@ use Core\Helper\Utils as Helper;
  * @Source('fly_user');
  * @Behavior('\Shirou\Behavior\Model\Timestampable');
  * @HasOne('id', '\User\Model\UserProfile', 'uid', {'alias': 'profile'})
+ * @HasMany('id', '\User\Model\UserGift', 'uid', {'alias': 'gifts'})
+ * @HasMany('id', '\Record\Model\Voice', 'uid', {'alias': 'voices'})
  */
 class User extends AbstractModel
 {
@@ -317,6 +319,22 @@ class User extends AbstractModel
             );
         } else {
             return '';
+        }
+    }
+
+    public function afterDelete()
+    {
+        $this->getProfile()->delete();
+        $this->getGifts()->delete();
+        $this->getVoices()->delete();
+
+        $myFireBase = $this->getDI()->get('firebase')->getDatabase();
+
+        try {
+            $myFireBase->getReference('/users/' . $this->oauthuid)->remove();
+        } catch (ApiException $e) {
+            $response = $e->getResponse();
+            throw new \Exception($response->getBody());
         }
     }
 }

@@ -149,16 +149,16 @@ class IndexController extends AbstractController
             throw new UserException(ErrorCode::DATA_CREATE_FAIL);
         }
 
-        // Reduce record times in Firebase
-        try {
-            $myUserRecordTimes = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->getValue();
-        } catch (ApiException $e) {
-            $response = $e->getResponse();
-            throw new \Exception($response->getBody());
+        // Reduce record times
+        $myProfile = $myUser->getProfile();
+        $myProfile->recordtimes = (int) $myProfile->recordtimes - 1;
+
+        if (!$myProfile->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
         }
 
         try {
-            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->set($myUserRecordTimes - 1);
+            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->set($myProfile->recordtimes);
         } catch (ApiException $e) {
             $response = $e->getResponse();
             throw new \Exception($response->getBody());
@@ -283,19 +283,21 @@ class IndexController extends AbstractController
             throw new \Exception('User validate rejected!!!');
         }
 
-        // increse point in firebase
-        try {
-            $myUserPoint = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue();
-        } catch (ApiException $e) {
-            $response = $e->getResponse();
-            throw new \Exception($response->getBody());
-        }
+        // increse point in firebase if approved status
+        if ($formData['status'] == 1) {
+            try {
+                $myUserPoint = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue();
+            } catch (ApiException $e) {
+                $response = $e->getResponse();
+                throw new \Exception($response->getBody());
+            }
 
-        try {
-            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->set($myUserPoint + 1);
-        } catch (ApiException $e) {
-            $response = $e->getResponse();
-            throw new \Exception($response->getBody());
+            try {
+                $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->set($myUserPoint + 1);
+            } catch (ApiException $e) {
+                $response = $e->getResponse();
+                throw new \Exception($response->getBody());
+            }
         }
 
         $myVoice->status = (int) $formData['status'];
