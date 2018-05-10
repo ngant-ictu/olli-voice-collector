@@ -283,17 +283,17 @@ class IndexController extends AbstractController
             throw new \Exception('User validate rejected!!!');
         }
 
-        // increse point in firebase if approved status
+        // increse point if approved status
         if ($formData['status'] == 1) {
-            try {
-                $myUserPoint = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue();
-            } catch (ApiException $e) {
-                $response = $e->getResponse();
-                throw new \Exception($response->getBody());
+            $myProfile = $myUser->getProfile();
+            $myProfile->point = (int) $myProfile->point + 1;
+
+            if (!$myProfile->update()) {
+                throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
             }
 
             try {
-                $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->set($myUserPoint + 1);
+                $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->set($myProfile->point);
             } catch (ApiException $e) {
                 $response = $e->getResponse();
                 throw new \Exception($response->getBody());

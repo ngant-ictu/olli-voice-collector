@@ -11,6 +11,7 @@ use Gift\Transformer\Gift as GiftTransformer;
 use Gift\Transformer\GiftType as GiftTypeTransformer;
 use Gift\Transformer\GiftStore as GiftStoreTransformer;
 use User\Model\UserGift as UserGiftModel;
+use User\Model\User as UserModel;
 use Kreait\Firebase\Exception\ApiException;
 
 /**
@@ -72,7 +73,7 @@ class StoreController extends AbstractController
     {
         $formData = (array) $this->request->getJsonRawBody();
         $myFireBase = $this->firebase->getDatabase();
-        $myUser = $this->getDI()->get('auth')->getUser();
+        $uid = (int) $this->getDI()->get('auth')->getUser()->id;
 
         $myGifts = GiftModel::find([
             'name = :name: AND isused = :isused:',
@@ -89,18 +90,16 @@ class StoreController extends AbstractController
         // get first gift
         $myReceiveGift = $myGifts[0];
 
-        // Compare current point of user with gift required point
-        try {
-            $myUserPoint = (int) $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue();
-        } catch (ApiException $e) {
-            $response = $e->getResponse();
-            throw new \Exception($response->getBody());
+        $myUser = UserModel::findFirstById($uid);
+        if (!$myUser) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
         }
-        if ($myUserPoint < $myReceiveGift->requiredpoint) {
+        $myProfile = $myUser->getProfile();
+
+        // Compare current point of user with gift required point
+        if ($myProfile->point < $myReceiveGift->requiredpoint) {
             throw new \Exception('Not enough point!!!');
         }
-
-        // check if user update profile
 
         $myUserGift = new UserGiftModel();
         $myUserGift->assign([
@@ -116,12 +115,14 @@ class StoreController extends AbstractController
                 throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
             }
 
-            //reduce point in firebase
-            $userFieldUpdate = [
-                'point' => $myUserPoint - $myReceiveGift->requiredpoint
-            ];
+            // reduce point
+            $myProfile->point = $myProfile->point - $myReceiveGift->requiredpoint;
+            if ($myProfile->update()) {
+                throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+            }
+
             try {
-                $myFireBase->getReference('/users/' . $myUser->oauthuid)->update($userFieldUpdate);
+                $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->set($myProfile->point);
             } catch (ApiException $e) {
                 $response = $e->getResponse();
                 throw new \Exception($response->getBody());
