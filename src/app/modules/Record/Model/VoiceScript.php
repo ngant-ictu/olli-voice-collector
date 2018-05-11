@@ -21,12 +21,12 @@ class VoiceScript extends AbstractModel
     public $id;
 
     /**
-    * @Column(type="integer", nullable=true, column="vs_command")
+    * @Column(type="string", nullable=true, column="vs_command")
     */
     public $command;
 
     /**
-    * @Column(type="integer", nullable=true, column="vs_text")
+    * @Column(type="string", nullable=true, column="vs_text")
     */
     public $text;
 
