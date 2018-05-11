@@ -117,7 +117,7 @@ class StoreController extends AbstractController
 
             // reduce point
             $myProfile->point = $myProfile->point - $myReceiveGift->requiredpoint;
-            if ($myProfile->update()) {
+            if (!$myProfile->update()) {
                 throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
             }
 
