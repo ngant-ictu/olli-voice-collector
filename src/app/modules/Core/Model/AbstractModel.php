@@ -85,7 +85,7 @@ abstract class AbstractModel extends PhModel
 
                             default:
                                 if (is_array($v) && count($v) > 0) {
-                                    $whereString .= ' AND ' . '(';
+                                    $whereString .= ($whereString != '' ? ' AND ' : '') . '(';
                                     $childWhereString = '';
                                     foreach ($v as $index => $samev) {
                                         $childWhereString .= ($childWhereString != '' ? ' OR ' : '') . $k . ' '. $compareChar .' :' . $k . $index . ':';
