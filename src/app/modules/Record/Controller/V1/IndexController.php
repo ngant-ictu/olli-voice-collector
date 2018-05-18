@@ -119,7 +119,7 @@ class IndexController extends AbstractController
 
         $formData = (array) $this->request->getPost();
         $uid = (int) $this->getDI()->getAuth()->getUser()->id;
-        $myFireBase = $this->firebase->getDatabase();
+        // $myFireBase = $this->firebase->getDatabase();
 
         $myUser = UserModel::findFirstById($uid);
         if (!$myUser) {
@@ -149,6 +149,14 @@ class IndexController extends AbstractController
             throw new UserException(ErrorCode::DATA_CREATE_FAIL);
         }
 
+        // Disable voice script
+        $myVoiceScript = VoiceScriptModel::findFirstById((int) $myVoice->vsid);
+        $myVoiceScript->status = VoiceScriptModel::STATUS_DISABLE;
+
+        if (!$myVoiceScript->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
         // Reduce record times
         $myProfile = $myUser->getProfile();
         $myProfile->recordtimes = (int) $myProfile->recordtimes - 1;
@@ -157,12 +165,12 @@ class IndexController extends AbstractController
             throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
         }
 
-        try {
-            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->set($myProfile->recordtimes);
-        } catch (ApiException $e) {
-            $response = $e->getResponse();
-            throw new \Exception($response->getBody());
-        }
+        // try {
+        //     $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->set($myProfile->recordtimes);
+        // } catch (ApiException $e) {
+        //     $response = $e->getResponse();
+        //     throw new \Exception($response->getBody());
+        // }
 
         return $this->createItem(
             $myVoice,
