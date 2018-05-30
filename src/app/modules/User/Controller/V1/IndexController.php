@@ -377,43 +377,46 @@ class IndexController extends AbstractController
     {
         $formData = (array) $this->request->getJsonRawBody();
 
-        if (!isset($formData['mobilenumber']) || strlen($formData['mobilenumber']) == 0) {
-            throw new \Exception('Missing phone number');
+        if (!isset($formData['token']) || strlen($formData['token']) == 0) {
+            throw new \Exception('Missing Firebase Token');
+        }
+        try {
+            $verifiedIdToken = $this->firebase->getAuth()->verifyIdToken($formData['token']);
+        } catch (InvalidToken $e) {
+            throw new \Exception($e->getMessage());
         }
 
-        // try {
-        //     $verifiedIdToken = $this->firebase->getAuth()->verifyIdToken($formData['token']);
-        // } catch (InvalidToken $e) {
-        //     throw new \Exception($e->getMessage());
-        // }
-        //
-        // $firebaseUid = $verifiedIdToken->getClaim('sub');
+        $firebaseUid = $verifiedIdToken->getClaim('sub');
 
         // Check existed user
         $myUser = UserModel::findFirst([
-            'mobilenumber = :mobilenumber:',
+            'oauthuid = :oauthuid: AND status = :status:',
             'bind' => [
-                'mobilenumber' => (string) $formData['mobilenumber']
+                'oauthuid' => (string) $firebaseUid,
+                'status' => UserModel::STATUS_ENABLE
             ]
         ]);
 
         if (!$myUser) {
-            // $firebaseUser = $this->firebase->getAuth()->getUser($firebaseUid);
-            // $myFireBase = $this->firebase->getDatabase();
-            // $myFireBase->getReference('/users/' . $firebaseUid)
-            //     ->set([
-            //         'record_times' => $this->config->default->voices->limit,
-            //         'point' => 0
-            //     ]);
+            $firebaseUser = $this->firebase->getAuth()->getUser($firebaseUid);
+            $myFireBase = $this->firebase->getDatabase();
+            $myFireBase->getReference('/users/' . $firebaseUid)
+                ->set([
+                    'record_times' => $this->config->default->voices->limit,
+                    'point' => 0
+                ]);
 
             $myUser = new UserModel();
             $myUser->assign([
                 'password' => (string) $this->security->hash(rand(1, 999999)),
-                'mobilenumber' => (string) $formData['mobilenumber'],
+                'mobilenumber' => (string) $firebaseUser->phoneNumber,
                 'verifytype' => (int) UserModel::VERIFY_TYPE_PHONE,
                 'isverified' => (int) UserModel::IS_VERIFIED,
                 'groupid' => (string) 'member',
                 'status' => (int) UserModel::STATUS_ENABLE,
+                'oauthprovider' => 'firebase',
+                'oauthuid' => (string) $firebaseUid,
+                'oauthaccesstoken' => (string) $formData['token'],
                 'isprofileupdated' => (int) UserModel::IS_NOT_PROFILE_UPDATED
             ]);
 

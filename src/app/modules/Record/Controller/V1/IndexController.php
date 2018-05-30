@@ -165,12 +165,12 @@ class IndexController extends AbstractController
             throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
         }
 
-        // try {
-        //     $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->set($myProfile->recordtimes);
-        // } catch (ApiException $e) {
-        //     $response = $e->getResponse();
-        //     throw new \Exception($response->getBody());
-        // }
+        try {
+            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->set($myProfile->recordtimes);
+        } catch (ApiException $e) {
+            $response = $e->getResponse();
+            throw new \Exception($response->getBody());
+        }
 
         return $this->createItem(
             $myVoice,

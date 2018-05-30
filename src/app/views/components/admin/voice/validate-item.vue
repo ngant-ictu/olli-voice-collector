@@ -3,7 +3,7 @@
   <div>
     <div class="player">
       <el-button type="text" @click="togglePlayback">{{ playing ? 'Pause' : 'Play' }}</el-button> &nbsp;
-      <small>Duration: {{ duration }} seconds</small>
+      <small>Duration: {{ Math.round(duration) }} seconds</small>
       &nbsp;
       <el-tag size="mini" :type="voice.status.style">{{ voice.status.label }}</el-tag>
       <span class="action">
