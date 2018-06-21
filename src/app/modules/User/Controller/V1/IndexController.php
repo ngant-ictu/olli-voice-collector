@@ -515,15 +515,26 @@ class IndexController extends AbstractController
 
         $dob = \DateTime::createFromFormat('d/m/Y', $formData['dob']);
 
+        $myUser->fullname = (string) $formData['fullname'];
+        $myUser->email = (string) $formData['email'];
+
+        if (!$myUser->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
         $myUserProfile->assign([
-            'fullname' => (string) $formData['fullname'],
-            'email' => (string) $formData['email'],
             'gender' => (int) $formData['gender'],
             'dob' => (int) $dob->getTimestamp(),
             'voiceregion' => (int) $formData['voiceregion']
         ]);
 
         if (!$myUserProfile->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
+        $myUser->isprofileupdated = UserModel::IS_PROFILE_UPDATED;
+
+        if (!$myUser->update()) {
             throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
         }
 

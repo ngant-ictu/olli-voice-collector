@@ -67,7 +67,6 @@ export default class AdminGiftPage extends Vue {
   defineFormVisible: boolean = false;
   addFormVisible: boolean = false;
 
-
   head() {
     return {
       title: this.$t('page.index.title'),
