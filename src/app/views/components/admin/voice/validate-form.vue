@@ -57,14 +57,14 @@
             <el-button type="primary" class="circle" @click="">
               <!-- {{ playing ? 'Pause' : 'Play' }} -->
               <i class="el-icon-caret-right"></i>
-              </el-button>
+            </el-button>
             <el-button icon="el-icon-fa-check" class="circle" type="success"
               @click="onValidate(scope.row.id, 1)"
-              :class="{activeStatus: scope.row.status.value == 1}">
+              :disabled="scope.row.status.value === '1' ? true : false">
             </el-button>
             <el-button icon="el-icon-fa-times" class="circle" type="danger"
               @click="onValidate(scope.row.id, 3)"
-              :class="{activeStatus: scope.row.status.value == 3}">
+              :disabled="scope.row.status.value === '3' ? true : false">
             </el-button>
           </div>
         </template>
@@ -98,6 +98,7 @@ import { Progress } from "element-ui";
 export default class ValidateForm extends Vue {
   @Action("uservoices/get_form_source") formsourceAction;
   @Action("uservoices/get_all") getAction;
+  @Action("voices/validate") validateAction;
   @State(state => state.uservoices.formSource)
   formSource;
   @State(state => state.uservoices.data)
@@ -151,11 +152,14 @@ export default class ValidateForm extends Vue {
   }
 
   async onValidate(vid, statusValue) {
-   
-    await this.$store.dispatch("voices/validate", {
+    // validate
+    const newUservoices = await this.validateAction({
       id: vid,
       formData: { status: statusValue }
     });
+
+    // reload uservoices state
+    await this.loadData(this.page);
   }
 }
 </script>
@@ -208,7 +212,8 @@ div.el-dialog {
 .success {
   color: rgb(103, 194, 58);
 }
-.warning {
+.warning,
+.danger {
   color: #f56c6c;
 }
 </style>
