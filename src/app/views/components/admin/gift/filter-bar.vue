@@ -25,36 +25,46 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'nuxt-property-decorator';
-import { Action, State } from 'vuex-class';
-const querystring = require('querystring');
+import { Vue, Component, Watch } from "nuxt-property-decorator";
+import { Action, State } from "vuex-class";
+const querystring = require("querystring");
 
 @Component
 export default class FilterBar extends Vue {
-  @Action('gifts/get_form_source') formsourceAction;
-  @State(state => state.gifts.query) query;
-  @State(state => state.gifts.formSource) formSource;
-  @Watch('$route')
-  onPageChange() { this.initData() }
+  @Action("gifts/get_form_source") formsourceAction;
+  @State(state => state.gifts.query)
+  query;
+  @State(state => state.gifts.formSource)
+  formSource;
+  @Watch("$route")
+  onPageChange() {
+    this.initData();
+  }
 
   searchInputWidth: number = 100;
   form: object = {};
 
   onFilter() {
     this.query.page = 1;
-    const pageUrl = `?${querystring.stringify(this.form)}&${querystring.stringify(this.query)}`;
+    const pageUrl = `?${querystring.stringify(
+      this.form
+    )}&${querystring.stringify(this.query)}`;
 
     return this.$router.push(pageUrl);
   }
 
-  onReset() { return this.$router.push('/admin/gift'); }
+  onReset() {
+    return this.$router.push("/admin/gift");
+  }
 
-  created() { return this.initData(); }
+  created() {
+    return this.initData();
+  }
 
   async initData() {
     this.form = {
-      keyword: this.$route.query.keyword || '',
-      isused: this.$route.query.isused || ''
+      keyword: this.$route.query.keyword || "",
+      isused: this.$route.query.isused || ""
     };
 
     return await this.formsourceAction();
