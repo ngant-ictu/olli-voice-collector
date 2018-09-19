@@ -2,79 +2,99 @@
 
 <template>
   <section>
-    <el-table :data="voices" style="width: 100%">
-      <el-table-column>
+    <el-table :data="voices" border style="width: 100%" class="voices-item">
+
+      <el-table-column class-name="td-operation" width="" label="User">
         <template slot-scope="scope">
-          <el-row>
-            <el-col :md="4">
-              <div class="avatar">
-                <img v-if="scope.row.user.data.avatar !== ''" :src="scope.row.user.data.avatar" width="30" height="30">
-                <img v-else src="/img/default_avatar.png" width="30" height="30">
-              </div>
-              <div class="fullname">
-                <i v-if="scope.row.user.data.profile.data.gender.icon !== ''"
-                  :style="`float: right; margin-left: 20px; color: ${scope.row.user.data.profile.data.gender.style}`"
-                  :class="`el-icon-${scope.row.user.data.profile.data.gender.icon}`">
-                </i>
-                <code type="danger">{{ scope.row.user.data.mobilenumber }}</code>
-                <p>
-                  <small>{{ scope.row.user.data.fullname !== '' ? scope.row.user.data.fullname : '-/-'}}</small>
-                </p>
-              </div>
-            </el-col>
-            <el-col :md="20">
-              <div class="info">
-                <div class="item">
-                  <strong>{{ scope.row.items.data.length }}</strong>
-                  <span style="color: #409EFF"> Total</span>
-                </div>
-
-                <div class="item">
-                  <el-badge :value="totalPending(scope.row) > 0 ? totalPending(scope.row) : null" class="item">
-                    <el-tag type="warning">
-                      Pending
-                    </el-tag>
-                  </el-badge>
-                </div>
-
-                <div class="item">
-                  <strong>{{ totalApproved(scope.row) > 0 ? totalApproved(scope.row) : 0 }}</strong>
-                  <span style="color: #67C23A"> Approved</span>
-                </div>
-
-                <div class="item">
-                  <strong>{{ totalRejected(scope.row) > 0 ? totalRejected(scope.row) : 0 }}</strong>
-                  <span style="color: #909399"> Rejected</span>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
+          <div class="fullname">
+            <p> <small>{{ scope.row.user.data.fullname !== '' ? scope.row.user.data.fullname : '-/-'}}</small></p>
+          </div>
         </template>
       </el-table-column>
-      <el-table-column class-name="td-operation" width="150">
+      <el-table-column class-name="td-operation" width="" label="Phone">
+        <template slot-scope="scope">
+          <div class=" item numberphone">
+            <small><code type="danger">{{ scope.row.user.data.mobilenumber }}</code></small>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="td-operation" width="100" label="Total">
+        <template slot-scope="scope">
+          <div class="item Total">
+            <small>{{ scope.row.items.data.length }}</small>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="td-operation" width="100" label="Pending">
+        <template slot-scope="scope">
+          <div class="item pending">
+            <small>{{ totalPending(scope.row) > 0 ? totalPending(scope.row) : 0 }}</small>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="td-operation" width="100" label="Approved">
+        <template slot-scope="scope">
+          <div class="item approved">
+           <small>{{ totalApproved(scope.row) > 0 ? totalApproved(scope.row) : 0 }}</small>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="td-operation" width="100" label="Rejected">
+        <template slot-scope="scope">
+          <div class="item rejected">
+            <small>{{ totalRejected(scope.row) > 0 ? totalRejected(scope.row) : 0 }}</small>
+
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="td-operation" width="100" label="Status">
+        <template slot-scope="scope">
+          <div class="item status">
+            <small style="color: #67C23A"> Done</small>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="td-operation" width="" label="Pending Date">
+        <template slot-scope="scope">
+          <div class="item pendingdate">
+            <small> 13 Sep 2018, 11:53</small>
+          </div>
+        </template>
+      </el-table-column>
+
+      <el-table-column class-name="td-operation" width="" label="Validated by">
         <template slot-scope="scope">
           <div v-if="getValidateUser(scope.row).length > 0">
             <div class="avatar" v-for="(voiceitem, index) in getValidateUser(scope.row)" :key="index">
               <el-tooltip class="item" effect="dark" :content="voiceitem.validatedby.fullname">
-                <img v-if="voiceitem.validatedby.avatar !== ''" :src="voiceitem.validatedby.avatar" width="30" height="30">
-                <img v-else src="/img/default_avatar.png" width="30" height="30">
+                <small>{{ voiceitem.validatedby.fullname }}</small>
               </el-tooltip>
-              <el-button size="mini" type="text"
+
+            </div>
+          </div>
+
+        </template>
+      </el-table-column>
+      <el-table-column class-name="td-operation" width="" >
+        <template slot-scope="scope">
+          <div v-if="getValidateUser(scope.row).length > 0">
+            <div class="avatar" v-for="(voiceitem, index) in getValidateUser(scope.row)" :key="index">
+              <small
                 v-if="authUser.sub.id === voiceitem.validatedby.id"
-                @click="onShowValidateForm(scope.row)"
-                style="position: absolute; margin-left: 10px;">
+                @click="onShowValidateForm(scope.row)" class="primary" plain>
                 Continue
-              </el-button>
+              </small>
             </div>
           </div>
           <div v-else>
-            <el-button size="small" icon="el-icon-fa-flash"
+            <small class="primary" plain
               @click="onShowValidateForm(scope.row)">
-              Validate
-            </el-button>
+              Validator
+            </small>
           </div>
         </template>
       </el-table-column>
+
     </el-table>
     <scroll-top :duration="1000" :timing="'ease'"></scroll-top>
     <validate-form :validateFormState="visible" :userId="userId" :onClose="onHideValidateForm"></validate-form>
@@ -83,8 +103,8 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "nuxt-property-decorator";
-import { Action, State } from 'vuex-class';
-import ValidateForm from '~/components/admin/voice/validate-form.vue';
+import { Action, State } from "vuex-class";
+import ValidateForm from "~/components/admin/voice/validate-form.vue";
 
 @Component({
   components: {
@@ -93,32 +113,32 @@ import ValidateForm from '~/components/admin/voice/validate-form.vue';
 })
 export default class AdminVoiceItems extends Vue {
   @Prop() voices: any[];
-  @Action('voices/get_all') listAction;
-  @State(state => state.authUser) authUser;
+  @Action("voices/get_all") listAction;
+  @State(state => state.authUser)
+  authUser;
+  @Prop() props: ["sources", "voice", "voicescript", "uid"];
 
   visible: boolean = false;
   userId: number = 0;
 
   totalPending(row) {
-    return row.items.data.filter(voice => voice.status.value === '5').length
+    return row.items.data.filter(voice => voice.status.value === "5").length;
   }
 
   totalApproved(row) {
-    return row.items.data.filter(voice => voice.status.value === '1').length
+    return row.items.data.filter(voice => voice.status.value === "1").length;
   }
 
   totalRejected(row) {
-    return row.items.data.filter(voice => voice.status.value === '3').length
+    return row.items.data.filter(voice => voice.status.value === "3").length;
   }
 
   getValidateUser(row) {
     let flags = {};
     return row.items.data.filter(voice => {
-      if (flags[voice.validatedby])
-        return;
+      if (flags[voice.validatedby]) return;
 
-      if (voice.validatedby === 0)
-        return false;
+      if (voice.validatedby === 0) return false;
 
       flags[voice.validatedby] = true;
       return voice;
@@ -130,37 +150,53 @@ export default class AdminVoiceItems extends Vue {
     this.userId = row.uid;
   }
 
-  onHideValidateForm() { this.visible = false; }
+  onHideValidateForm() {
+    this.visible = false;
+  }
 }
 </script>
 
-<style lang="scss" scoped>
-.avatar {
-  float: left;
-  margin-right: 10px;
-  padding-top: 10px;
-  display: inline-block;
-  img {
-    border-radius: 30px !important;
+<style lang="scss">
+.voices-item {
+  &.el-table--enable-row-transition .el-table__body td {
+    padding: 0;
   }
-}
-.fullname {
-  float: left;
-  display: inline-block;
-  code {
-    color: #409eff;
-  }
-  p {
-    margin: 0 auto;
-  }
-}
-.info {
-  float: left;
-  margin-left: 100px;
-  margin-top: 10px;
-  .item {
+  .avatar {
+    float: left;
+    margin-right: 10px;
     display: inline-block;
-    margin-left: 50px;
+    img {
+      border-radius: 30px !important;
+    }
+  }
+  .fullname {
+    float: left;
+    display: inline-block;
+
+    p {
+      margin: 0 auto;
+    }
+  }
+
+  .numberphone {
+    code {
+      color: #409eff;
+    }
+  }
+  .pending {
+    margin-top: 10px;
+  }
+  .info {
+    float: left;
+    margin-left: 100px;
+    margin-top: 10px;
+    .item {
+      display: inline-block;
+      margin-left: 50px;
+    }
+  }
+  .primary {
+    color: #409eff;
   }
 }
 </style>
