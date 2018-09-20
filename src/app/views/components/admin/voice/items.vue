@@ -159,7 +159,7 @@ export default class AdminVoiceItems extends Vue {
 <style lang="scss">
 .voices-item {
   &.el-table--enable-row-transition .el-table__body td {
-    padding: 0;
+    padding: 2px 0;
   }
   .avatar {
     float: left;
@@ -183,9 +183,7 @@ export default class AdminVoiceItems extends Vue {
       color: #409eff;
     }
   }
-  .pending {
-    margin-top: 10px;
-  }
+
   .info {
     float: left;
     margin-left: 100px;

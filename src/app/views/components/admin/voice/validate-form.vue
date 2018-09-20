@@ -54,10 +54,12 @@
       <el-table-column class-name="td-operation" width="160" label="">
         <template slot-scope="scope">
           <div class="item action">
-            <el-button type="primary" class="circle" @click="">
-              <!-- {{ playing ? 'Pause' : 'Play' }} -->
-              <i class="el-icon-caret-right"></i>
-            </el-button>
+              <validate-item
+              :sources="scope.row.filepath"
+              :voice="scope.row"
+              :voicescript="scope.row.voicescript.data"
+              :uid="userId"
+              ></validate-item>
             <el-button icon="el-icon-fa-check" class="circle" type="success"
               @click="onValidate(scope.row.id, 1)"
               :disabled="scope.row.status.value === '1' ? true : false">
@@ -69,6 +71,8 @@
           </div>
         </template>
       </el-table-column>
+
+
 
     </el-table>
     <template slot="footer">
@@ -191,6 +195,9 @@ div.el-dialog {
       margin: 0;
     }
   }
+  .el-button--success.is-disabled {
+    opacity: 0.5;
+  }
 }
 
 .progress {
@@ -204,6 +211,10 @@ div.el-dialog {
   border-radius: 50% !important;
   padding: 7px !important;
   width: 30px;
+  &.audio-player {
+    padding: 0 !important;
+    font-size: 8px;
+  }
 }
 .activeStatus {
   opacity: 0.5;
