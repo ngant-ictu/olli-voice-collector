@@ -65,6 +65,7 @@
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
               ></validate-item>
+
             <el-button icon="el-icon-fa-check" class="circle" type="success"
               @click="onValidate(scope.row.id, 1)"
               :disabled="scope.row.status.value === '1' ? true : false">
@@ -76,9 +77,6 @@
           </div>
         </template>
       </el-table-column>
-
-
-
     </el-table>
     <template slot="footer">
       <pagination-stay
@@ -210,6 +208,15 @@ div.el-dialog {
         }
       }
     }
+  }
+  .second-duration {
+    overflow: hidden;
+    height: 14px;
+    line-height: 14px;
+    text-overflow: ellipsis;
+    display: -webkit-inline-box;
+    margin: 0;
+    width: 28px;
   }
 
   .voice_text {

@@ -13,7 +13,7 @@
 
 export default {
   mixins: [VueHowler],
-  // props: ['sources', 'voice', 'voicescript', 'uid'],
+  props: ['sources', 'voice', 'voicescript', 'uid'],
 
 
 }
