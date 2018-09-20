@@ -1,6 +1,6 @@
 
 <template>
-    <el-button type="primary" class="circle audio-player" @click="togglePlayback">
+    <el-button type="primary" class="circle audio-player" :class="playing ? 'Pause' : 'Play'" @click="togglePlayback">
         {{ playing ? 'Pause' : 'Play' }}
 
   </el-button>
@@ -27,8 +27,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.player {
-  background-color: whitesmoke;
-  padding: 0 10px;
-}
 </style>

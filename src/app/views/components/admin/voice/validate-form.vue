@@ -60,6 +60,7 @@
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
               ></validate-item>
+
             <el-button icon="el-icon-fa-check" class="circle" type="success"
               @click="onValidate(scope.row.id, 1)"
               :disabled="scope.row.status.value === '1' ? true : false">
@@ -120,7 +121,6 @@ export default class ValidateForm extends Vue {
 
   loading: boolean = false;
   filterby: any = [];
-  
 
   onFilter() {
     return this.loadData(1);
@@ -214,7 +214,18 @@ div.el-dialog {
   width: 30px;
   &.audio-player {
     padding: 0 !important;
-    font-size: 8px;
+    font-size: 0;
+    position: relative;
+    &.Play:before {
+      font-family: FontAwesome;
+      content: "\f04b";
+      font-size: 11px;
+    }
+    &.Pause:before {
+      font-family: FontAwesome;
+      content: "\f04c";
+      font-size: 13px;
+    }
   }
 }
 .activeStatus {
