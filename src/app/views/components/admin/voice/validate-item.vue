@@ -1,8 +1,8 @@
 
 <template>
-    <el-button type="primary" class="circle" @click="togglePlayback">
+    <el-button type="primary" class="circle audio-player" @click="togglePlayback">
         {{ playing ? 'Pause' : 'Play' }}
-        <i class="el-icon-caret-right"></i>
+
   </el-button>
 </template>
 

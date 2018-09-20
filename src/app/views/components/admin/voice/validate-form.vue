@@ -120,6 +120,7 @@ export default class ValidateForm extends Vue {
 
   loading: boolean = false;
   filterby: any = [];
+  
 
   onFilter() {
     return this.loadData(1);
