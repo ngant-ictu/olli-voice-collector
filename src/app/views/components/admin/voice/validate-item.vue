@@ -1,9 +1,11 @@
 
 <template>
+  <div>
     <el-button type="primary" class="circle audio-player" :class="playing ? 'Pause' : 'Play'" @click="togglePlayback">
         {{ playing ? 'Pause' : 'Play' }}
-
   </el-button>
+  <small class="second-duration">{{ duration }}</small>
+</div>
 </template>
 
 <script lang="js">
@@ -11,20 +13,11 @@
 
 export default {
   mixins: [VueHowler],
-  props: ['sources', 'voice', 'voicescript', 'uid'],
+  // props: ['sources', 'voice', 'voicescript', 'uid'],
 
-  data() {
 
-    return {
-
-    }
-  },
-
-  methods: {
-
-  }
 }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 </style>

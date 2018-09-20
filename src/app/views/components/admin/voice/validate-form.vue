@@ -23,17 +23,22 @@
       </el-select>
     </template>
     <el-table :data="uservoices" border style="width: 100%" class="validated-item player">
-      <el-table-column class-name="td-operation" width="150" label="RecordDate">
+      <el-table-column class-name="td-operation" width="130" label="Record Date">
         <template slot-scope="scope">
           <div class="item recordDate">
               <small> 13-09-2018, 11:54 </small>
           </div>
         </template>
       </el-table-column>
-      <el-table-column class-name="td-operation" width="70" label="Drt (sec)">
+      <el-table-column class-name="td-operation" width="80" label="Duration">
         <template slot-scope="scope">
-          <div class="item duration">
-            <small class="sec-duration">10.52 </small>
+          <div class="item-duration">
+            <validate-item
+              :sources="scope.row.filepath"
+              :voice="scope.row"
+              :voicescript="scope.row.voicescript.data"
+              :uid="userId"
+              ></validate-item>
           </div>
         </template>
       </el-table-column>
@@ -51,16 +56,15 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column class-name="td-operation" width="160" label="">
+      <el-table-column class-name="td-operation" width="140" label="">
         <template slot-scope="scope">
-          <div class="item action">
+          <div class="group-buttons">
               <validate-item
               :sources="scope.row.filepath"
               :voice="scope.row"
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
               ></validate-item>
-
             <el-button icon="el-icon-fa-check" class="circle" type="success"
               @click="onValidate(scope.row.id, 1)"
               :disabled="scope.row.status.value === '1' ? true : false">
@@ -169,7 +173,7 @@ export default class ValidateForm extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 div.el-dialog {
   width: 60%;
 }
@@ -177,66 +181,75 @@ div.el-dialog {
   background-color: whitesmoke;
 }
 .validated-item {
-  .action {
+  .group-buttons {
     display: flex;
     display: -webkit-flex;
+
+    .second-duration {
+      display: none;
+    }
+    .el-button.circle {
+      border-radius: 50% !important;
+      padding: 7px !important;
+      width: 30px;
+      height: 30px;
+      &.audio-player {
+        padding: 0 !important;
+        font-size: 0;
+        position: relative;
+        margin-right: 10px;
+        &.Play:before {
+          font-family: FontAwesome;
+          content: "\f04b";
+          font-size: 11px;
+        }
+        &.Pause:before {
+          font-family: FontAwesome;
+          content: "\f04c";
+          font-size: 13px;
+        }
+      }
+    }
   }
 
   .voice_text {
-    height: 24px;
-    line-height: 24px;
+    line-height: 14px;
     small {
-      overflow: hidden;
-      height: 24px;
-      line-height: 24px;
-      text-overflow: ellipsis;
-      display: -webkit-inline-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      margin: 0;
+      word-break: break-word;
+      // overflow: hidden;
+      // height: 24px;
+      // line-height: 24px;
+      // text-overflow: ellipsis;
+      // display: -webkit-inline-box;
+      // -webkit-line-clamp: 1;
+      // -webkit-box-orient: vertical;
+      // margin: 0;
     }
   }
   .el-button--success.is-disabled {
     opacity: 0.5;
   }
-}
-
-.progress {
-  margin-bottom: 15px;
-}
-.voice_text {
-  display: block;
-  font-size: 14px;
-}
-.circle {
-  border-radius: 50% !important;
-  padding: 7px !important;
-  width: 30px;
-  &.audio-player {
-    padding: 0 !important;
-    font-size: 0;
-    position: relative;
-    &.Play:before {
-      font-family: FontAwesome;
-      content: "\f04b";
-      font-size: 11px;
-    }
-    &.Pause:before {
-      font-family: FontAwesome;
-      content: "\f04c";
-      font-size: 13px;
-    }
+  .progress {
+    margin-bottom: 15px;
   }
-}
-.activeStatus {
-  opacity: 0.5;
-  pointer-events: none;
-}
-.success {
-  color: rgb(103, 194, 58);
-}
-.warning,
-.danger {
-  color: #f56c6c;
+  .voice_text {
+    display: block;
+    font-size: 14px;
+  }
+
+  .activeStatus {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .success {
+    color: rgb(103, 194, 58);
+  }
+  .warning,
+  .danger {
+    color: #f56c6c;
+  }
+  .item-duration .el-button {
+    display: none;
+  }
 }
 </style>
