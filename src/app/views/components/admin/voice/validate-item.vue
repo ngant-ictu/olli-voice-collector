@@ -1,8 +1,8 @@
 
 <template>
-    <el-button type="primary" class="circle audio-player" @click="togglePlayback">
+    <el-button type="primary" class="circle" @click="togglePlayback">
         {{ playing ? 'Pause' : 'Play' }}
-
+        <i class="el-icon-caret-right"></i>
   </el-button>
 </template>
 
@@ -11,19 +11,17 @@
 
 export default {
   mixins: [VueHowler],
-  props: ['sources'],
+  props: ['sources', 'voice', 'voicescript', 'uid'],
 
   data() {
-    console.log(this.sources);
+
     return {
 
     }
   },
 
   methods: {
-    play() {
-      play
-    }
+
   }
 }
 </script>
