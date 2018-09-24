@@ -39,6 +39,7 @@
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
               ></validate-item>
+
           </div>
         </template>
       </el-table-column>
@@ -49,7 +50,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column class-name="td-operation" width="120" label="Status">
+      <el-table-column class-name="td-operation" width="80" label="Status">
         <template slot-scope="scope">
           <div class="item satus">
             <small :class="scope.row.status.style">{{ scope.row.status.label }}</small>
@@ -209,28 +210,10 @@ div.el-dialog {
       }
     }
   }
-  .second-duration {
-    overflow: hidden;
-    height: 14px;
-    line-height: 14px;
-    text-overflow: ellipsis;
-    display: -webkit-inline-box;
-    margin: 0;
-    width: 28px;
-  }
-
   .voice_text {
     line-height: 14px;
     small {
       word-break: break-word;
-      // overflow: hidden;
-      // height: 24px;
-      // line-height: 24px;
-      // text-overflow: ellipsis;
-      // display: -webkit-inline-box;
-      // -webkit-line-clamp: 1;
-      // -webkit-box-orient: vertical;
-      // margin: 0;
     }
   }
   .el-button--success.is-disabled {
