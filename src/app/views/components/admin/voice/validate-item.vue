@@ -17,7 +17,6 @@ Vue.use(VueTruncate)
 export default {
 
   mixins: [VueHowler],
-  props: ['sources'],
 
   props: ['sources', 'voice', 'voicescript', 'uid'],
 
@@ -25,6 +24,7 @@ export default {
     setDuration() {
       let seconds = this.duration
       return seconds.toPrecision(3);
+
     }
   }
 
