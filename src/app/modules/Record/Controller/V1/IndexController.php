@@ -119,7 +119,7 @@ class IndexController extends AbstractController
 
         $formData = (array) $this->request->getPost();
         $uid = (int) $this->getDI()->getAuth()->getUser()->id;
-        // $myFireBase = $this->firebase->getDatabase();
+        $myFireBase = $this->firebase->getDatabase();
 
         $myUser = UserModel::findFirstById($uid);
         if (!$myUser) {
