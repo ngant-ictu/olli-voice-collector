@@ -6,6 +6,7 @@ use Core\Model\AbstractModel;
 /**
  * @Source('fly_user_gift');
  * @Behavior('\Shirou\Behavior\Model\Timestampable');
+ * @HasOne('gid', '\Gift\Model\Gift', 'id', {'alias': 'gift'})
  */
 class UserGift extends AbstractModel
 {

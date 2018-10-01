@@ -6,7 +6,9 @@ use Shirou\UserException;
 use Core\Controller\AbstractController;
 use User\Model\User as UserModel;
 use User\Model\UserProfile as UserProfileModel;
+use User\Model\UserGift as UserGiftModel;
 use User\Transformer\User as UserTransformer;
+use User\Transformer\UserGift as UserGiftTransformer;
 use User\Constants\ErrorCode as UserErrorCode;
 use Core\Helper\Utils as Helper;
 use Kreait\Firebase\Database\RuleSet;
@@ -403,7 +405,8 @@ class IndexController extends AbstractController
             $myFireBase->getReference('/users/' . $firebaseUid)
                 ->set([
                     'record_times' => $this->config->default->voices->limit,
-                    'point' => 0
+                    'point' => 0,
+                    'tmp_point' => 0
                 ]);
 
             $myUser = new UserModel();
@@ -428,6 +431,7 @@ class IndexController extends AbstractController
             $myUserProfile->assign([
                 'uid' => (int) $myUser->id,
                 'point' => 0,
+                'tmppoint' => 0,
                 'recordtimes' => (int) $this->config->default->voices->limit,
             ]);
 
@@ -604,6 +608,7 @@ class IndexController extends AbstractController
 
         return $this->respondWithArray([
             'point' => $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->getValue(),
+            'tmppoint' => $myFireBase->getReference('/users/' . $myUser->oauthuid . '/tmp_point')->getValue(),
             'recordtimes' => $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->getValue()
         ], 'data');
     }
@@ -617,5 +622,50 @@ class IndexController extends AbstractController
     {
         $uid = (int) $this->auth->getUser()->id;
 
+        $page = (int) $this->request->getQuery('page', null, 1);
+        $formData = [];
+        $hasMore = true;
+
+        // Search keyword in specified field model
+        $searchKeywordInData = [];
+        $page = (int) $this->request->getQuery('page', null, 1);
+        $orderBy = (string) $this->request->getQuery('orderby', null, 'id');
+        $orderType = (string) $this->request->getQuery('ordertype', null, 'desc');
+        $keyword = (string) $this->request->getQuery('keyword', null, '');
+
+        $formData['columns'] = '*';
+        $formData['conditions'] = [
+            'keyword' => $keyword,
+            'searchKeywordIn' => $searchKeywordInData,
+            'filterBy' => []
+        ];
+        $formData['orderBy'] = $orderBy;
+        $formData['orderType'] = $orderType;
+
+        $myUsergifts = UserGiftModel::paginate($formData, $this->recordPerPage, $page);
+
+        if ($myUsergifts->total_pages > 0) {
+            if ($page == $myUsergifts->total_pages) {
+                $hasMore = false;
+            }
+
+            return $this->createCollection(
+                $myUsergifts->items,
+                new UserGiftTransformer,
+                'data',
+                [
+                    'meta' => [
+                        'recordPerPage' => $this->recordPerPage,
+                        'hasMore' => $hasMore,
+                        'totalItems' => $myUsergifts->total_items,
+                        'orderBy' => $orderBy,
+                        'orderType' => $orderType,
+                        'page' => $page
+                    ]
+                ]
+            );
+        } else {
+            return $this->respondWithArray([], 'data');
+        }
     }
 }

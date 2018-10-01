@@ -42,7 +42,7 @@ voices:
     audio/webm
     audio/wave
     audio/vnd.wave
-  limit: 500
+  limit: 1000
 gifts:
   directory: /app/storage/files/gifts/
   minsize: 100
