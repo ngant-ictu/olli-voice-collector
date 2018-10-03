@@ -25,8 +25,8 @@
     <el-table :data="uservoices" border style="width: 100%" class="validated-item player">
       <el-table-column class-name="td-operation" width="130" label="Record Date">
         <template slot-scope="scope">
-          <div class="item recordDate">             
-              <small> {{ scope.row.humandatecreated }} </small>
+          <div class="item recordDate">
+             <small> {{ scope.row.humandatecreated }} </small>
           </div>
         </template>
       </el-table-column>
@@ -38,8 +38,8 @@
               :voice="scope.row"
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
-              ></validate-item> 
-             
+              ></validate-item>
+              
           </div>
         </template>
       </el-table-column>
@@ -65,7 +65,8 @@
               :voice="scope.row"
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
-              ></validate-item>             
+              ></validate-item> 
+              
 
             <el-button icon="el-icon-fa-check" class="circle" type="success"
               @click="onValidate(scope.row.id, 1)"
