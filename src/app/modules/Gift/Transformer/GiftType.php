@@ -21,7 +21,7 @@ class GiftType extends TransformerAbstract
             'id' => (string) $gifttype->id,
             'name' => (string) $gifttype->name,
             'datecreated' => (string) $gifttype->datecreated,
-            'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i')
+            'humandatecreated' => (string) $humandatecreated->format('d-m-Y, H:i')
         ];
     }
 

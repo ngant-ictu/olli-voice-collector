@@ -20,7 +20,7 @@ class UserGift extends TransformerAbstract
         return [
             'id' => (int) $usergift->id,
             'datecreated' => (int) $usergift->datecreated,
-            'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i')
+            'humandatecreated' => (string) $humandatecreated->format('d-m-Y, H:i')
         ];
     }
 

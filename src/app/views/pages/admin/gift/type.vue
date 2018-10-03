@@ -5,17 +5,11 @@
     <el-col :span="24">
       <div class="filter-icon"><i class="el-icon-fa-gift"></i></div>
       <breadcrumb :data="[
-        { name: $t('page.index.title'), link: '/admin/gift' },
+        { name: 'Gift Types', link: '/admin/gift/type' },
         { name: $t('default.list'), link: '' }
       ]" :totalItems="totalItems">
       </breadcrumb>
       <div class="top-right-toolbar">
-        <el-button size="mini" type="text" icon="el-icon-plus" @click="onShowAddForm">
-          {{ $t('default.add') }}
-        </el-button>
-        <el-button size="mini" type="primary" @click="onShowDefineForm">
-          {{ $t('label.define') }}
-        </el-button>
         <pagination :totalItems="totalItems" :currentPage="query.page" :recordPerPage="recordPerPage"></pagination>
       </div>
     </el-col>
@@ -24,11 +18,9 @@
         <filter-bar></filter-bar>
       </div>
       <div class="panel-body">
-        <admin-gift-items :gifts="gifts"></admin-gift-items>
+        <admin-gift-type-items :gifttypes="gifttypes"></admin-gift-type-items>
       </div>
     </el-col>
-    <define-type-form :defineFormState="defineFormVisible" :onClose="onHideDefineForm"></define-type-form>
-    <add-form :addFormState="addFormVisible" :onClose="onHideAddForm"></add-form>
   </el-row>
 </template>
 
@@ -60,14 +52,12 @@ export default class AdminGiftTypePage extends Vue {
   onPageChange() { this.initData() }
 
   loading: boolean = false;
-  defineFormVisible: boolean = false;
-  addFormVisible: boolean = false;
 
   head() {
     return {
-      title: this.$t('page.index.title'),
+      title: 'Gift Types',
       meta: [
-        { hid: 'description', name: 'description', content: this.$t('title') }
+        { hid: 'description', name: 'description', content: 'Gift Types' }
       ]
     };
   }

@@ -37,7 +37,7 @@ class Gift extends TransformerAbstract
                 'style' => (string) $gift->getUsedStyle()
             ],
             'datecreated' => (string) $gift->datecreated,
-            'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i'),
+            'humandatecreated' => (string) $humandatecreated->format('d-m-Y, H:i'),
             'dateused' => (string) $gift->dateused,
             'humandateused' => (string) $humandateused
         ];

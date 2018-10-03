@@ -1,23 +1,12 @@
 
-
 <template>
   <section>
     <el-table :data="gifttypes"  style="width: 100%" row-key="id"
       @selection-change="onSelectionChange">
       <el-table-column type="selection"></el-table-column>
-      <el-table-column :label="$t('label.name')" prop="name">
-      </el-table-column>
-      <el-table-column width="130">
+      <el-table-column :label="$t('label.name')">
         <template slot-scope="scope">
-          <small>
-            {{ $t('label.dateCreated') }} <br />
-            <strong>{{ scope.row.humandatecreated }}</strong>
-          </small>
-          <br />
-          <small class="date_used" v-if="scope.row.dateused !== '0'">
-            {{ $t('label.dateUsed') }} <br />
-            <strong>{{ scope.row.humandateused }}</strong>
-          </small>
+          <p>{{ scope.row.name }}</p>
         </template>
       </el-table-column>
       <el-table-column class-name="td-operation" width="200">
@@ -37,7 +26,6 @@
       <el-button style="margin-left: 10px" type="primary" size="small" @click="onBulkSubmit">{{ $t('default.submit') }}</el-button>
     </div>
     <scroll-top :duration="1000" :timing="'ease'"></scroll-top>
-    <!-- <edit-form :editFormState="visible" :itemId="itemId" :onClose="onHideEditForm"></edit-form> -->
   </section>
 </template>
 
@@ -66,24 +54,6 @@ export default class AdminGiftTypeItems extends Vue {
 
   get bulkList() {
     return [{ value: "delete", label: this.$t("label.delete") }];
-  }
-
-  onShowCloneForm(id) {
-    this.visibleClone = !this.visibleClone;
-    this.itemId = id;
-  }
-
-  onHideCloneForm() {
-    this.visibleClone = false;
-  }
-
-  onShowEditForm(id) {
-    this.visible = !this.visible;
-    this.itemId = id;
-  }
-
-  onHideEditForm() {
-    this.visible = false;
   }
 
   onSelectionChange(item) {
@@ -143,35 +113,5 @@ export default class AdminGiftTypeItems extends Vue {
 </script>
 
 <style lang="scss">
-.cover {
-  margin-right: 10px;
-  float: left;
-  display: inline-block;
-}
-.name {
-  line-height: 30px;
-  font-size: 1em;
-}
-.attr_name {
-  font-size: 0.85em;
-  font-weight: lighter;
-}
-.value {
-  font-size: 0.9em;
-}
-.unit {
-  font-size: 0.85em;
-  font-weight: lighter;
-  color: #ea8787;
-}
-.el-table .cell {
-  line-height: 19px;
-}
-.el-badge__content {
-  font-size: 0.8em;
-}
-.date_used {
-  background-color: whitesmoke;
-  display: block;
-}
+
 </style>

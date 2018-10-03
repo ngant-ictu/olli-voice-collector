@@ -19,7 +19,7 @@ class GiftAttribute extends TransformerAbstract
             'unit' => (string) $giftattribute->unit,
             'displayorder' => (string) $giftattribute->displayorder,
             'datecreated' => (string) $giftattribute->datecreated,
-            'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i')
+            'humandatecreated' => (string) $humandatecreated->format('d-m-Y, H:i')
         ];
     }
 }

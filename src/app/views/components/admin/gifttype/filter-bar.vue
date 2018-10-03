@@ -1,5 +1,3 @@
-<lang src="./lang.yml"></lang>
-
 <template>
   <el-form ref="form" label-position="top">
     <el-form-item prop="keyword">

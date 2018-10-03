@@ -41,7 +41,7 @@ class User extends TransformerAbstract
             'avatar' => (string) $user->getAvatarJson(),
             'mobilenumber' => (string) $user->mobilenumber,
             'datecreated' => (int) $user->datecreated,
-            'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i'),
+            'humandatecreated' => (string) $humandatecreated->format('d-m-Y, H:i'),
         ];
     }
 

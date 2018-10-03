@@ -39,6 +39,10 @@ class Voice extends TransformerAbstract
     {
         $myUser = UserModel::findFirstById($voice->uid);
 
+        if (!$myUser) {
+            $myUser = new UserModel();
+        }
+
         return $this->item($myUser, new UserTransformer);
     }
 }
