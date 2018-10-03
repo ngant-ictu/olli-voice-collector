@@ -64,6 +64,11 @@ class UserProfile extends AbstractModel
     public $point;
 
     /**
+    * @Column(type="integer", nullable=true, column="up_tmp_point")
+    */
+    public $tmppoint;
+
+    /**
     * @Column(type="integer", nullable=true, column="up_record_times")
     */
     public $recordtimes;

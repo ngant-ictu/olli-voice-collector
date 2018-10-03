@@ -89,7 +89,6 @@ class AuthManager extends PhPlugin
     {
         // Hide some field in jwt token
         $user->password = '';
-        $user->oauthuid = '';
         $user->oauthaccesstoken = '';
 
         $this->user = $user;
