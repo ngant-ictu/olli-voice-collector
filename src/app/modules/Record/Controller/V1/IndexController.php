@@ -295,31 +295,37 @@ class IndexController extends AbstractController
         }
 
         $myProfile = $myUser->getProfile();
-        // increase point if is approved status
+
         if ($formData['status'] == 1) {
             $myProfile->point = (int) $myProfile->point + 1;
 
-            try {
-                $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->set($myProfile->point);
-            } catch (ApiException $e) {
-                $response = $e->getResponse();
-                throw new \Exception($response->getBody());
+            if ($myVoice->status == VoiceModel::STATUS_REJECTED) {
+                $myProfile->recordtimes = (int) $myProfile->recordtimes - 1;
+            } else {
+                $myProfile->tmppoint = (int) $myProfile->tmppoint - 1;
             }
         } else {
-            // reduce recording times if is rejected status
-            $myProfile->recordtimes = (int) $myProfile->recordtimes - 1;
-            $myProfile->tmppoint = (int) $myProfile->tmppoint - 1;
+            $myProfile->recordtimes = (int) $myProfile->recordtimes + 1;
 
-            try {
-                $myFireBase->getReference('/users/' . $myUser->oauthuid . '/tmp_point')->set($myProfile->tmppoint - 1);
-            } catch (ApiException $e) {
-                $response = $e->getResponse();
-                throw new \Exception($response->getBody());
+            // if record has been approved
+            if ($myVoice->status == VoiceModel::STATUS_APPROVED) {
+                $myProfile->point = (int) $myProfile->point - 1;
+            } else if ($myVoice->status == VoiceModel::STATUS_PENDING) {
+                $myProfile->tmppoint = (int) $myProfile->tmppoint - 1;
             }
         }
 
         if (!$myProfile->update()) {
             throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
+        try {
+            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/record_times')->set((int) $myProfile->recordtimes);
+            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/tmp_point')->set((int) $myProfile->tmppoint);
+            $myFireBase->getReference('/users/' . $myUser->oauthuid . '/point')->set((int) $myProfile->point);
+        } catch (ApiException $e) {
+            $response = $e->getResponse();
+            throw new \Exception($response->getBody());
         }
 
         $myVoice->status = (int) $formData['status'];

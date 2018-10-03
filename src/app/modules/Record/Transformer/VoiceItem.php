@@ -37,7 +37,7 @@ class VoiceItem extends TransformerAbstract
                 'style' => (string) $voiceitem->getStatusStyle()
             ],
             'datecreated' => (string) $voiceitem->datecreated,
-            'humandatecreated' => (string) $humandatecreated->format('d M Y, H:i')
+            'humandatecreated' => (string) $humandatecreated->format('d-m-Y, H:i')
         ];
     }
 
