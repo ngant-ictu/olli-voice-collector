@@ -237,7 +237,9 @@ div.el-dialog {
   .success {
     color: rgb(103, 194, 58);
   }
-  .warning,
+  .warning {
+    color: orange;
+  }
   .danger {
     color: #f56c6c;
   }
