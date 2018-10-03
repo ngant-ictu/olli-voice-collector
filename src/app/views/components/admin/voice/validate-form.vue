@@ -39,7 +39,7 @@
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
               ></validate-item>
-
+              
           </div>
         </template>
       </el-table-column>
@@ -65,7 +65,8 @@
               :voice="scope.row"
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
-              ></validate-item>
+              ></validate-item> 
+              
 
             <el-button icon="el-icon-fa-check" class="circle" type="success"
               @click="onValidate(scope.row.id, 1)"
@@ -96,6 +97,7 @@ import { Action, State } from "vuex-class";
 import ValidateItem from "~/components/admin/voice/validate-item.vue";
 import PaginationStay from "~/components/admin/pagination-stay.vue";
 import { Progress } from "element-ui";
+import VueFilter from "vue-filter";
 
 @Component({
   components: {
@@ -124,6 +126,7 @@ export default class ValidateForm extends Vue {
 
   loading: boolean = false;
   filterby: any = [];
+  
 
   onFilter() {
     return this.loadData(1);
@@ -234,7 +237,9 @@ div.el-dialog {
   .success {
     color: rgb(103, 194, 58);
   }
-  .warning,
+  .warning {
+    color: orange;
+  }
   .danger {
     color: #f56c6c;
   }

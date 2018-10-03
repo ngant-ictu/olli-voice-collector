@@ -50,14 +50,15 @@
       <el-table-column class-name="td-operation" width="100" label="Status">
         <template slot-scope="scope">
           <div class="item status">
-            <small style="color: #67C23A"> Done</small>
+            <small v-if="totalPending(scope.row) === 0" style="color: #67C23A"> Done</small>
+            <small v-if="totalPending(scope.row) > 0" style="color: orange"> Pending</small>
           </div>
         </template>
       </el-table-column>
       <el-table-column class-name="td-operation" width="" label="Pending Date">
         <template slot-scope="scope">
           <div class="item pendingdate">
-            <small> 13 Sep 2018, 11:53</small>
+            <small>{{ scope.row.user.data.humandatecreated }}</small>
           </div>
         </template>
       </el-table-column>
@@ -89,7 +90,7 @@
           <div v-else>
             <small class="primary" plain
               @click="onShowValidateForm(scope.row)">
-              Validator
+              Validate
             </small>
           </div>
         </template>
@@ -195,6 +196,7 @@ export default class AdminVoiceItems extends Vue {
   }
   .primary {
     color: #409eff;
+    cursor: pointer;
   }
 }
 </style>

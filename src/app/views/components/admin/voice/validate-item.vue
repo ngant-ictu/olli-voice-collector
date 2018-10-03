@@ -17,7 +17,6 @@ Vue.use(VueTruncate)
 export default {
 
   mixins: [VueHowler],
-
   props: ['sources', 'voice', 'voicescript', 'uid'],
 
   methods: {
