@@ -50,7 +50,7 @@ vi:
         <i class="el-icon-fa-navicon"></i>
         {{ $t('default.list') }}
       </el-menu-item>
-      <el-menu-item index="/admin/script/type">
+      <el-menu-item index="/admin/gift/type">
         <i class="el-icon-fa-navicon"></i>
         {{ $t('type') }}
       </el-menu-item>

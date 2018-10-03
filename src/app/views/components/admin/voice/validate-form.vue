@@ -26,7 +26,7 @@
       <el-table-column class-name="td-operation" width="130" label="Record Date">
         <template slot-scope="scope">
           <div class="item recordDate">
-              <small> 13-09-2018, 11:54 </small>
+              <small> {{ scope.row.humandatecreated }} </small>
           </div>
         </template>
       </el-table-column>
