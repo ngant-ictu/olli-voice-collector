@@ -16,8 +16,7 @@ var VueTruncate = require('vue-truncate-filter');
 Vue.use(VueTruncate)
 export default {
 
-  mixins: [VueHowler],
-
+  mixins: [VueHowler],  
   props: ['sources', 'voice', 'voicescript', 'uid'],
 
   methods: {

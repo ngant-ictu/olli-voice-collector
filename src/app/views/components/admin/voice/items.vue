@@ -89,7 +89,7 @@
           <div v-else>
             <small class="primary" plain
               @click="onShowValidateForm(scope.row)">
-              Validator
+              Validate
             </small>
           </div>
         </template>
@@ -195,6 +195,7 @@ export default class AdminVoiceItems extends Vue {
   }
   .primary {
     color: #409eff;
+    cursor: pointer;
   }
 }
 </style>

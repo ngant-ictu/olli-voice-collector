@@ -25,8 +25,8 @@
     <el-table :data="uservoices" border style="width: 100%" class="validated-item player">
       <el-table-column class-name="td-operation" width="130" label="Record Date">
         <template slot-scope="scope">
-          <div class="item recordDate">
-              <small> 13-09-2018, 11:54 </small>
+          <div class="item recordDate">             
+              <small> {{ scope.row.humandatecreated }} </small>
           </div>
         </template>
       </el-table-column>
@@ -38,8 +38,8 @@
               :voice="scope.row"
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
-              ></validate-item>
-
+              ></validate-item> 
+             
           </div>
         </template>
       </el-table-column>
@@ -65,7 +65,7 @@
               :voice="scope.row"
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
-              ></validate-item>
+              ></validate-item>             
 
             <el-button icon="el-icon-fa-check" class="circle" type="success"
               @click="onValidate(scope.row.id, 1)"
@@ -96,6 +96,7 @@ import { Action, State } from "vuex-class";
 import ValidateItem from "~/components/admin/voice/validate-item.vue";
 import PaginationStay from "~/components/admin/pagination-stay.vue";
 import { Progress } from "element-ui";
+import VueFilter from "vue-filter";
 
 @Component({
   components: {
@@ -124,6 +125,7 @@ export default class ValidateForm extends Vue {
 
   loading: boolean = false;
   filterby: any = [];
+  
 
   onFilter() {
     return this.loadData(1);
