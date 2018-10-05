@@ -12,7 +12,7 @@
             store="dhammas"
             field="name"
           > </text-editable>
-        </template>
+        </template> 
       </el-table-column>
       <el-table-column class-name="td-operation" width="200">
         <template slot-scope="scope">

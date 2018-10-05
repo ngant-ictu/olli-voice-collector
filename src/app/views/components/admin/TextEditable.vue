@@ -98,9 +98,9 @@ export default class TextEditable extends Vue {
   }
   .el-row.el-row-input {
       position: absolute;
-      width: 100%;
       top: 6px;
       left: 10px;
+      right: 0;
       z-index: 10;
   }
   

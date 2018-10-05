@@ -76,10 +76,11 @@ class StoreController extends AbstractController
         $uid = (int) $this->getDI()->get('auth')->getUser()->id;
 
         $myGifts = GiftModel::find([
-            'name = :name: AND isused = :isused:',
+            'name = :name: AND isused = :isused: AND requiredpoint = :requiredpoint:',
             'bind' => [
                 'name' => (string) $formData['name'],
-                'isused' => (int) GiftModel::IS_NOT_USED
+                'isused' => (int) GiftModel::IS_NOT_USED,
+                'requiredpoint' => (int) $formData['requiredpoint']
             ]
         ]);
 
