@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="edit-row">
     <i v-show="iconShow" class="el-icon-edit"></i>
     <el-row v-show="!isEdit">
       <div @click="enableEditMode" @mouseover="showIcon" @mouseleave="hideIcon" class="edit-area">{{ calc }}</div>
     </el-row>
-    <el-row v-show="isEdit">
+    <el-row v-show="isEdit" class="el-row-input">
       <el-input
         ref="myinput"
         v-model="form.value"
@@ -95,6 +95,13 @@ export default class TextEditable extends Vue {
     margin-right: 10px;
     padding-top: 5px;
     color: #95a5a6;
+  }
+  .el-row.el-row-input {
+      position: absolute;
+      width: 100%;
+      top: 6px;
+      left: 10px;
+      z-index: 10;
   }
   
 </style>
