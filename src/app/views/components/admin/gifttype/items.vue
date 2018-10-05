@@ -6,7 +6,12 @@
       <el-table-column type="selection"></el-table-column>
       <el-table-column :label="$t('label.name')">
         <template slot-scope="scope">
-          <p>{{ scope.row.name }}</p>
+          <text-editable
+            :data="scope.row.name"
+            :id="scope.row.id"
+            store="dhammas"
+            field="name"
+          > </text-editable>
         </template>
       </el-table-column>
       <el-table-column class-name="td-operation" width="200">
@@ -17,6 +22,7 @@
           </el-button-group>
         </template>
       </el-table-column>
+      <!-- <text-edit-table></text-edit-table> -->
     </el-table>
     <div style="margin-top: 20px">
       <el-select v-model="bulkName" :placeholder="$t('default.selectAction')" size="small">
@@ -25,7 +31,7 @@
       </el-select>
       <el-button style="margin-left: 10px" type="primary" size="small" @click="onBulkSubmit">{{ $t('default.submit') }}</el-button>
     </div>
-    <scroll-top :duration="1000" :timing="'ease'"></scroll-top>
+    <scroll-top :duration="1000" :timing="'ease'"></scroll-top> 
   </section>
 </template>
 
@@ -34,11 +40,13 @@ import { Vue, Component, Prop } from "nuxt-property-decorator";
 import { Action } from "vuex-class";
 import DeleteButton from "~/components/admin/delete-button.vue";
 // import EditForm from "~/components/admin/gift/edit-form.vue";
+import TextEditable from "~/components/admin/TextEditable.vue";
 
 @Component({
   components: {
     DeleteButton,
     // EditForm,
+    TextEditable
   }
 })
 export default class AdminGiftTypeItems extends Vue {

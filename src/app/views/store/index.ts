@@ -3,7 +3,10 @@ export const state = () => ({
   authToken: '',
   locales: ['en', 'vi'],
   locale: 'en',
-  secureGroup: []
+  secureGroup: [],
+  form: {
+    value: ''
+  },
 })
 
 export const mutations = {
