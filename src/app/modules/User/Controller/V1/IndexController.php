@@ -637,7 +637,9 @@ class IndexController extends AbstractController
         $formData['conditions'] = [
             'keyword' => $keyword,
             'searchKeywordIn' => $searchKeywordInData,
-            'filterBy' => []
+            'filterBy' => [
+                'uid' => $uid
+            ]
         ];
         $formData['orderBy'] = $orderBy;
         $formData['orderType'] = $orderType;
