@@ -1,7 +1,11 @@
 
 <template>
   <section>
-    <el-table :data="gifttypes"  style="width: 100%" row-key="id"
+    <el-table
+      :data="gifttypes"
+      style="width: 100%"
+      row-key="id"
+      default-expand-all
       @selection-change="onSelectionChange">
       <el-table-column type="selection"></el-table-column>
       <el-table-column type="expand" >
@@ -21,7 +25,7 @@
           </el-row>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('label.name')">
+      <el-table-column label="Name">
         <template slot-scope="scope">
           <text-editable
             :data="scope.row.name"
@@ -29,6 +33,15 @@
             store="gifttypes"
             field="name"
           > </text-editable>
+        </template>
+      </el-table-column>
+      <el-table-column label="Status">
+        <template slot-scope="scope">
+          <enable-button
+            :id="scope.row.id"
+            :status="parseInt(scope.row.status.value)"
+            store="gifttypes">
+          </enable-button>
         </template>
       </el-table-column>
 
@@ -56,14 +69,14 @@
 import { Vue, Component, Prop } from "nuxt-property-decorator";
 import { Action } from "vuex-class";
 import DeleteButton from "~/components/admin/delete-button.vue";
-// import EditForm from "~/components/admin/gift/edit-form.vue";
 import TextEditable from "~/components/admin/text-editable.vue";
+import EnableButton from '~/components/admin/enable-button.vue';
 
 @Component({
   components: {
     DeleteButton,
-    // EditForm,
-    TextEditable
+    TextEditable,
+    EnableButton
   }
 })
 export default class AdminGiftTypeItems extends Vue {

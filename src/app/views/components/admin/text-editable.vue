@@ -80,9 +80,6 @@ export default class TextEditable extends Vue {
 
    this.loading = false,
    this.isEdit = false;
-
-
-
   }
 
 }
@@ -96,13 +93,15 @@ export default class TextEditable extends Vue {
     padding-top: 5px;
     color: #95a5a6;
   }
-  .el-row.editable-input {
-    position: absolute;
-    top: 6px;
-    left: 10px;
-    right: 0;
-    z-index: 10;
-    display: inline-block
+  .el-row, .el-col {
+    .editable-input {
+      position: absolute;
+      top: 6px;
+      left: 10px;
+      right: 0;
+      z-index: 10;
+      display: inline-block
+    }
   }
 
 </style>

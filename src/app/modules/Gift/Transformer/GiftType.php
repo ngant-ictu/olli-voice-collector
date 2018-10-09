@@ -20,6 +20,11 @@ class GiftType extends TransformerAbstract
         return [
             'id' => (string) $gifttype->id,
             'name' => (string) $gifttype->name,
+            'status' =>  [
+                'label' => (string) $gifttype->getStatusName(),
+                'value' => (string) $gifttype->status,
+                'style' => (string) $gifttype->getStatusStyle()
+            ],
             'datecreated' => (string) $gifttype->datecreated,
             'humandatecreated' => (string) $humandatecreated->format('d-m-Y, H:i')
         ];
