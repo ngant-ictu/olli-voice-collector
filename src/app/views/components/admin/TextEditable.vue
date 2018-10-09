@@ -101,4 +101,7 @@ export default class TextEditable extends Vue {
   right: 0;
   z-index: 10;
 }
+.el-input__suffix:hover i.el-icon-close {
+  color: #ff0033;
+}
 </style>
