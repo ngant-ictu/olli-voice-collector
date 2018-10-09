@@ -86,22 +86,24 @@ export default class TextEditable extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .el-icon-edit {
-    display: inline-block;
-    float: right;
-    margin-right: 10px;
-    padding-top: 5px;
-    color: #95a5a6;
+.edit-area {
+  // padding: 4px;
+}
+.el-icon-edit {
+  display: inline-block;
+  float: right;
+  margin-right: 10px;
+  padding-top: 5px;
+  color: #95a5a6;
+}
+.el-row, .el-col {
+  .editable-input {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    right: 0;
+    z-index: 10;
+    display: inline-block
   }
-  .el-row, .el-col {
-    .editable-input {
-      position: absolute;
-      top: 6px;
-      left: 10px;
-      right: 0;
-      z-index: 10;
-      display: inline-block
-    }
-  }
-
+}
 </style>

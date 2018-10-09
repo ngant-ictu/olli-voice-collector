@@ -8,20 +8,26 @@
       default-expand-all
       @selection-change="onSelectionChange">
       <el-table-column type="selection"></el-table-column>
-      <el-table-column type="expand" >
+      <el-table-column type="expand">
         <template slot-scope="scope">
           <el-row :gutter="20" v-for="attr in scope.row.attributes.data" :key="attr.id"
             v-if="scope.row.attributes.data.length > 0">
-            <el-col :span="8">
+            <el-col :span="4">
               <text-editable
                 :key="attr.id"
                 :data="attr.name"
                 :id="attr.id"
                 store="giftattributes"
-                field="name"
-              > </text-editable>
+                field="name" />
             </el-col>
-            <el-col :span="8">Unit: {{ attr.unit }}</el-col>
+            <el-col :span="4">
+              <text-editable
+                :key="attr.id"
+                :data="attr.unit"
+                :id="attr.id"
+                store="giftattributes"
+                field="unit" />
+            </el-col>
           </el-row>
         </template>
       </el-table-column>
@@ -31,8 +37,7 @@
             :data="scope.row.name"
             :id="scope.row.id"
             store="gifttypes"
-            field="name"
-          > </text-editable>
+            field="name" />
         </template>
       </el-table-column>
       <el-table-column label="Status">
@@ -155,12 +160,17 @@ export default class AdminGiftTypeItems extends Vue {
 
 <style lang="scss">
 .el-table__expanded-cell {
-  .el-row .el-col {
-    position: relative;
-    min-height: 1px;
-    .el-row.editable-input {
-      top: 0;
-    }
-  }
+ > .el-row {
+   display: inline-flex;
+   display: -webkit-inline-flex;
+   width: 100%;
+   .el-col {
+     position: relative;
+     min-height: 1px;
+     .el-row.editable-input {
+       top: 0;
+     }
+   }
+ }
 }
 </style>
