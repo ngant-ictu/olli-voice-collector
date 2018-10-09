@@ -8,7 +8,16 @@
         <template slot-scope="scope">
           <el-row :gutter="20" v-for="attr in scope.row.attributes.data" :key="attr.id"
             v-if="scope.row.attributes.data.length > 0">
-            <el-col :span="8">
+            <el-col :span="4">
+              <text-editable
+                :key="attr.id"
+                :data="attr.name"
+                :id="attr.id"
+                store="giftattributes"
+                field="name"
+              > </text-editable>
+            </el-col>
+            <el-col :span="4">
               <text-editable
                 :key="attr.id"
                 :data="attr.name"
@@ -19,6 +28,7 @@
             </el-col>
             <el-col :span="8">Unit: {{ attr.unit }}</el-col>
           </el-row>
+
         </template>
       </el-table-column>
       <el-table-column :label="$t('label.name')">
@@ -142,11 +152,16 @@ export default class AdminGiftTypeItems extends Vue {
 
 <style lang="scss">
 .el-table__expanded-cell {
-  .el-row .el-col {
-    position: relative;
-    min-height: 1px;
-    .el-row.editable-input {
-      top: 0;
+  > .el-row {
+    display: inline-flex;
+    display: -webkit-inline-flex;
+    width: 100%;
+    .el-col {
+      position: relative;
+      min-height: 1px;
+      .el-row.editable-input {
+        top: 0;
+      }
     }
   }
 }
