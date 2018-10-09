@@ -80,9 +80,12 @@ import EnableButton from '~/components/admin/enable-button.vue';
   }
 })
 export default class AdminGiftTypeItems extends Vue {
-  @Prop() gifttypes: any[];
-  @Action("gifttypes/bulk") bulkAction;
-  @Action("gifttypes/get_all") listAction;
+  @Prop()
+  gifttypes: any[];
+  @Action("gifttypes/bulk")
+  bulkAction;
+  @Action("gifttypes/get_all")
+  listAction;
 
   visible: boolean = false;
   visibleClone: boolean = false;
@@ -151,5 +154,13 @@ export default class AdminGiftTypeItems extends Vue {
 </script>
 
 <style lang="scss">
-
+.el-table__expanded-cell {
+  .el-row .el-col {
+    position: relative;
+    min-height: 1px;
+    .el-row.editable-input {
+      top: 0;
+    }
+  }
+}
 </style>
