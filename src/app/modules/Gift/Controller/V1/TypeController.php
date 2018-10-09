@@ -141,4 +141,66 @@ class TypeController extends AbstractController
             return $this->respondWithArray([], 'data');
         }
     }
+
+    /**
+     * Update single field
+     *
+     * @Route("/{id:[0-9]+}/field", methods={"PUT"})
+     */
+    public function updatefieldAction(int $id = 0)
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+
+        $myGiftType = GiftTypeModel::findFirst([
+            'id = :id:',
+            'bind' => ['id' => (int) $id]
+        ]);
+
+        if (!$myGiftType) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $myGiftType->{$formData['field']} = $formData['value'];
+
+        if (!$myGiftType->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
+        return $this->createItem(
+            $myGiftType,
+            new GiftTypeTransformer,
+            'data'
+        );
+    }
+
+    /**
+     * Delete
+     *
+     * @Route("/{id:[0-9]+}", methods={"DELETE"})
+     */
+    public function deleteAction(int $id = 0)
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+
+        $myGiftType = GiftTypeModel::findFirst([
+            'id = :id:',
+            'bind' => [
+                'id' => (int) $id
+            ]
+        ]);
+
+        if (!$myGiftType) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        if (!$myGiftType->delete()) {
+            throw new UserException(ErrorCode::DATA_DELETE_FAIL);
+        }
+
+        return $this->createItem(
+            $myGiftType,
+            new GiftTypeTransformer,
+            'data'
+        );
+    }
 }

@@ -32,18 +32,16 @@ export default class DeleteButton extends Vue {
   async onConfirm() {
     this.visible = false;
 
-    await this.$store
-      .dispatch(`${this.store}/delete`, {
-        id: this.id
-      })
-      .then(res => {
-        this.$message({
-          showClose: true,
-          message: `#${this.id} ${this.$t('msg.deleteSuccess').toString()}`,
-          type: "success",
-          duration: 3 * 1000
-        });
-      });
+    const res = await this.$store.dispatch(`${this.store}/delete`, {
+      id: this.id
+    });
+
+    this.$message({
+      showClose: true,
+      message: `#${this.id} ${this.$t('msg.deleteSuccess').toString()}`,
+      type: "success",
+      duration: 3 * 1000
+    });
   }
 }
 </script>

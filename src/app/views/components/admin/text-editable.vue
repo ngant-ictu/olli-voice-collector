@@ -4,7 +4,7 @@
     <el-row v-show="!isEdit">
       <div @click="enableEditMode" @mouseover="showIcon" @mouseleave="hideIcon" class="edit-area">{{ calc }}</div>
     </el-row>
-    <el-row v-show="isEdit" class="el-row-input">
+    <el-row v-show="isEdit" class="editable-input">
       <el-input
         ref="myinput"
         v-model="form.value"
@@ -50,7 +50,7 @@ export default class TextEditable extends Vue {
   showIcon() {
     this.iconShow = true;
   }
-  
+
   hideIcon() {
     this.iconShow = false;
   }
@@ -77,12 +77,12 @@ export default class TextEditable extends Vue {
      field: this.field,
      value: this.form.value
    });
-   
+
    this.loading = false,
    this.isEdit = false;
 
-   
-      
+
+
   }
 
 }
@@ -96,12 +96,13 @@ export default class TextEditable extends Vue {
     padding-top: 5px;
     color: #95a5a6;
   }
-  .el-row.el-row-input {
-      position: absolute;
-      top: 6px;
-      left: 10px;
-      right: 0;
-      z-index: 10;
+  .el-row.editable-input {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    right: 0;
+    z-index: 10;
+    display: inline-block
   }
-  
+
 </style>

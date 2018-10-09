@@ -4,16 +4,34 @@
     <el-table :data="gifttypes"  style="width: 100%" row-key="id"
       @selection-change="onSelectionChange">
       <el-table-column type="selection"></el-table-column>
+      <el-table-column type="expand" >
+        <template slot-scope="scope">
+          <el-row :gutter="20" v-for="attr in scope.row.attributes.data" :key="attr.id"
+            v-if="scope.row.attributes.data.length > 0">
+            <el-col :span="8">
+              <text-editable
+                :key="attr.id"
+                :data="attr.name"
+                :id="attr.id"
+                store="giftattributes"
+                field="name"
+              > </text-editable>
+            </el-col>
+            <el-col :span="8">Unit: {{ attr.unit }}</el-col>
+          </el-row>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('label.name')">
         <template slot-scope="scope">
           <text-editable
             :data="scope.row.name"
             :id="scope.row.id"
-            store="dhammas"
+            store="gifttypes"
             field="name"
           > </text-editable>
-        </template> 
+        </template>
       </el-table-column>
+
       <el-table-column class-name="td-operation" width="200">
         <template slot-scope="scope">
           <el-button-group class="operation">
@@ -22,7 +40,6 @@
           </el-button-group>
         </template>
       </el-table-column>
-      <!-- <text-edit-table></text-edit-table> -->
     </el-table>
     <div style="margin-top: 20px">
       <el-select v-model="bulkName" :placeholder="$t('default.selectAction')" size="small">
@@ -31,7 +48,7 @@
       </el-select>
       <el-button style="margin-left: 10px" type="primary" size="small" @click="onBulkSubmit">{{ $t('default.submit') }}</el-button>
     </div>
-    <scroll-top :duration="1000" :timing="'ease'"></scroll-top> 
+    <scroll-top :duration="1000" :timing="'ease'"></scroll-top>
   </section>
 </template>
 
@@ -40,7 +57,7 @@ import { Vue, Component, Prop } from "nuxt-property-decorator";
 import { Action } from "vuex-class";
 import DeleteButton from "~/components/admin/delete-button.vue";
 // import EditForm from "~/components/admin/gift/edit-form.vue";
-import TextEditable from "~/components/admin/TextEditable.vue";
+import TextEditable from "~/components/admin/text-editable.vue";
 
 @Component({
   components: {

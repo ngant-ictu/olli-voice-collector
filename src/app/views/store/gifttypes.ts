@@ -95,11 +95,10 @@ export const actions = {
     return await this.$axios
       .$get(`/v1/gifttypes/${id}/attrs`)
       .then(res => commit("SET_ATTRS", res));
+  },
+
+  async update_field({ commit }, formData) {
+    console.log(formData)
+    await this.$axios.$put(`/v1/gifttypes/${formData.id}/field`, formData);
   }
-  // update_field({ commit }, { authToken, formData }) {
-  //   return updateField(authToken, formData).then(res => {
-  //     commit("UPDATE_DATA", res.data.response);
-  //     return res;
-  //   });
-  // }
 };
