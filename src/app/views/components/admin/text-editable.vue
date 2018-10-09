@@ -5,14 +5,26 @@
       <div @click="enableEditMode" @mouseover="showIcon" @mouseleave="hideIcon" class="edit-area">{{ calc }}</div>
     </el-row>
     <el-row v-show="isEdit" class="editable-input">
-      <el-input
-        ref="myinput"
-        v-model="form.value"
-        size="small"
-        @keyup.enter.native="handleEdit">
-        <i class="el-icon-close el-input__icon" slot="suffix" @click="disableEditMode"  v-if="!loading"></i>
-        <i class="el-icon-fa-spinner el-icon-fa-spin el-input__icon" slot="suffix" v-else></i>
-      </el-input>
+      <div class="wrap-input-popover">
+        <el-input
+          ref="myinput"
+          v-model="form.value"
+          size="small"
+          @keyup.enter.native="handleEdit">
+          <i class="el-icon-fa-spinner el-icon-fa-spin el-input__icon" slot="suffix" v-if="loading"></i>
+          </el-input>
+        <el-popover
+          placement="top"
+          width="160"
+          v-model="visible" v-if="!loading" class="show-popover">
+          <p>Are you sure to edit?</p>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="visible = false">No</el-button>
+            <el-button type="text" size="mini" @click="disableEditMode" style="color: #ff0033;">Yes</el-button>
+          </div>
+          <i class="el-icon-close el-input__icon" slot="reference"></i>
+        </el-popover>
+      </div>
     </el-row>
   </div>
 </template>
@@ -32,6 +44,7 @@ export default class TextEditable extends Vue {
   field;
 
   isEdit: boolean = false;
+  visible: boolean = false;
   loading: boolean = false;
   form: any = {
     value: ""
@@ -69,6 +82,7 @@ export default class TextEditable extends Vue {
   }
   disableEditMode() {
     this.isEdit = false;
+    this.visible = false;
     this.form.value = this.$props.data;
   }
 
@@ -81,7 +95,8 @@ export default class TextEditable extends Vue {
       value: this.form.value
     });
 
-    (this.loading = false), (this.isEdit = false);
+    (this.loading = false),
+    (this.isEdit = false);
   }
 }
 </script>
@@ -102,7 +117,17 @@ export default class TextEditable extends Vue {
   z-index: 10;
   display: inline-block;
 }
-.el-input__suffix:hover i.el-icon-close {
+.wrap-input-popover {
+  position: relative;
+  .show-popover {
+    position: absolute;
+    right: 30px;
+  }
+  .el-input__icon {
+    line-height: 34px;
+  }
+}
+.el-icon-close:hover {
   color: #ff0033;
 }
 </style>

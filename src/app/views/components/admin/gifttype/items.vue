@@ -8,16 +8,7 @@
         <template slot-scope="scope">
           <el-row :gutter="20" v-for="attr in scope.row.attributes.data" :key="attr.id"
             v-if="scope.row.attributes.data.length > 0">
-            <el-col :span="4">
-              <text-editable
-                :key="attr.id"
-                :data="attr.name"
-                :id="attr.id"
-                store="giftattributes"
-                field="name"
-              > </text-editable>
-            </el-col>
-            <el-col :span="4">
+            <el-col :span="8">
               <text-editable
                 :key="attr.id"
                 :data="attr.name"
@@ -28,9 +19,9 @@
             </el-col>
             <el-col :span="8">Unit: {{ attr.unit }}</el-col>
           </el-row>
-
         </template>
       </el-table-column>
+      
       <el-table-column :label="$t('label.name')">
         <template slot-scope="scope">
           <text-editable
