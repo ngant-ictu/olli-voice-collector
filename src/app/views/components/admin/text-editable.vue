@@ -86,9 +86,6 @@ export default class TextEditable extends Vue {
 </script>
 
 <style scoped lang="scss">
-.edit-area {
-  // padding: 4px;
-}
 .el-icon-edit {
   display: inline-block;
   float: right;

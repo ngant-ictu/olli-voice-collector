@@ -2,6 +2,7 @@
 namespace Record\Controller\V1;
 
 use Shirou\Constants\ErrorCode;
+use User\Constants\ErrorCode as UserErrorCode;
 use Shirou\UserException;
 use Core\Controller\AbstractController;
 use Core\Helper\Utils as Helper;
@@ -24,6 +25,27 @@ class IndexController extends AbstractController
      */
     public function scriptsAction()
     {
+        // check record times of user
+        $uid = (int) $this->getDI()->getAuth()->getUser()->id;
+        $myUser = UserModel::findFirst([
+            'id = :id: AND status = :status: AND isverified = :isverified:',
+            'bind' => [
+                'id' => (int) $uid,
+                'status' => UserModel::STATUS_ENABLE,
+                'isverified' => UserModel::IS_VERIFIED
+            ]
+        ]);
+
+        if (!$myUser) {
+            throw new UserException(UserErrorCode::USER_NOTFOUND);
+        }
+
+        $limitRecordTimes = (int) $this->config->default->voices->limit;
+        $myUserProfile = $myUser->getProfile();
+        if ($myUserProfile->recordtimes >= $limitRecordTimes) {
+            throw new UserException(UserErrorCode::USER_REACH_LIMIT_RECORD);
+        }
+
         $sql = 'SELECT * FROM fly_voice_script AS r1 JOIN ';
         $sql .= '(SELECT CEIL(RAND() * (SELECT MAX(vs_id) FROM fly_voice_script)) AS id) AS r2 ';
         $sql .= 'WHERE r1.vs_id >= r2.id AND r1.vs_status = 1 ORDER BY r1.vs_id ASC LIMIT 1';

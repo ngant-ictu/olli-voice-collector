@@ -41,11 +41,6 @@ class Phone extends PhPlugin implements AccountInterface
             return false;
         }
 
-        // Something is terribly wrong, can't find the real user
-        if (!$user = $phoneAccount) {
-            return false;
-        }
-
-        return $user;
+        return $phoneAccount;
     }
 }

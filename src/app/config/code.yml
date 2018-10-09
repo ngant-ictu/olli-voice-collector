@@ -241,3 +241,7 @@
 3035:
   status: 500
   message: message-user-verify-no-pin-code
+
+3036:
+  status: 500
+  message: message-user-reach-limit-record

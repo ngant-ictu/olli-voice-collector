@@ -87,10 +87,6 @@ class AuthManager extends PhPlugin
      */
     public function setUser($user)
     {
-        // Hide some field in jwt token
-        $user->password = '';
-        $user->oauthaccesstoken = '';
-
         $this->user = $user;
 
         return $this;
@@ -129,9 +125,19 @@ class AuthManager extends PhPlugin
             throw new UserException(UserErrorCode::AUTH_BADLOGIN);
         }
 
-        $user->avatar = $user->getAvatarJson();
+        $myUser = [];
+        $myUser['id'] = $user->id;
+        $myUser['screenname'] = $user->screenname;
+        $myUser['fullname'] = $user->fullname;
+        $myUser['email'] = $user->email;
+        $myUser['groupid'] = $user->groupid;
+        $myUser['mobilenumber'] = $user->mobilenumber;
+        $myUser['regioncode'] = $user->regioncode;
+        $myUser['isprofileupdated'] = $user->isprofileupdated;
+        $myUser['avatar'] = $user->getAvatarJson();
+        $myUser['limit'] = $this->config->default->voices->limit;
 
-        $this->setUser($user);
+        $this->setUser($myUser);
 
         return $this;
     }
@@ -139,7 +145,12 @@ class AuthManager extends PhPlugin
     public function getToken($key = null)
     {
         if (!$this->token) {
-            $this->token = $this->sessionManager->create($this->getIssuer(), $this->getUser(), time(), $this->getExpireTime());
+            $this->token = $this->sessionManager->create(
+                $this->getIssuer(),
+                $this->getUser(),
+                time(),
+                $this->getExpireTime()
+            );
         }
 
         if ($key) {
