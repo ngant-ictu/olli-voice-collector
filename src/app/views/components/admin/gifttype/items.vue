@@ -29,6 +29,7 @@
                 field="unit" />
             </el-col>
           </el-row>
+
         </template>
       </el-table-column>
       <el-table-column label="Name">
@@ -160,17 +161,17 @@ export default class AdminGiftTypeItems extends Vue {
 
 <style lang="scss">
 .el-table__expanded-cell {
- > .el-row {
-   display: inline-flex;
-   display: -webkit-inline-flex;
-   width: 100%;
-   .el-col {
-     position: relative;
-     min-height: 1px;
-     .el-row.editable-input {
-       top: 0;
-     }
-   }
- }
+  > .el-row {
+    display: inline-flex;
+    display: -webkit-inline-flex;
+    width: 100%;
+    .el-col {
+      position: relative;
+      min-height: 1px;
+      .el-row.editable-input {
+        top: 0;
+      }
+    }
+  }
 }
 </style>

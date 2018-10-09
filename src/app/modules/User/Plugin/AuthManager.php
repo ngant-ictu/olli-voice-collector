@@ -125,6 +125,7 @@ class AuthManager extends PhPlugin
             throw new UserException(UserErrorCode::AUTH_BADLOGIN);
         }
 
+        // custom jwt body
         $myUser = [];
         $myUser['id'] = $user->id;
         $myUser['screenname'] = $user->screenname;
@@ -135,7 +136,7 @@ class AuthManager extends PhPlugin
         $myUser['regioncode'] = $user->regioncode;
         $myUser['isprofileupdated'] = $user->isprofileupdated;
         $myUser['avatar'] = $user->getAvatarJson();
-        $myUser['limit'] = $this->config->default->voices->limit;
+        $myUser['limit'] = (string) $this->config->default->voices->limit;
 
         $this->setUser($myUser);
 

@@ -20,7 +20,6 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "nuxt-property-decorator";
 
-
 @Component
 export default class TextEditable extends Vue {
   @Prop() id;
@@ -31,7 +30,7 @@ export default class TextEditable extends Vue {
   isEdit: boolean = false;
   loading: boolean = false;
   form: any = {
-    value: ''
+    value: ""
   };
   iconShow: boolean = false;
   $refs: {
@@ -41,10 +40,10 @@ export default class TextEditable extends Vue {
   updateError: ({ message: string }) => void;
 
   get calc() {
-    if (this.form.value !== '' && this.$props.data !== this.form.value) {
-      return this.form.value
+    if (this.form.value !== "" && this.$props.data !== this.form.value) {
+      return this.form.value;
     } else {
-      return this.$props.data
+      return this.$props.data;
     }
   }
   showIcon() {
@@ -54,19 +53,19 @@ export default class TextEditable extends Vue {
   hideIcon() {
     this.iconShow = false;
   }
-  enableEditMode(){
-    this.isEdit= true;
-    this.form.value = this.$props.data
+  enableEditMode() {
+    this.isEdit = true;
+    this.form.value = this.$props.data;
 
     //Focus on selected input
-    const self = this
+    const self = this;
     setTimeout(function() {
-      self.$refs.myinput.$el.getElementsByTagName('input')[0].focus();
-    }, 1)
+      self.$refs.myinput.$el.getElementsByTagName("input")[0].focus();
+    }, 1);
   }
   disableEditMode() {
-    this.isEdit = false
-    this.form.value = this.$props.data
+    this.isEdit = false;
+    this.form.value = this.$props.data;
   }
 
   async handleEdit() {
@@ -81,7 +80,6 @@ export default class TextEditable extends Vue {
    this.loading = false,
    this.isEdit = false;
   }
-
 }
 </script>
 
@@ -93,14 +91,15 @@ export default class TextEditable extends Vue {
   padding-top: 5px;
   color: #95a5a6;
 }
-.el-row, .el-col {
-  .editable-input {
-    position: absolute;
-    top: 6px;
-    left: 10px;
-    right: 0;
-    z-index: 10;
-    display: inline-block
-  }
+.el-row.editable-input {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  right: 0;
+  z-index: 10;
+  display: inline-block;
+}
+.el-input__suffix:hover i.el-icon-close {
+  color: #ff0033;
 }
 </style>
