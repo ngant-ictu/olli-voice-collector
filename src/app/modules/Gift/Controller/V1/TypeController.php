@@ -203,4 +203,45 @@ class TypeController extends AbstractController
             'data'
         );
     }
+
+    /**
+     * Change status
+     *
+     * @Route("/{id:[0-9]+}/status", methods={"PUT"})
+     */
+    public function changestatusAction(int $id = 0)
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+
+        $myGiftType = GiftTypeModel::findFirst([
+            'id = :id:',
+            'bind' => ['id' => (int) $id]
+        ]);
+
+        if (!$myGiftType) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $status = GiftTypeModel::STATUS_DISABLE;
+        switch ($formData['value']) {
+            case true:
+                $status = GiftTypeModel::STATUS_ENABLE;
+                break;
+            case true:
+                $status = GiftTypeModel::STATUS_DISABLE;
+                break;
+        }
+
+        $myGiftType->status = (int) $status;
+
+        if (!$myGiftType->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
+        return $this->createItem(
+            $myGiftType,
+            new GiftTypeTransformer,
+            'data'
+        );
+    }
 }

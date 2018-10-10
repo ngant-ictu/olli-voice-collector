@@ -124,6 +124,8 @@ class User extends AbstractModel
     */
     public $verifytype;
 
+    public $limit = 0;
+
     const STATUS_ENABLE = 1;
     const STATUS_DISABLE = 3;
     const VERIFY_TYPE_EMAIL = 1;

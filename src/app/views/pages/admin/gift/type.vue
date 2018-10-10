@@ -30,7 +30,7 @@ import { Action, State } from 'vuex-class';
 import Breadcrumb from '~/components/admin/breadcrumb.vue';
 import Pagination from '~/components/admin/pagination.vue';
 import AdminGiftTypeItems from '~/components/admin/gifttype/items.vue';
-import FilterBar from '~/components/admin/gift/filter-bar.vue';
+import FilterBar from '~/components/admin/gifttype/filter-bar.vue';
 
 @Component({
   layout: 'admin',

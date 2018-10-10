@@ -98,7 +98,10 @@ export const actions = {
   },
 
   async update_field({ commit }, formData) {
-    console.log(formData)
     await this.$axios.$put(`/v1/gifttypes/${formData.id}/field`, formData);
+  },
+
+  async change_status({ commit }, formData) {
+    await this.$axios.$put(`/v1/gifttypes/${formData.id}/status`, formData);
   }
 };

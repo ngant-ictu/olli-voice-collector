@@ -5,14 +5,27 @@
       <div @click="enableEditMode" @mouseover="showIcon" @mouseleave="hideIcon" class="edit-area">{{ calc }}</div>
     </el-row>
     <el-row v-show="isEdit" class="editable-input">
+      <div class="wrap-input-popover">
         <el-input
           ref="myinput"
           v-model="form.value"
           size="small"
           @keyup.enter.native="handleEdit">
-          <i class="el-icon-close el-input__icon" slot="suffix" @click="disableEditMode" v-if="!loading"></i>
-          <i class="el-icon-fa-spinner el-icon-fa-spin el-input__icon" slot="suffix" v-else></i>
+          <i class="el-icon-fa-spinner el-icon-fa-spin el-input__icon" slot="suffix" v-if="loading"></i>
+          <i class="el-icon-close el-input__icon" slot="suffix" @click="disableEditMode"  v-if="!loading"></i>
           </el-input>
+        <el-popover
+          placement="top"
+          width="160"
+          v-model="visible" v-if="!loading" class="show-popover">
+          <p>Are you sure to edit?</p>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="visible = false">No</el-button>
+            <el-button type="text" size="mini" @click="disableEditMode" style="color: #ff0033;">Yes</el-button>
+          </div>
+          <i class="el-icon-delete el-input__icon" slot="reference"></i>
+        </el-popover>
+      </div>
     </el-row>
   </div>
 </template>
@@ -21,7 +34,7 @@
 import { Vue, Component, Prop } from "nuxt-property-decorator";
 
 @Component
-export default class TextEditable extends Vue {
+export default class TextEdittype extends Vue {
   @Prop() id;
   @Prop() data;
   @Prop() store;
@@ -101,5 +114,11 @@ export default class TextEditable extends Vue {
   z-index: 10;
   display: inline-block;
 }
+
+.el-icon-close:hover,
+.el-icon-delete:hover {
+  color: #ff0033;
+}
+
 
 </style>
