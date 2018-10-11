@@ -1,7 +1,7 @@
 <lang src="./lang.yml"></lang>
 
 <template>
-  <section>
+  <section class="user-info-table">
     <el-table :data="users" style="width: 100%" row-key="id"
       @selection-change="onSelectionChange">
       <el-table-column type="selection"></el-table-column>
@@ -31,10 +31,15 @@
           <el-tag type="success" size="small">{{ scope.row.groupid }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('label.status')"
-        :show-overflow-tooltip="true">
+      <el-table-column :label="$t('label.status')" :show-overflow-tooltip="true" class="el-status">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status.style" size="small">{{ scope.row.status.label }}</el-tag>
+          <select-editable
+            :id="scope.row.id"
+            :data="scope.row.status"
+            :options="formSource.statusList"
+            store="dhammas"
+            field="status">
+           </select-editable>
         </template>
       </el-table-column>
       <el-table-column :label="$t('label.activate')"
@@ -77,22 +82,27 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "nuxt-property-decorator";
-import { Action } from 'vuex-class';
+import { State, Action } from 'vuex-class';
 import DeleteButton from "~/components/admin/delete-button.vue";
 import EditForm from '~/components/admin/user/edit-form.vue';
 import PointRecordItem from '~/components/admin/user/point-record-item.vue';
+import SelectEditable from '~/components/admin/user/select-editable.vue';
 
 @Component({
   components: {
     DeleteButton,
     EditForm,
-    PointRecordItem
+    PointRecordItem,
+    SelectEditable
   }
 })
 export default class AdminUserItems extends Vue {
   @Prop() users: any[];
   @Action('users/bulk') bulkAction;
   @Action('users/get_all') listAction;
+  @Action('users/get_form_source') formsourceAction;
+  @State(state => state.users.formSource) formSource;
+
 
   visible: boolean = false;
   itemId: number = 0;
@@ -161,23 +171,31 @@ export default class AdminUserItems extends Vue {
       });
     }
   }
+
+
 }
 </script>
 
-<style lang="scss" scoped>
-.avatar {
-  margin-right: 10px;
-  float: left;
-  display: inline-block;
-  img {
-    border-radius: 30px !important;
-  }
+<style lang="scss">
+.user-info-table {
+  .avatar {
+      margin-right: 10px;
+      float: left;
+      display: inline-block;
+      img {
+        border-radius: 30px !important;
+      }
+    }
+    .fullname,
+    .email,
+    .point,
+    .record-times {
+      display: block;
+      width: 100%;
+    }
+    .el-table .cell.el-tooltip {
+      overflow: visible;
+    }
 }
-.fullname,
-.email,
-.point,
-.record-times {
-  display: block;
-  width: 100%;
-}
+
 </style>
