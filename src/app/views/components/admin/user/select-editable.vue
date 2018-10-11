@@ -17,7 +17,7 @@
           </el-option>
         </el-select>
       </el-row>
-      <el-row type="flex" justify="end" style="margin-top: 8px; " v-show="isEdit == true">
+      <el-row type="flex" justify="end" style="margin-top: 5px; " v-show="isEdit == true">
         <el-button-group>
           <el-button size="mini" type="primary" @click="handleEdit" icon="el-icon-check"></el-button>
           <el-button size="mini" @click="isEdit = false" icon="el-icon-close"></el-button>
