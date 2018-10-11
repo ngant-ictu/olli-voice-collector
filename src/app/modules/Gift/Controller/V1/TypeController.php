@@ -244,4 +244,66 @@ class TypeController extends AbstractController
             'data'
         );
     }
+
+    /**
+     * Update single attr field
+     *
+     * @Route("/{id:[0-9]+}/attr_field", methods={"PUT"})
+     */
+    public function updateattrfieldAction(int $id = 0)
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+
+        $myGiftAttr = GiftAttributeModel::findFirst([
+            'id = :id:',
+            'bind' => ['id' => (int) $id]
+        ]);
+
+        if (!$myGiftAttr) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        $myGiftAttr->{$formData['field']} = $formData['value'];
+
+        if (!$myGiftAttr->update()) {
+            throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
+        }
+
+        return $this->createItem(
+            $myGiftAttr,
+            new GiftAttributeTransformer,
+            'data'
+        );
+    }
+
+    /**
+     * Delete
+     *
+     * @Route("/{id:[0-9]+}/attr", methods={"DELETE"})
+     */
+    public function deleteattrAction(int $id = 0)
+    {
+        $formData = (array) $this->request->getJsonRawBody();
+
+        $myGiftAttr = GiftAttributeModel::findFirst([
+            'id = :id:',
+            'bind' => [
+                'id' => (int) $id
+            ]
+        ]);
+
+        if (!$myGiftAttr) {
+            throw new UserException(ErrorCode::DATA_NOTFOUND);
+        }
+
+        if (!$myGiftAttr->delete()) {
+            throw new UserException(ErrorCode::DATA_DELETE_FAIL);
+        }
+
+        return $this->createItem(
+            $myGiftAttr,
+            new GiftAttributeTransformer,
+            'data'
+        );
+    }
 }

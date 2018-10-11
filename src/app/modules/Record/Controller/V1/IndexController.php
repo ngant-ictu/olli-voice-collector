@@ -40,9 +40,8 @@ class IndexController extends AbstractController
             throw new UserException(UserErrorCode::USER_NOTFOUND);
         }
 
-        $limitRecordTimes = (int) $this->config->default->voices->limit;
         $myUserProfile = $myUser->getProfile();
-        if ($myUserProfile->recordtimes >= $limitRecordTimes) {
+        if ($myUserProfile->recordtimes <= 0) {
             throw new UserException(UserErrorCode::USER_REACH_LIMIT_RECORD);
         }
 

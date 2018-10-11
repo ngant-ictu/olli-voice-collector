@@ -103,5 +103,16 @@ export const actions = {
 
   async change_status({ commit }, formData) {
     await this.$axios.$put(`/v1/gifttypes/${formData.id}/status`, formData);
+  },
+
+  async update_attr_field({ commit }, formData) {
+    await this.$axios.$put(
+      `/v1/gifttypes/${formData.id}/attr_field`,
+      formData
+    );
+  },
+
+  async delete_attr({ commit }, { id }) {
+    return await this.$axios.$delete(`/v1/gifttypes/${id}/attr`);
   }
 };

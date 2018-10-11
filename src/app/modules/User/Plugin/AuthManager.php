@@ -7,6 +7,7 @@ use Shirou\UserException;
 
 use User\Plugin\Account\Email as UserEmailAccount;
 use User\Model\User as UserModel;
+use User\Model\UserProfile as UserProfileModel;
 use User\Constants\ErrorCode as UserErrorCode;
 
 class AuthManager extends PhPlugin
@@ -133,10 +134,12 @@ class AuthManager extends PhPlugin
         $myUser['email'] = $user->email;
         $myUser['groupid'] = $user->groupid;
         $myUser['mobilenumber'] = $user->mobilenumber;
+        $myUser['oauthuid'] = $user->oauthuid;
         $myUser['regioncode'] = $user->regioncode;
+        $myUser['status'] = $user->status;
         $myUser['isprofileupdated'] = $user->isprofileupdated;
         $myUser['avatar'] = $user->getAvatarJson();
-        $myUser['limit'] = (string) $this->config->default->voices->limit;
+        $myUser['recordtimes'] = (string) $user->getProfile()->recordtimes;
 
         $this->setUser($myUser);
 

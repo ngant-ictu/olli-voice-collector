@@ -13,19 +13,19 @@
           <el-row :gutter="20" v-for="attr in scope.row.attributes.data" :key="attr.id"
             v-if="scope.row.attributes.data.length > 0">
             <el-col :span="4">
+              <small>Attribute name</small>
               <text-edittype
                 :key="attr.id"
                 :data="attr.name"
                 :id="attr.id"
-                store="giftattributes"
                 field="name" />
             </el-col>
             <el-col :span="4">
+              <small>Unit name</small>
               <text-edittype
                 :key="attr.id"
                 :data="attr.unit"
                 :id="attr.id"
-                store="giftattributes"
                 field="unit" />
             </el-col>
           </el-row>

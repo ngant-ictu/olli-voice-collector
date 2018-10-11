@@ -18,10 +18,10 @@
           placement="top"
           width="160"
           v-model="visible" v-if="!loading" class="show-popover">
-          <p>Are you sure to edit?</p>
+          <p>Are you sure to delete this attribute?</p>
           <div style="text-align: right; margin: 0">
             <el-button size="mini" type="text" @click="visible = false">No</el-button>
-            <el-button type="text" size="mini" @click="disableEditMode" style="color: #ff0033;">Yes</el-button>
+            <el-button type="text" size="mini" @click="handleDelete" style="color: #ff0033;">Yes</el-button>
           </div>
           <i class="el-icon-delete el-input__icon" slot="reference"></i>
         </el-popover>
@@ -86,14 +86,28 @@ export default class TextEdittype extends Vue {
   async handleEdit() {
     this.loading = true;
 
-   await this.$store.dispatch(`${this.store}/update_field`,{
-     id: this.id,
-     field: this.field,
-     value: this.form.value
-   });
+   await this.$store.dispatch(`gifttypes/update_attr_field`,{
+      id: this.id,
+      field: this.field,
+      value: this.form.value
+    });
 
-   this.loading = false,
-   this.isEdit = false;
+    await this.$store.dispatch('gifttypes/get_all', { query: this.$route.query });
+
+    this.loading = false,
+    this.isEdit = false;
+  }
+
+  async handleDelete() {
+    this.loading = true;
+    await this.$store.dispatch(`gifttypes/delete_attr`,{
+      id: this.id
+    });
+
+    await this.$store.dispatch('gifttypes/get_all', { query: this.$route.query });
+
+    this.loading = false,
+    this.isEdit = false;
   }
 }
 </script>
