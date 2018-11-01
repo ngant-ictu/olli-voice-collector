@@ -93,7 +93,7 @@ export default class TextEditable extends Vue {
   padding-top: 5px;
   color: #95a5a6;
 }
-.el-row.editable-input {
+.el-col.editable-input {
   position: absolute;
   top: 6px;
   left: 10px;

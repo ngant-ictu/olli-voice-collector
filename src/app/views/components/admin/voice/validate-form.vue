@@ -39,7 +39,7 @@
               :voicescript="scope.row.voicescript.data"
               :uid="userId"
               ></validate-item>
-              
+
           </div>
         </template>
       </el-table-column>
@@ -64,15 +64,13 @@
               :sources="scope.row.filepath"
               :voice="scope.row"
               :voicescript="scope.row.voicescript.data"
-              :uid="userId"
-              ></validate-item> 
-              
-
-            <el-button icon="el-icon-fa-check" class="circle" type="success"
+              :uid="userId">
+              </validate-item>
+            <el-button icon="el-icon-fa-check" class="circle" type="success" :loading="loading"
               @click="onValidate(scope.row.id, 1)"
               :disabled="scope.row.status.value === '1' ? true : false">
             </el-button>
-            <el-button icon="el-icon-fa-times" class="circle" type="danger"
+            <el-button icon="el-icon-fa-times" class="circle" type="danger" :loading="loading"
               @click="onValidate(scope.row.id, 3)"
               :disabled="scope.row.status.value === '3' ? true : false">
             </el-button>
@@ -126,7 +124,7 @@ export default class ValidateForm extends Vue {
 
   loading: boolean = false;
   filterby: any = [];
-  
+
 
   onFilter() {
     return this.loadData(1);
@@ -163,11 +161,15 @@ export default class ValidateForm extends Vue {
   }
 
   async onValidate(vid, statusValue) {
+    this.loading = true;
+
     // validate
     const newUservoices = await this.validateAction({
       id: vid,
       formData: { status: statusValue }
     });
+
+    this.loading = false;
 
     // reload uservoices state
     await this.loadData(this.page);

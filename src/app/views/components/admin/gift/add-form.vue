@@ -25,7 +25,7 @@
             <el-row v-for="(attr, index) in attrs" :key="index" :gutter="10" v-show="showAttrs">
               <el-col :md="12">
                 <el-form-item>
-                  <el-input size="small" :placeholder="attr.name" v-on:input="onInputName(index, $event)" clearable>
+                  <el-input type="textarea" autosize size="small" :placeholder="attr.name" v-on:input="onInputName(index, $event)" clearable>
                       <template slot="append" v-if="attr.unit !== ''"><code>{{ attr.unit }}</code></template>
                   </el-input>
                 </el-form-item>

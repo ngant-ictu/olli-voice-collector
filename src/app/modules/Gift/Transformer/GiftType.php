@@ -32,7 +32,7 @@ class GiftType extends TransformerAbstract
 
     public function includeAttributes(GiftTypeModel $gifttype)
     {
-        $giftAttributes = $gifttype->getAttributes();
+        $giftAttributes = $gifttype->getAttributes(['order' => 'id asc']);
 
         return $this->collection($giftAttributes, new GiftAttributeTransformer);
     }

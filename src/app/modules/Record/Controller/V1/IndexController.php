@@ -336,6 +336,11 @@ class IndexController extends AbstractController
             }
         }
 
+        // force negative tmp_point to zero
+        if ($myProfile->tmppoint < 0) {
+            $myProfile->tmppoint = 0;
+        }
+
         if (!$myProfile->update()) {
             throw new UserException(ErrorCode::DATA_UPDATE_FAIL);
         }

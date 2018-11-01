@@ -16,7 +16,7 @@ class VoiceScript extends TransformerAbstract
         return [
             'id' => (string) $voicescript->id,
             'command' => (string) $voicescript->command,
-            'text' => (string) $voicescript->text,
+            'text' => (string) mb_strtolower($voicescript->text, 'UTF-8'),
             'status' =>  [
                 'label' => (string) $voicescript->getStatusName(),
                 'value' => (string) $voicescript->status,
