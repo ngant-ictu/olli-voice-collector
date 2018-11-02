@@ -60,20 +60,16 @@
       <el-table-column class-name="td-operation" width="140" label="">
         <template slot-scope="scope">
           <div class="group-buttons">
-              <validate-item
-              :sources="scope.row.filepath"
-              :voice="scope.row"
-              :voicescript="scope.row.voicescript.data"
-              :uid="userId">
-              </validate-item>
-            <el-button icon="el-icon-fa-check" class="circle" type="success" :loading="loading"
-              @click="onValidate(scope.row.id, 1)"
-              :disabled="scope.row.status.value === '1' ? true : false">
-            </el-button>
-            <el-button icon="el-icon-fa-times" class="circle" type="danger" :loading="loading"
-              @click="onValidate(scope.row.id, 3)"
-              :disabled="scope.row.status.value === '3' ? true : false">
-            </el-button>
+            <validate-item
+            :sources="scope.row.filepath"
+            :voice="scope.row"
+            :voicescript="scope.row.voicescript.data"
+            :uid="userId">
+            </validate-item>
+            <validate-btn
+              :id="scope.row.id"
+              :currentStatus="scope.row.status.value"
+              @loadData="loadData(page)"></validate-btn>
           </div>
         </template>
       </el-table-column>
@@ -83,7 +79,8 @@
         :totalItems="totalItems"
         :currentPage="page"
         :recordPerPage="recordPerPage"
-        :handlePageChange="onPageChange">
+        :handlePageChange="onPageChange"
+        class="custom-pagination">
       </pagination-stay>
     </template>
   </el-dialog>
@@ -96,17 +93,18 @@ import ValidateItem from "~/components/admin/voice/validate-item.vue";
 import PaginationStay from "~/components/admin/pagination-stay.vue";
 import { Progress } from "element-ui";
 import VueFilter from "vue-filter";
+import ValidateBtn from '~/components/admin/voice/validate-btn.vue';
 
 @Component({
   components: {
     ValidateItem,
+    ValidateBtn,
     PaginationStay
   }
 })
 export default class ValidateForm extends Vue {
   @Action("uservoices/get_form_source") formsourceAction;
   @Action("uservoices/get_all") getAction;
-  @Action("voices/validate") validateAction;
   @State(state => state.uservoices.formSource)
   formSource;
   @State(state => state.uservoices.data)
@@ -158,21 +156,6 @@ export default class ValidateForm extends Vue {
         status: this.filterby
       }
     });
-  }
-
-  async onValidate(vid, statusValue) {
-    this.loading = true;
-
-    // validate
-    const newUservoices = await this.validateAction({
-      id: vid,
-      formData: { status: statusValue }
-    });
-
-    this.loading = false;
-
-    // reload uservoices state
-    await this.loadData(this.page);
   }
 }
 </script>
